@@ -1,150 +1,175 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, FormEvent, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Search, MapPin, Zap, ShieldCheck, DollarSign, HelpCircle } from 'lucide-react';
 import MyFinanceWidget from '../components/MyFinanceWidget';
-import ProviderCard, { ProviderCoverage } from '../components/ProviderCard';
-import { supabase } from '../lib/supabase';
-
-// Fallback provider data for pSEO coverage pages when database records are unpopulated
-const getFallbackProviders = (city: string): ProviderCoverage[] => [
-  {
-    id: 'fallback-spectrum',
-    name: 'Spectrum',
-    technology_type: 'Cable / Fiber',
-    max_download_speed: 1000,
-    coverage_percentage: 92,
-    starting_price: 49.99,
-    plans: [
-      { id: 'sp-1', name: 'Internet Premier', speed: '500 Mbps', connection_type: 'Cable', price: 49.99 },
-      { id: 'sp-2', name: 'Internet Gig', speed: '1000 Mbps', connection_type: 'Cable / Fiber', price: 79.99 },
-    ],
-  },
-  {
-    id: 'fallback-att',
-    name: 'AT&T Internet',
-    technology_type: 'IPBB / Fiber',
-    max_download_speed: 5000,
-    coverage_percentage: 85,
-    starting_price: 55.00,
-    plans: [
-      { id: 'att-1', name: 'Internet 300', speed: '300 Mbps', connection_type: 'Fiber', price: 55.00 },
-      { id: 'att-2', name: 'Internet 1000', speed: '1000 Mbps', connection_type: 'Fiber', price: 80.00 },
-    ],
-  },
-  {
-    id: 'fallback-tmobile',
-    name: 'T-Mobile 5G Home Internet',
-    technology_type: '5G Home Fixed Wireless',
-    max_download_speed: 245,
-    coverage_percentage: 78,
-    starting_price: 50.00,
-    plans: [
-      { id: 'tm-1', name: 'Unlimited 5G Home Internet', speed: '72 - 245 Mbps', connection_type: '5G Wireless', price: 50.00 },
-    ],
-  },
-];
 
 export const ZipPage: React.FC = () => {
-  const params = useParams<{ state?: string; city?: string; zipCode?: string; zip?: string }>();
-  
-  const state = params.state || '';
-  const city = params.city || '';
-  const targetZip = params.zipCode || params.zip || '';
+  const { state, city, zipCode } = useParams<{ state?: string; city?: string; zipCode?: string }>();
+  const navigate = useNavigate();
+  const [zipInput, setZipInput] = useState(zipCode || '');
 
-  const [providers, setProviders] = useState<ProviderCoverage[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const formattedCity = city ? city.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) : 'Your Area';
+  const formattedState = state ? state.toUpperCase() : '';
+  const currentZip = zipCode || '78520';
 
-  const formattedCity = city
-    ? city.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-    : 'Your Area';
-  const formattedState = state.toUpperCase();
-
+  // Dynamic SEO Meta Tag & Canonical Link Injection
   useEffect(() => {
-    async function loadData() {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('providers')
-          .select(`
-            id,
-            name,
-            technology_type,
-            max_download_speed,
-            coverage_percentage,
-            starting_price,
-            plans:provider_plans (
-              id,
-              name,
-              price,
-              speed,
-              contract_length,
-              connection_type,
-              special_promo
-            )
-          `);
+    // 1. Dynamic Title
+    const pageTitle = `Best High-Speed Internet in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`;
+    document.title = pageTitle;
 
-        if (!error && data && data.length > 0) {
-          setProviders(data as ProviderCoverage[]);
-        } else {
-          // Use realistic static fallback records if Supabase table is empty or unpopulated
-          setProviders(getFallbackProviders(formattedCity));
-        }
-      } catch (err) {
-        console.error('Data fetch error, loading default fallback providers:', err);
-        setProviders(getFallbackProviders(formattedCity));
-      } finally {
-        setLoading(false);
-      }
+    // 2. Dynamic Meta Description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
     }
+    metaDescription.setAttribute(
+      'content',
+      `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). View live fiber, cable, and 5G availability, speed options, and local pricing.`
+    );
 
-    loadData();
-  }, [targetZip, formattedCity]);
+    // 3. Self-Referential Canonical Link
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    const cleanState = state ? state.toLowerCase().trim() : 'us';
+    const cleanCity = city ? city.toLowerCase().trim() : 'area';
+    canonicalLink.setAttribute(
+      'href',
+      `https://hometechdealer.com/internet/${cleanState}/${cleanCity}/${currentZip}`
+    );
+  }, [formattedCity, formattedState, currentZip, state, city]);
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const cleanedZip = zipInput.trim();
+    if (cleanedZip) {
+      navigate(`/location/${cleanedZip}`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-5xl">
-        {/* Navigation Breadcrumbs */}
-        <nav className="text-sm text-gray-500 mb-6">
-          <Link to="/" className="hover:underline text-blue-600">Home</Link>
-          <span className="mx-2">/</span>
-          <span>{formattedState || 'CA'}</span>
-          <span className="mx-2">/</span>
-          <span>{formattedCity}</span>
-          <span className="mx-2">/</span>
-          <span className="font-bold text-gray-900">{targetZip || 'Local Area'}</span>
-        </nav>
-
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            High-Speed Internet Providers in {formattedCity}, {formattedState} ({targetZip})
+    <div className="min-h-screen bg-gray-50 flex flex-col text-gray-900 font-sans">
+      {/* Hero Section */}
+      <section className="bg-blue-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-4">
+            High-Speed Internet Providers in {formattedCity}, {formattedState} ({currentZip})
           </h1>
-          <p className="text-gray-600 mt-2">
-            Compare plans, live carrier coverage, and estimated speeds serving {targetZip}.
+          <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-8">
+            Compare live speeds, coverage maps, and exclusive local pricing from top nationwide providers.
           </p>
+
+          <form onSubmit={handleSearch} className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <input
+                type="text"
+                value={zipInput}
+                onChange={(e) => setZipInput(e.target.value)}
+                placeholder="Enter 5-Digit ZIP Code..."
+                maxLength={5}
+                pattern="[0-9]{5}"
+                required
+                className="w-full pl-11 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-400 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg font-semibold"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-xl shadow-md transition-colors flex items-center justify-center space-x-2 text-lg"
+            >
+              <Search className="w-5 h-5" />
+              <span>Check Rates</span>
+            </button>
+          </form>
         </div>
+      </section>
 
-        {/* TOP: Conversion Engine Widget */}
-        <MyFinanceWidget zipCode={targetZip} />
+      {/* Main Content Area */}
+      <main className="max-w-5xl mx-auto px-4 py-12 flex-grow w-full space-y-12">
+        <section id="conversion-widget">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Live Internet Availability &amp; Custom Offers in {formattedCity}
+            </h2>
+            <p className="text-gray-600 text-sm mt-1">
+              Search active promotions and speed options available in {currentZip}.
+            </p>
+          </div>
+          <MyFinanceWidget zipCode={currentZip} />
+        </section>
 
-        {/* BOTTOM: Clean Native SEO Provider Cards */}
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Local Provider Coverage Overview
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold text-gray-900 text-center">
+            Internet Speed &amp; Coverage Highlights for {formattedCity}, {formattedState}
           </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Gigabit Speed Options</h3>
+              <p className="text-sm text-gray-600">
+                Fiber optic connections delivering speeds up to 5,000 Mbps available across select neighborhoods in {currentZip}.
+              </p>
+            </div>
 
-          {loading ? (
-            <div className="bg-white p-8 rounded-xl border text-center text-gray-500 shadow-sm">
-              Loading local provider data for {targetZip}...
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Exclusive Local Savings</h3>
+              <p className="text-sm text-gray-600">
+                Access introductory rates, contract buyouts, and equipment credits for new subscribers.
+              </p>
             </div>
-          ) : (
-            <div className="space-y-6">
-              {providers.map((p) => (
-                <ProviderCard key={p.id} provider={p} zipCode={targetZip} />
-              ))}
+
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Verified Coverage</h3>
+              <p className="text-sm text-gray-600">
+                Data backed by FCC coverage maps covering cable, fiber, satellite, and 5G Home Internet.
+              </p>
             </div>
-          )}
+          </div>
+        </section>
+
+        <section className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm space-y-6">
+          <div className="flex items-center space-x-2 text-blue-900">
+            <HelpCircle className="w-6 h-6" />
+            <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">What is the fastest internet provider in {formattedCity}, {formattedState}?</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Fiber internet providers typically deliver the fastest speeds in {formattedCity}, offering symmetrical download and upload speeds up to 1,000 Mbps or higher.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-gray-900">How do I check live availability for ZIP code {currentZip}?</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Use our search widget above to enter your exact street address in {currentZip} to check live speeds, pricing, and available installation dates.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-gray-900 text-gray-400 py-8 px-4 text-center text-xs border-t border-gray-800">
+        <div className="max-w-5xl mx-auto space-y-3">
+          <p>© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
