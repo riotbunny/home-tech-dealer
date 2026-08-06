@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Search, Zap, ShieldCheck, DollarSign, MapPin, CheckCircle2, PhoneCall, Clock } from 'lucide-react';
 import MyFinanceWidget from '../components/MyFinanceWidget';
@@ -13,12 +13,44 @@ export const HomePage: React.FC = () => {
   const TEL_HREF = "tel:18552158469";
   const HOURS_DISPLAY = "Mon–Fri 7am–8pm CT | Sat 9am–5pm CT";
 
+  // DYNAMIC IP & GEOLOCATION AUTO-ROUTING
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch('https://ipapi.co/json/')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data && data.postal) {
+          const userZip = data.postal.trim();
+          const state = (data.region_code || 'tx').toLowerCase();
+          
+          // Format real city name (e.g., "Brownsville" -> "brownsville")
+          const rawCity = data.city || 'area';
+          const citySlug = rawCity.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+          setZipInput(userZip);
+
+          // Auto-route root traffic to exact city/state/zip page
+          if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+            navigate(`/internet/${state}/${citySlug}/${userZip}`, { replace: true });
+          }
+        }
+      })
+      .catch((err) => {
+        console.warn('GeoIP lookup failed, keeping default view:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
+
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const cleanedZip = zipInput.trim();
     if (cleanedZip) {
-      // Routes to your dynamic ZipPage route
-      navigate(`/internet/tx/local/${cleanedZip}`);
+      // Use 'area' fallback slug for manual searches
+      navigate(`/internet/tx/area/${cleanedZip}`);
     }
   };
 
