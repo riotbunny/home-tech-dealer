@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { lookupZipData } from '../services/zipLookup';
+import { lookupZipData, ZipLocationData } from '../services/zipLookup';
 import ZipSearch from '../components/ZipSearch';
 
-export default function ZipLocationPage() {
-  const { state, city, zip } = useParams();
-  const [data, setData] = useState(null);
+export default function ZipLocationPage(): React.JSX.Element {
+  const { state, city, zip } = useParams<{ state: string; city: string; zip: string }>();
+  const [data, setData] = useState<ZipLocationData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const formattedCity = city
     ? city.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -16,6 +16,7 @@ export default function ZipLocationPage() {
 
   useEffect(() => {
     async function fetchData() {
+      if (!zip) return;
       setLoading(true);
       setError(null);
       const res = await lookupZipData(zip);
@@ -27,21 +28,17 @@ export default function ZipLocationPage() {
       setLoading(false);
     }
 
-    if (zip) {
-      fetchData();
-    }
+    fetchData();
   }, [zip]);
 
-  // Dynamic SEO Metadata and JSON-LD Schema Injection
   useEffect(() => {
-    if (!data) return;
+    if (!data || !zip || !state || !city) return;
 
     const pageTitle = `High-Speed Internet Providers in ${formattedCity}, ${formattedState} (${zip})`;
     const pageDescription = `Compare top fiber, cable, and 5G internet providers in ${formattedCity}, ${formattedState} ${zip}. View speeds up to 5,000 Mbps and plans starting at $49.99/mo.`;
 
     document.title = pageTitle;
 
-    // Update Meta Description
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
@@ -50,7 +47,6 @@ export default function ZipLocationPage() {
     }
     metaDesc.setAttribute('content', pageDescription);
 
-    // Build Nested JSON-LD Schema
     const schemaData = {
       '@context': 'https://schema.org',
       '@graph': [
@@ -86,8 +82,7 @@ export default function ZipLocationPage() {
       ],
     };
 
-    // Inject Script into Document Head
-    let scriptTag = document.getElementById('jsonld-schema');
+    let scriptTag = document.getElementById('jsonld-schema') as HTMLScriptElement | null;
     if (!scriptTag) {
       scriptTag = document.createElement('script');
       scriptTag.id = 'jsonld-schema';
@@ -97,7 +92,6 @@ export default function ZipLocationPage() {
     scriptTag.text = JSON.stringify(schemaData);
 
     return () => {
-      // Cleanup script tag on unmount
       const existingScript = document.getElementById('jsonld-schema');
       if (existingScript) {
         existingScript.remove();
@@ -110,9 +104,7 @@ export default function ZipLocationPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">
-            Loading local provider options for ZIP {zip}...
-          </p>
+          <p className="text-gray-600 font-medium">Loading local provider options for ZIP {zip}...</p>
         </div>
       </div>
     );
@@ -122,15 +114,9 @@ export default function ZipLocationPage() {
     return (
       <div className="min-h-screen bg-gray-50 py-16 px-4">
         <div className="max-w-3xl mx-auto text-center bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Coverage Data Not Available
-          </h1>
-          <p className="text-gray-600 mb-6">
-            {error || `We could not find coverage details for ZIP code ${zip}.`}
-          </p>
-          <p className="text-sm text-gray-500 mb-6">
-            Search another ZIP code to check regional availability:
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Coverage Data Not Available</h1>
+          <p className="text-gray-600 mb-6">{error || `We could not find coverage details for ZIP code ${zip}.`}</p>
+          <p className="text-sm text-gray-500 mb-6">Search another ZIP code to check regional availability:</p>
           <ZipSearch />
         </div>
       </div>
@@ -139,20 +125,12 @@ export default function ZipLocationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
-      {/* Hero Header */}
       <header className="bg-blue-900 text-white py-12 px-4 border-b border-blue-800">
         <div className="max-w-5xl mx-auto">
           <nav className="text-xs text-blue-200 mb-4 flex items-center space-x-2">
-            <Link to="/" className="hover:underline">
-              Home
-            </Link>
+            <Link to="/" className="hover:underline">Home</Link>
             <span>/</span>
-            <Link
-              to={`/internet/${state}/${city}`}
-              className="hover:underline"
-            >
-              {formattedCity}, {formattedState}
-            </Link>
+            <Link to={`/internet/${state}/${city}`} className="hover:underline">{formattedCity}, {formattedState}</Link>
             <span>/</span>
             <span className="text-white font-semibold">{zip}</span>
           </nav>
@@ -161,8 +139,7 @@ export default function ZipLocationPage() {
             Internet Providers in {formattedCity}, {formattedState} ({zip})
           </h1>
           <p className="text-lg text-blue-100 max-w-2xl mb-8">
-            Compare speeds, plans, and pricing from top residential internet
-            providers serving ZIP code {zip}.
+            Compare speeds, plans, and pricing from top residential internet providers serving ZIP code {zip}.
           </p>
 
           <div className="bg-white rounded-xl p-2 text-gray-900 shadow-lg max-w-xl">
@@ -171,7 +148,6 @@ export default function ZipLocationPage() {
         </div>
       </header>
 
-      {/* Main Content & Provider Comparison */}
       <main className="max-w-5xl mx-auto py-12 px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
@@ -182,7 +158,6 @@ export default function ZipLocationPage() {
           </span>
         </div>
 
-        {/* Provider List */}
         <div className="space-y-6">
           {data.providers.map((p) => (
             <div
@@ -214,29 +189,16 @@ export default function ZipLocationPage() {
 
               <div className="grid grid-cols-3 gap-4 w-full md:w-auto text-center border-t border-b md:border-none py-3 md:py-0 border-gray-100">
                 <div>
-                  <div className="text-xs text-gray-500 uppercase font-medium">
-                    Max Speed
-                  </div>
-                  <div className="text-lg font-extrabold text-blue-600">
-                    {p.downloadSpeed} Mbps
-                  </div>
+                  <div className="text-xs text-gray-500 uppercase font-medium">Max Speed</div>
+                  <div className="text-lg font-extrabold text-blue-600">{p.downloadSpeed} Mbps</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 uppercase font-medium">
-                    Coverage
-                  </div>
-                  <div className="text-lg font-bold text-gray-800">
-                    {p.coveragePct}%
-                  </div>
+                  <div className="text-xs text-gray-500 uppercase font-medium">Coverage</div>
+                  <div className="text-lg font-bold text-gray-800">{p.coveragePct}%</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 uppercase font-medium">
-                    Starting At
-                  </div>
-                  <div className="text-lg font-extrabold text-gray-900">
-                    ${p.startingPrice}
-                    <span className="text-xs font-normal">/mo</span>
-                  </div>
+                  <div className="text-xs text-gray-500 uppercase font-medium">Starting At</div>
+                  <div className="text-lg font-extrabold text-gray-900">${p.startingPrice}<span className="text-xs font-normal">/mo</span></div>
                 </div>
               </div>
 
