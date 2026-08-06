@@ -20,6 +20,7 @@ import AvailabilityChecker from './pages/AvailabilityChecker';
 import IntakePage from './pages/IntakePage';
 import ContactPage from './pages/ContactPage';
 import LocationPage from './pages/LocationPage';
+import ZipLocationPage from './pages/ZipLocationPage';
 import ProviderPageTemplate from './pages/ProviderPageTemplate';
 import Layout from './components/Layout';
 
@@ -27,7 +28,7 @@ const ExternalRedirect = ({ url }: { url: string }) => {
   React.useEffect(() => {
     window.location.href = url;
   }, [url]);
-  
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
@@ -41,7 +42,7 @@ const ExternalRedirect = ({ url }: { url: string }) => {
 // Dynamic Provider Route Resolver
 const ProviderRoute = () => {
   const { slug } = useParams<{ slug: string }>();
-  
+
   const providerData: Record<string, { name: string; minPrice: string; maxSpeed: string }> = {
     spectrum: { name: 'Spectrum', minPrice: '$30.00', maxSpeed: '1,000 Mbps' },
     frontier: { name: 'Frontier Fiber', minPrice: '$49.99', maxSpeed: '5,000 Mbps' },
@@ -83,15 +84,16 @@ function App() {
           <Route path="disclaimer" element={<Disclaimer />} />
           <Route path="do-not-call-policy" element={<DoNotCallPolicy />} />
           <Route path="contact" element={<ContactPage />} />
-          
+
           {/* SEO Dynamic Routes */}
           <Route path="internet/:state/:city" element={<LocationPage />} />
+          <Route path="internet/:state/:city/:zip" element={<ZipLocationPage />} />
           <Route path="providers/:slug" element={<ProviderRoute />} />
-          
+
           <Route path="frontier" element={<ExternalRedirect url="https://www.jdoqocy.com/click-101529263-17145023" />} />
           <Route path="kinetic" element={<ExternalRedirect url="https://www.anrdoezrs.net/click-101529263-17105509" />} />
           <Route path="brightspeed" element={<ExternalRedirect url="https://www.dpbolvw.net/click-101529263-17139408" />} />
-          
+
           <Route path="signup">
             <Route path="address" element={<AddressForm />} />
             <Route path="name" element={<NameForm />} />
