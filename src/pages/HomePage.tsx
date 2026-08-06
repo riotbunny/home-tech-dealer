@@ -1,22 +1,45 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, Zap, ShieldCheck, DollarSign, MapPin, CheckCircle2 } from 'lucide-react';
+import { Search, Zap, ShieldCheck, DollarSign, MapPin, CheckCircle2, PhoneCall, Clock } from 'lucide-react';
 import MyFinanceWidget from '../components/MyFinanceWidget';
 
 export const HomePage: React.FC = () => {
   const [zipInput, setZipInput] = useState('');
+  const [activeModal, setActiveModal] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // PHONE & HOURS CONFIGURATION ($150 Payout Integration)
+  const PHONE_NUMBER = "1-855-215-8469";
+  const TEL_HREF = "tel:18552158469";
+  const HOURS_DISPLAY = "Mon–Fri 7am–8pm CT | Sat 9am–5pm CT";
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const cleanedZip = zipInput.trim();
     if (cleanedZip) {
-      navigate(`/location/${cleanedZip}`);
+      // Routes to your dynamic ZipPage route
+      navigate(`/internet/tx/local/${cleanedZip}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col text-gray-900 font-sans">
+    <div className="min-h-screen bg-gray-50 flex flex-col text-gray-900 font-sans pb-20">
+      
+      {/* Primary Sticky Top Announcement Bar */}
+      <div className="bg-amber-400 text-amber-950 font-bold text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 shadow-md sticky top-0 z-40">
+        <div className="flex items-center space-x-1.5">
+          <PhoneCall className="w-4 h-4 animate-bounce text-amber-900" />
+          <span>Call Home Tech Dealer Sales Center:</span>
+          <a href={TEL_HREF} className="underline hover:text-black font-black text-sm sm:text-base">
+            {PHONE_NUMBER}
+          </a>
+        </div>
+        <div className="flex items-center text-amber-900 text-xs font-semibold space-x-1">
+          <Clock className="w-3.5 h-3.5" />
+          <span>{HOURS_DISPLAY}</span>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="bg-blue-900 text-white py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto text-center">
@@ -52,11 +75,15 @@ export const HomePage: React.FC = () => {
               <span>Check Rates</span>
             </button>
           </form>
+          <p className="text-xs text-blue-200 mt-3">
+            Or skip searching and call <a href={TEL_HREF} className="font-bold text-amber-400 underline">{PHONE_NUMBER}</a> for live address lookup.
+          </p>
         </div>
       </section>
 
       {/* Main Content Area */}
       <main className="max-w-5xl mx-auto px-4 py-12 flex-grow w-full space-y-12">
+        
         {/* Featured Widget Search Box */}
         <section>
           <div className="text-center mb-6">
@@ -67,6 +94,8 @@ export const HomePage: React.FC = () => {
               Search live deals active in your immediate neighborhood.
             </p>
           </div>
+          
+          {/* Custom MyFinanceWidget Preserved */}
           <MyFinanceWidget zipCode={zipInput || '78520'} />
         </section>
 
@@ -137,18 +166,111 @@ export const HomePage: React.FC = () => {
         </section>
       </main>
 
-      {/* Simple Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 px-4 text-center text-xs border-t border-gray-800">
-        <div className="max-w-5xl mx-auto space-y-3">
-          <div className="flex justify-center space-x-6 text-gray-300 font-medium">
-            <Link to="/about" className="hover:underline">About</Link>
-            <Link to="/contact" className="hover:underline">Contact</Link>
-            <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
-            <Link to="/terms-of-service" className="hover:underline">Terms of Service</Link>
+      {/* SEO & Legal Compliant Footer */}
+      <footer className="bg-gray-900 text-gray-400 py-10 px-4 text-xs border-t border-gray-800 text-center">
+        <div className="max-w-5xl mx-auto space-y-4">
+          
+          {/* Modal Triggers */}
+          <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 font-medium text-xs">
+            <button onClick={() => setActiveModal('privacy')} className="hover:text-amber-400 transition-colors">Privacy Policy</button>
+            <span>•</span>
+            <button onClick={() => setActiveModal('terms')} className="hover:text-amber-400 transition-colors">Terms of Service</button>
+            <span>•</span>
+            <button onClick={() => setActiveModal('disclaimer')} className="hover:text-amber-400 transition-colors">Disclaimer</button>
+            <span>•</span>
+            <button onClick={() => setActiveModal('dnc')} className="hover:text-amber-400 transition-colors">Do Not Call Policy</button>
           </div>
+
+          <p className="max-w-3xl mx-auto text-[11px] text-gray-500 leading-relaxed">
+            Home Tech Dealer is an independent provider comparison platform and marketing partner. Trademarks, service marks, logos, and brand names featured on this site are the property of their respective owners. Speeds and availability vary by address.
+          </p>
+
           <p>© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* Sticky Bottom Mobile/Desktop Call Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-blue-950 text-white border-t-2 border-amber-400 p-3 shadow-2xl z-50 flex items-center justify-between px-4 sm:px-8">
+        <div className="flex items-center space-x-3">
+          <div className="bg-amber-400 text-amber-950 p-2 rounded-full animate-bounce hidden sm:block">
+            <PhoneCall className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-xs text-blue-200 font-semibold uppercase tracking-wider hidden sm:block">
+              Fastest Setup Option
+            </p>
+            <p className="text-sm sm:text-base font-black text-amber-400">
+              Speak With a Local Internet Specialist
+            </p>
+          </div>
+        </div>
+
+        <a
+          href={TEL_HREF}
+          className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl shadow-lg text-sm sm:text-base flex items-center space-x-2 transition-transform active:scale-95 whitespace-nowrap"
+        >
+          <PhoneCall className="w-4 h-4 fill-current" />
+          <span>Call {PHONE_NUMBER}</span>
+        </a>
+      </div>
+
+      {/* Pop-up Legal Overlay Modal */}
+      {activeModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 text-gray-800 text-left">
+            <div className="p-4 bg-gray-900 text-white flex justify-between items-center">
+              <h3 className="font-bold text-lg capitalize">
+                {activeModal === 'dnc' ? 'Do Not Call Policy' : `${activeModal} Policy`}
+              </h3>
+              <button 
+                onClick={() => setActiveModal(null)} 
+                className="text-gray-400 hover:text-white font-bold text-xl px-2"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm leading-relaxed text-gray-600">
+              {activeModal === 'privacy' && (
+                <>
+                  <p><strong>Privacy Policy:</strong> Home Tech Dealer respects your privacy. We collect minimal personal information solely for facilitating broadband and telecommunication service connections with verified providers.</p>
+                  <p>Information requested over the phone or through explicit input is used strictly to verify geographic coverage and route requests. We do not sell or rent user data to unauthorized third-party marketers.</p>
+                </>
+              )}
+
+              {activeModal === 'terms' && (
+                <>
+                  <p><strong>Terms of Service:</strong> By accessing Home Tech Dealer, you agree to use our information services for personal, non-commercial service comparison purposes.</p>
+                  <p>Pricing, speed tiers, and promotional estimates are provided for informational purposes only. Final rates, installation schedules, and terms are governed by the primary telecommunication service provider upon account confirmation.</p>
+                </>
+              )}
+
+              {activeModal === 'disclaimer' && (
+                <>
+                  <p><strong>Affiliate &amp; Partner Disclaimer:</strong> Home Tech Dealer operates as an independent referral resource and authorized marketing dealer.</p>
+                  <p>All trademarks, trade names, and logos displayed remain the property of their respective owners. Mention of third-party brand names does not imply direct endorsement unless explicitly noted. Speeds, pricing, and availability vary by address.</p>
+                </>
+              )}
+
+              {activeModal === 'dnc' && (
+                <>
+                  <p><strong>Do Not Call Policy:</strong> Home Tech Dealer strictly adheres to TCPA and federal Do Not Call guidelines.</p>
+                  <p>Telephone requests placed to 1-855-215-8469 connect directly to authorized sales agents. You may request to be placed on our internal Do Not Call list at any time during a call or by written request.</p>
+                </>
+              )}
+            </div>
+
+            <div className="p-4 bg-gray-50 border-t border-gray-200 text-right">
+              <button 
+                onClick={() => setActiveModal(null)} 
+                className="bg-blue-900 text-white font-bold px-5 py-2 rounded-lg text-xs hover:bg-blue-800"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

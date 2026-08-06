@@ -10,7 +10,6 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/internet/:state/:city/:zipCode" element={<ZipPage />} />
-        <Route path="/internet/:state/:city/:zip" element={<ZipPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Router>
