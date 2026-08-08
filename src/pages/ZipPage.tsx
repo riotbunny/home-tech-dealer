@@ -240,8 +240,11 @@ export const ZipPage: React.FC = () => {
         }
       `}</style>
 
-      {/* Primary Sticky Top Announcement Bar */}
-      <div className="bg-amber-400 text-amber-950 font-bold text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 shadow-md sticky top-0 z-50">
+      {/* Primary Sticky Top Announcement Bar (data-nosnippet prevents Google from displaying phone/hours in search snippets) */}
+      <div 
+        data-nosnippet
+        className="bg-amber-400 text-amber-950 font-bold text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 shadow-md sticky top-0 z-50"
+      >
         <div className="flex items-center space-x-1.5">
           <PhoneCall className="w-4 h-4 animate-bounce text-amber-900" />
           <span>Call {formattedCity} Internet Sales Specialist:</span>
