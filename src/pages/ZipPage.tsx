@@ -6,27 +6,50 @@ export const ZipPage: React.FC = () => {
   const { state, city, zipCode } = useParams<{ state?: string; city?: string; zipCode?: string }>();
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // PHONE & HOURS CONFIGURATION ($150 Payout Integration)
+  // PHONE & HOURS CONFIGURATION
   const PHONE_NUMBER = "1-855-215-8469";
   const TEL_HREF = "tel:18552158469";
   const HOURS_DISPLAY = "Mon–Fri 7am–8pm CT | Sat 9am–5pm CT";
 
-  // Format parameters with fallbacks
-  const rawCity = city || 'brownsville';
-  const rawState = state || 'tx';
-  const currentZip = zipCode || '78520';
+  // 1. PARAMETER EVALUATION & PLACEHOLDER FILTERING
+  const rawCity = city?.trim() || '';
+  const rawState = state?.trim() || '';
+  const currentZip = zipCode?.trim() || '';
 
-  const formattedCity = rawCity
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-  const formattedState = rawState.toUpperCase();
+  // Detect test, missing, or invalid placeholder values
+  const isInvalid = (str: string) =>
+    !str || ['unknown', 'unknown-city', '00000', '000', 'null', 'undefined'].includes(str.toLowerCase());
 
-  const canonicalUrl = `https://hometechdealer.com/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${currentZip}`;
+  const hasValidLocation = Boolean(
+    rawCity &&
+      rawState &&
+      currentZip &&
+      !isInvalid(rawCity) &&
+      !isInvalid(rawState) &&
+      !isInvalid(currentZip)
+  );
 
-  // 1. DYNAMIC METADATA & CANONICAL TAG INJECTION
+  // Dynamic text formatting with clean fallbacks
+  const formattedCity = hasValidLocation
+    ? rawCity.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    : 'Your Location';
+  const formattedState = hasValidLocation ? rawState.toUpperCase() : '';
+
+  const locationTitle = hasValidLocation
+    ? `${formattedCity}, ${formattedState} (${currentZip})`
+    : 'Your Location';
+
+  const displayZip = hasValidLocation ? currentZip : 'Your Location';
+
+  const canonicalUrl = hasValidLocation
+    ? `https://hometechdealer.com/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${currentZip}`
+    : `https://hometechdealer.com/internet`;
+
+  // 2. DYNAMIC METADATA & CANONICAL INJECTION
   useEffect(() => {
-    document.title = `Best Internet Providers in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`;
+    document.title = hasValidLocation
+      ? `Best Internet Providers in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`
+      : `Find High-Speed Internet Providers in Your Location | Home Tech Dealer`;
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -36,7 +59,9 @@ export const ZipPage: React.FC = () => {
     }
     metaDescription.setAttribute(
       'content',
-      `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Compare Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity, and 5G Home Internet options. Call 1-855-215-8469 for instant address setup.`
+      hasValidLocation
+        ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Compare Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity. Call 1-855-215-8469 for address setup.`
+        : `Compare top high-speed internet providers in your location. Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity options available. Call 1-855-215-8469 for instant setup.`
     );
 
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -46,9 +71,9 @@ export const ZipPage: React.FC = () => {
       document.head.appendChild(canonicalLink);
     }
     canonicalLink.setAttribute('href', canonicalUrl);
-  }, [formattedCity, formattedState, currentZip, canonicalUrl]);
+  }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
-  // 2. JSON-LD STRUCTURED DATA SCHEMA FOR GOOGLE OVERVIEWS & RICH SNIPPETS
+  // 3. JSON-LD STRUCTURED DATA SCHEMA
   const jsonLdSchema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -56,12 +81,12 @@ export const ZipPage: React.FC = () => {
         '@type': 'WebPage',
         '@id': `${canonicalUrl}#webpage`,
         url: canonicalUrl,
-        name: `Internet Providers in ${formattedCity}, ${formattedState} (${currentZip})`,
-        description: `Compare high-speed internet service options in ${formattedCity} ZIP code ${currentZip}.`,
+        name: `Internet Providers in ${locationTitle}`,
+        description: `Compare high-speed internet service options in ${locationTitle}.`,
       },
       {
         '@type': 'Service',
-        name: `High-Speed Internet Service in ${currentZip}`,
+        name: `High-Speed Internet Service in ${locationTitle}`,
         provider: {
           '@type': 'Organization',
           name: 'Home Tech Dealer',
@@ -71,11 +96,11 @@ export const ZipPage: React.FC = () => {
             "Sa 09:00-17:00"
           ]
         },
-        areaServed: {
+        areaServed: hasValidLocation ? {
           '@type': 'PostalCode',
           postalCode: currentZip,
           addressCountry: 'US',
-        },
+        } : 'US',
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: 'Available Broadband Plans',
@@ -97,10 +122,10 @@ export const ZipPage: React.FC = () => {
         mainEntity: [
           {
             '@type': 'Question',
-            name: `What is the fastest internet provider in ${formattedCity} (${currentZip})?`,
+            name: `What is the fastest internet provider in ${locationTitle}?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in ZIP code ${currentZip}. Call 1-855-215-8469 for instant availability at your exact address.`,
+              text: `Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in ${locationTitle}. Call 1-855-215-8469 for instant availability at your exact address.`,
             },
           },
           {
@@ -113,7 +138,7 @@ export const ZipPage: React.FC = () => {
           },
           {
             '@type': 'Question',
-            name: `How much does internet cost in ${formattedCity}, ${formattedState}?`,
+            name: `How much does internet cost in ${formattedCity}?`,
             acceptedAnswer: {
               '@type': 'Answer',
               text: `Internet plans in ${formattedCity} typically start between $30/mo. and $50/mo. depending on bandwidth requirements, location, and provider promotions.`,
@@ -124,11 +149,11 @@ export const ZipPage: React.FC = () => {
     ],
   };
 
-  // Provider Data Set targeting high-intent brand keywords & alternative brand requests
+  // Provider Data Set
   const providers = [
     {
       name: "Spectrum",
-      badge: "Top Cable Provider in " + currentZip,
+      badge: "Top Cable Provider in " + displayZip,
       plans: [
         { title: "Internet 100", speed: "100 Mbps", price: "Starting at $30.00/mo*", type: "Cable" },
         { title: "Internet Premier", speed: "500 Mbps", price: "Starting at $40.00/mo*", type: "Cable" },
@@ -166,7 +191,7 @@ export const ZipPage: React.FC = () => {
     },
     {
       name: "Looking for Other Local Providers?",
-      badge: "Address Verification in " + currentZip,
+      badge: "Address Verification in " + displayZip,
       plans: [
         { title: "Regional Fiber & Cable", speed: "Up to 1000 Mbps", price: "Live Rate Quote*", type: "Fiber / Cable" },
         { title: "Fixed 5G & DSL Alternatives", speed: "Up to 300 Mbps", price: "Live Rate Quote*", type: "Wireless / Wireline" },
@@ -180,7 +205,6 @@ export const ZipPage: React.FC = () => {
     },
   ];
 
-  // List of vibrant brand pills for the interactive hero ticker
   const brandList = [
     { name: "Spectrum", bg: "bg-blue-600 text-white hover:bg-blue-500" },
     { name: "AT&T Fiber", bg: "bg-sky-400 text-blue-950 font-black hover:bg-sky-300" },
@@ -201,7 +225,6 @@ export const ZipPage: React.FC = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
       />
 
-      {/* Embedded keyframes for infinite smooth marquee ticker */}
       <style>{`
         @keyframes ticker {
           0% { transform: translateX(0%); }
@@ -236,13 +259,13 @@ export const ZipPage: React.FC = () => {
       <section className="bg-blue-900 text-white py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-6">
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
-            Find High-Speed Internet Providers in {formattedCity}, {formattedState} ({currentZip})
+            Find High-Speed Internet Providers in {locationTitle}
           </h1>
           <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
-            Comparing broadband options in {formattedCity} ({currentZip}). Call directly for fast plan setup and street address availability.
+            Comparing broadband options in {locationTitle}. Call directly for fast plan setup and street address availability.
           </p>
 
-          {/* Primary Call Box ($150 CTC Focus) */}
+          {/* Primary Call Box */}
           <div className="bg-gradient-to-r from-blue-800 to-blue-950 border border-amber-400/50 p-6 rounded-2xl max-w-xl mx-auto shadow-xl space-y-3">
             <div className="flex items-center justify-center space-x-2 text-amber-300 font-extrabold text-sm uppercase tracking-wide">
               <PhoneCall className="w-4 h-4" />
@@ -269,18 +292,16 @@ export const ZipPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Vibrant Provider Infinite Scrolling Ticker (Interactive CTC Pills) */}
+          {/* Provider Scroll Ticker */}
           <div className="pt-6 border-t border-blue-800/80 mt-8 max-w-4xl mx-auto">
             <p className="text-[11px] uppercase tracking-widest text-blue-300 font-bold mb-3">
               Tap Any Provider Below To Check Local Availability in {formattedCity}
             </p>
 
             <div className="relative w-full overflow-hidden py-1">
-              {/* Fade Overlays for Edge Softening */}
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-blue-900 to-transparent z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-blue-900 to-transparent z-10 pointer-events-none" />
 
-              {/* Duplicate array guarantees continuous seamlessly looping scroll */}
               <div className="animate-ticker space-x-3">
                 {[...brandList, ...brandList].map((brand, index) => (
                   <a
@@ -301,14 +322,13 @@ export const ZipPage: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="max-w-5xl mx-auto px-4 py-12 flex-grow w-full space-y-12">
-        {/* Native Provider Cards Section */}
         <section id="provider-plans" className="space-y-8">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-              Internet Availability &amp; Coverage in {currentZip}
+              Internet Availability &amp; Coverage in {displayZip}
             </h2>
             <p className="text-gray-600 text-sm">
-              Residents in {formattedCity} ({currentZip}) have access to multiple broadband options. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> for address verification.
+              Residents in {locationTitle} have access to multiple broadband options. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> for address verification.
             </p>
           </div>
 
@@ -316,13 +336,12 @@ export const ZipPage: React.FC = () => {
           <div className="space-y-8">
             {providers.map((provider, idx) => (
               <div key={idx} className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
-                {/* Card Header */}
                 <div className="bg-gray-900 text-white p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <span className="inline-block bg-amber-400 text-amber-950 text-xs font-black px-2.5 py-1 rounded-md mb-2 uppercase tracking-wide">
                       {provider.badge}
                     </span>
-                    <h3 className="text-2xl font-black">{provider.name} Plans in {formattedCity}, {formattedState}</h3>
+                    <h3 className="text-2xl font-black">{provider.name} Plans in {locationTitle}</h3>
                   </div>
                   <a
                     href={TEL_HREF}
@@ -333,7 +352,6 @@ export const ZipPage: React.FC = () => {
                   </a>
                 </div>
 
-                {/* Plan Options Grid */}
                 <div className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                   {provider.plans.map((plan, pIdx) => (
                     <div key={pIdx} className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:border-blue-400 transition-colors">
@@ -362,7 +380,6 @@ export const ZipPage: React.FC = () => {
                   ))}
                 </div>
 
-                {/* Card Features Footer */}
                 <div className="bg-gray-50 px-4 sm:px-6 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600">
                   <div className="flex flex-wrap items-center gap-4">
                     {provider.features.map((feat, fIdx) => (
@@ -373,7 +390,7 @@ export const ZipPage: React.FC = () => {
                     ))}
                   </div>
                   <div className="text-gray-400 font-medium">
-                    Verified for ZIP {currentZip}
+                    Verified for {displayZip}
                   </div>
                 </div>
               </div>
@@ -386,7 +403,7 @@ export const ZipPage: React.FC = () => {
                   Prefer a Different Provider in {formattedCity}?
                 </h3>
                 <p className="text-xs sm:text-sm text-blue-200">
-                  Don't want Spectrum or AT&amp;T? We compare 10+ regional cable, fiber, and wireless carriers in ZIP {currentZip}. Call now to see every active option for your exact home address.
+                  Don't want Spectrum or AT&amp;T? We compare 10+ regional cable, fiber, and wireless carriers in {displayZip}. Call now to see every active option for your exact home address.
                 </p>
               </div>
               <a
@@ -398,7 +415,7 @@ export const ZipPage: React.FC = () => {
               </a>
             </div>
 
-            {/* Price & Plan Legal Disclaimer Notice */}
+            {/* Price & Plan Disclaimer */}
             <div className="bg-gray-100 p-4 rounded-xl border border-gray-200 text-xs text-gray-600 flex items-start space-x-2.5">
               <AlertCircle className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" />
               <p>
@@ -443,7 +460,7 @@ export const ZipPage: React.FC = () => {
             </div>
             <h3 className="text-lg font-bold mb-2">Gigabit Speed Tiers</h3>
             <p className="text-sm text-gray-600">
-              Connections delivering speeds up to 1,000 Mbps available across select neighborhoods in {currentZip}.
+              Connections delivering speeds up to 1,000 Mbps available across select neighborhoods in {displayZip}.
             </p>
           </div>
 
@@ -453,7 +470,7 @@ export const ZipPage: React.FC = () => {
             </div>
             <h3 className="text-lg font-bold mb-2">Verified Regional Coverage</h3>
             <p className="text-sm text-gray-600">
-              Coverage data mapped across cable, fiber, satellite, and 5G Home Internet in {formattedState}.
+              Coverage data mapped across cable, fiber, satellite, and 5G Home Internet in {hasValidLocation ? formattedState : 'your state'}.
             </p>
           </div>
         </section>
@@ -469,10 +486,10 @@ export const ZipPage: React.FC = () => {
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-medium text-gray-900">
-                What is the fastest internet provider in {formattedCity} ({currentZip})?
+                What is the fastest internet provider in {locationTitle}?
               </h3>
               <p className="text-gray-600 text-sm mt-1">
-                Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in ZIP code {currentZip}. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> to check street address availability.
+                Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in {locationTitle}. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> to check street address availability.
               </p>
             </div>
             <div>
@@ -485,7 +502,7 @@ export const ZipPage: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-medium text-gray-900">
-                How much does internet cost in {formattedCity}, {formattedState}?
+                How much does internet cost in {formattedCity}?
               </h3>
               <p className="text-gray-600 text-sm mt-1">
                 Internet plans in {formattedCity} typically start between $30/mo. and $50/mo. depending on bandwidth requirements and provider promotions.
@@ -495,11 +512,10 @@ export const ZipPage: React.FC = () => {
         </section>
       </main>
 
-      {/* SEO & Legal Compliant Footer with In-Page Overlay Modals */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-10 px-4 text-xs border-t border-gray-800">
         <div className="max-w-5xl mx-auto space-y-6 text-center">
           
-          {/* Modal Triggers */}
           <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 font-medium text-xs">
             <button onClick={() => setActiveModal('privacy')} className="hover:text-amber-400 transition-colors">Privacy Policy</button>
             <span>•</span>
@@ -510,17 +526,15 @@ export const ZipPage: React.FC = () => {
             <button onClick={() => setActiveModal('dnc')} className="hover:text-amber-400 transition-colors">Do Not Call Policy</button>
           </div>
 
-          {/* Marketing Partner Notice */}
           <p className="max-w-3xl mx-auto text-[11px] text-gray-500 leading-relaxed">
             Home Tech Dealer is an independent provider comparison platform and marketing partner. Trademarks, service marks, logos, and brand names featured on this site are the property of their respective owners. Speeds and availability vary by address.
           </p>
 
-          {/* Copyright Notice */}
           <p>© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
         </div>
       </footer>
 
-      {/* Pop-up Legal Overlay Modal */}
+      {/* Pop-up Legal Overlay Modals */}
       {activeModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 text-gray-800 text-left">
