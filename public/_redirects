@@ -1,1 +1,6 @@
-/*    /index.html   200
+# Exclude XML sitemaps from SPA rewrites
+/sitemap.xml /sitemap.xml 200
+/sitemap-zips-*.xml /sitemap-zips-*.xml 200
+
+# Catch-all for React Single Page App
+/* /index.html 200
