@@ -160,7 +160,7 @@ export const ZipPage: React.FC = () => {
     });
   }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
-  // 4. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES WITH SAFE QUERY FALLBACK
+  // 4. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES (STRICTLY STATE-FILTERED)
   useEffect(() => {
     async function fetchZipDetailsAndNearby() {
       if (!rawCity || !currentZip) return;
@@ -184,24 +184,30 @@ export const ZipPage: React.FC = () => {
           });
         }
 
-        // Query 2: Fetch nearby ZIP codes
+        // Query 2: Fetch nearby ZIP codes matching city name safely
         const { data: nearbyData } = await supabase
           .from('zip_codes')
-          .select('zip_code')
+          .select('zip_code, state')
           .ilike('city', cleanCityName)
           .neq('zip_code', currentZip)
-          .limit(10);
+          .limit(25);
 
         if (nearbyData) {
-          const formattedList = nearbyData
-            .map((item) => String(item.zip_code).padStart(5, '0'))
-            .filter((zip) => zip !== currentZip);
+          // Client-side guard to guarantee ZIP codes strictly match the route state (e.g., 'tx')
+          const filteredByState = nearbyData.filter((item: any) => {
+            const itemState = (item.state || '').toLowerCase();
+            return itemState === rawState.toLowerCase();
+          });
+
+          const formattedList = filteredByState
+            .map((item: any) => String(item.zip_code).padStart(5, '0'))
+            .filter((zip: string) => zip !== currentZip);
 
           const uniqueZips = Array.from(new Set(formattedList)).slice(0, 6);
           setNearbyZips(uniqueZips);
         }
       } catch (err) {
-        console.warn('Supabase query handled cleanly:', err);
+        console.warn('Nearby ZIP query fallback handled:', err);
       }
     }
 
