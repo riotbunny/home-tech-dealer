@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { HelpCircle, PhoneCall, Clock, CheckCircle2, Zap, ShieldCheck, AlertCircle } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { HelpCircle, PhoneCall, Clock, CheckCircle2, Zap, ShieldCheck, AlertCircle, MapPin } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export const ZipPage: React.FC = () => {
   const { state, city, zipCode } = useParams<{ state?: string; city?: string; zipCode?: string }>();
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [nearbyZips, setNearbyZips] = useState<string[]>([]);
 
   // PHONE & HOURS CONFIGURATION
   const PHONE_NUMBER = "1-855-215-8469";
@@ -73,7 +75,34 @@ export const ZipPage: React.FC = () => {
     canonicalLink.setAttribute('href', canonicalUrl);
   }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
-  // 3. JSON-LD STRUCTURED DATA SCHEMA
+  // 3. FETCH NEARBY ZIP CODES FOR INTERNAL CROSS-LINKING
+  useEffect(() => {
+    async function fetchNearbyZips() {
+      if (!rawCity || !currentZip) return;
+
+      const cleanCityName = rawCity.replace(/-/g, ' ').trim();
+
+      const { data, error } = await supabase
+        .from('zip_codes')
+        .select('zip_code')
+        .ilike('city', cleanCityName)
+        .neq('zip_code', currentZip)
+        .limit(10);
+
+      if (!error && data) {
+        const formattedList = data
+          .map((item) => String(item.zip_code).padStart(5, '0'))
+          .filter((zip) => zip !== currentZip);
+
+        const uniqueZips = Array.from(new Set(formattedList)).slice(0, 6);
+        setNearbyZips(uniqueZips);
+      }
+    }
+
+    fetchNearbyZips();
+  }, [rawCity, currentZip]);
+
+  // 4. JSON-LD STRUCTURED DATA SCHEMA
   const jsonLdSchema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -240,7 +269,7 @@ export const ZipPage: React.FC = () => {
         }
       `}</style>
 
-      {/* Primary Sticky Top Announcement Bar (data-nosnippet prevents Google from displaying phone/hours in search snippets) */}
+      {/* Primary Sticky Top Announcement Bar */}
       <div 
         data-nosnippet
         className="bg-amber-400 text-amber-950 font-bold text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 shadow-md sticky top-0 z-50"
@@ -477,6 +506,32 @@ export const ZipPage: React.FC = () => {
             </p>
           </div>
         </section>
+
+        {/* Nearby ZIP Codes Cross-Linking Widget */}
+        {nearbyZips.length > 0 && (
+          <section className="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm space-y-4">
+            <div className="flex items-center space-x-2 text-gray-900">
+              <MapPin className="w-5 h-5 text-blue-600" />
+              <h3 className="text-xl font-bold">
+                Other Internet Options Near {formattedCity}
+              </h3>
+            </div>
+            <p className="text-sm text-gray-600">
+              Comparing providers in neighboring areas? Explore nearby ZIP codes in {formattedCity}, {formattedState}:
+            </p>
+            <div className="flex flex-wrap gap-3 pt-2">
+              {nearbyZips.map((nearZip) => (
+                <Link
+                  key={nearZip}
+                  to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${nearZip}`}
+                  className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-lg border border-blue-200 text-sm transition-colors"
+                >
+                  ZIP {nearZip}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* FAQ Section */}
         <section className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm space-y-6">
