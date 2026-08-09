@@ -53,25 +53,27 @@ export const ZipPage: React.FC = () => {
     ? `https://hometechdealer.com/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${currentZip}`
     : `https://hometechdealer.com/internet`;
 
-  // 2. DYNAMIC METADATA & CANONICAL INJECTION
+  // 2. DYNAMIC METADATA & CANONICAL / OPEN GRAPH INJECTION
   useEffect(() => {
-    document.title = hasValidLocation
+    const pageTitle = hasValidLocation
       ? `Best Internet Providers in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`
       : `Find High-Speed Internet Providers in Your Location | Home Tech Dealer`;
+    document.title = pageTitle;
 
+    const descriptionContent = hasValidLocation
+      ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Compare Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity. Call 1-855-215-8469 for address setup.`
+      : `Compare top high-speed internet providers in your location. Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity options available. Call 1-855-215-8469 for instant setup.`;
+
+    // Standard Meta Description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement('meta');
       metaDescription.setAttribute('name', 'description');
       document.head.appendChild(metaDescription);
     }
-    metaDescription.setAttribute(
-      'content',
-      hasValidLocation
-        ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Compare Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity. Call 1-855-215-8469 for address setup.`
-        : `Compare top high-speed internet providers in your location. Spectrum, AT&T Fiber, Frontier, Kinetic, Xfinity options available. Call 1-855-215-8469 for instant setup.`
-    );
+    metaDescription.setAttribute('content', descriptionContent);
 
+    // Canonical Tag
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -79,6 +81,25 @@ export const ZipPage: React.FC = () => {
       document.head.appendChild(canonicalLink);
     }
     canonicalLink.setAttribute('href', canonicalUrl);
+
+    // Open Graph Meta Tags for Social & Crawler Preview
+    const ogTags = [
+      { property: 'og:title', content: pageTitle },
+      { property: 'og:description', content: descriptionContent },
+      { property: 'og:url', content: canonicalUrl },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Home Tech Dealer' },
+    ];
+
+    ogTags.forEach(({ property, content }) => {
+      let tag = document.querySelector(`meta[property="${property}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('property', property);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    });
   }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
   // 3. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES
@@ -125,7 +146,7 @@ export const ZipPage: React.FC = () => {
     fetchZipDetailsAndNearby();
   }, [rawCity, currentZip]);
 
-  // 4. JSON-LD STRUCTURED DATA SCHEMA
+  // 4. JSON-LD STRUCTURED DATA SCHEMA WITH BREADCRUMB LIST
   const jsonLdSchema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -135,6 +156,35 @@ export const ZipPage: React.FC = () => {
         url: canonicalUrl,
         name: `Internet Providers in ${locationTitle}`,
         description: `Compare high-speed internet service options in ${locationTitle}.`,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Internet',
+            item: 'https://hometechdealer.com/internet',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: formattedState || 'State',
+            item: `https://hometechdealer.com/internet/${rawState.toLowerCase()}`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: formattedCity || 'City',
+            item: `https://hometechdealer.com/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 4,
+            name: displayZip,
+            item: canonicalUrl,
+          },
+        ],
       },
       {
         '@type': 'Service',
@@ -309,6 +359,29 @@ export const ZipPage: React.FC = () => {
           <span>{HOURS_DISPLAY}</span>
         </div>
       </div>
+
+      {/* Visible Breadcrumb Navigation Bar */}
+      <nav aria-label="Breadcrumb" className="bg-blue-950 text-blue-200 text-xs py-2 px-4 border-b border-blue-800/60">
+        <div className="max-w-5xl mx-auto flex items-center space-x-2 overflow-x-auto whitespace-nowrap">
+          <Link to="/internet" className="hover:text-amber-400 transition-colors">Internet</Link>
+          <span>/</span>
+          {hasValidLocation ? (
+            <>
+              <Link to={`/internet/${rawState.toLowerCase()}`} className="hover:text-amber-400 transition-colors">
+                {formattedState}
+              </Link>
+              <span>/</span>
+              <Link to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`} className="hover:text-amber-400 transition-colors">
+                {formattedCity}
+              </Link>
+              <span>/</span>
+              <span className="text-white font-bold">{displayZip}</span>
+            </>
+          ) : (
+            <span className="text-white font-bold">Your Location</span>
+          )}
+        </div>
+      </nav>
 
       {/* Hero Header Section */}
       <section className="bg-blue-900 text-white py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
