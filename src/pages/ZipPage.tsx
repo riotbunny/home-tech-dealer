@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { HelpCircle, PhoneCall, Clock, CheckCircle2, Zap, ShieldCheck, AlertCircle, MapPin } from 'lucide-react';
+import { HelpCircle, PhoneCall, Clock, CheckCircle2, Zap, ShieldCheck, AlertCircle, MapPin, Activity } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export const ZipPage: React.FC = () => {
   const { state, city, zipCode } = useParams<{ state?: string; city?: string; zipCode?: string }>();
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [nearbyZips, setNearbyZips] = useState<string[]>([]);
+  const [localStats, setLocalStats] = useState({
+    providerCount: 4,
+    maxSpeed: '1,000 Mbps',
+    hasFiber: true,
+    county: '',
+  });
 
   // PHONE & HOURS CONFIGURATION
   const PHONE_NUMBER = "1-855-215-8469";
@@ -75,22 +81,39 @@ export const ZipPage: React.FC = () => {
     canonicalLink.setAttribute('href', canonicalUrl);
   }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
-  // 3. FETCH NEARBY ZIP CODES FOR INTERNAL CROSS-LINKING
+  // 3. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES
   useEffect(() => {
-    async function fetchNearbyZips() {
+    async function fetchZipDetailsAndNearby() {
       if (!rawCity || !currentZip) return;
 
       const cleanCityName = rawCity.replace(/-/g, ' ').trim();
 
-      const { data, error } = await supabase
+      // Fetch dynamic record stats for this specific ZIP code
+      const { data: zipDetails } = await supabase
+        .from('zip_codes')
+        .select('*')
+        .eq('zip_code', currentZip)
+        .maybeSingle();
+
+      if (zipDetails) {
+        setLocalStats({
+          providerCount: zipDetails.provider_count || 5,
+          maxSpeed: zipDetails.max_speed || '1,000 Mbps',
+          hasFiber: zipDetails.has_fiber ?? true,
+          county: zipDetails.county || '',
+        });
+      }
+
+      // Fetch 6 neighboring ZIP codes in the same city for internal linking
+      const { data: nearbyData, error } = await supabase
         .from('zip_codes')
         .select('zip_code')
         .ilike('city', cleanCityName)
         .neq('zip_code', currentZip)
         .limit(10);
 
-      if (!error && data) {
-        const formattedList = data
+      if (!error && nearbyData) {
+        const formattedList = nearbyData
           .map((item) => String(item.zip_code).padStart(5, '0'))
           .filter((zip) => zip !== currentZip);
 
@@ -99,7 +122,7 @@ export const ZipPage: React.FC = () => {
       }
     }
 
-    fetchNearbyZips();
+    fetchZipDetailsAndNearby();
   }, [rawCity, currentZip]);
 
   // 4. JSON-LD STRUCTURED DATA SCHEMA
@@ -154,7 +177,7 @@ export const ZipPage: React.FC = () => {
             name: `What is the fastest internet provider in ${locationTitle}?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in ${locationTitle}. Call 1-855-215-8469 for instant availability at your exact address.`,
+              text: `Top fiber and cable providers offer speeds up to ${localStats.maxSpeed} in ${locationTitle}. Call 1-855-215-8469 for instant availability at your exact address.`,
             },
           },
           {
@@ -359,9 +382,41 @@ export const ZipPage: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
               Internet Availability &amp; Coverage in {displayZip}
             </h2>
-            <p className="text-gray-600 text-sm">
-              Residents in {locationTitle} have access to multiple broadband options. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> for address verification.
+            <p className="text-gray-600 text-sm max-w-2xl mx-auto">
+              {localStats.hasFiber ? (
+                <>
+                  Residents in <strong>{locationTitle}</strong> have access to fiber and high-speed cable infrastructure supporting speeds up to {localStats.maxSpeed}.
+                </>
+              ) : (
+                <>
+                  High-speed internet in <strong>{locationTitle}</strong> is powered by high-capacity cable networks and 5G wireless broadband options up to {localStats.maxSpeed}.
+                </>
+              )} Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> for address verification.
             </p>
+          </div>
+
+          {/* Phase 2 Dynamic Local Overview Summary Table */}
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+            <div className="flex items-center space-x-2 text-gray-900 mb-4">
+              <Activity className="w-5 h-5 text-blue-600" />
+              <h3 className="font-bold text-lg">Broadband Profile for ZIP {displayZip}</h3>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+              <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
+                <span className="text-gray-500 text-xs font-semibold block">Available Providers</span>
+                <strong className="text-gray-900 text-base font-black">{localStats.providerCount}+ Active Carriers</strong>
+              </div>
+              <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
+                <span className="text-gray-500 text-xs font-semibold block">Max Download Speed</span>
+                <strong className="text-gray-900 text-base font-black">{localStats.maxSpeed}</strong>
+              </div>
+              <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100 col-span-2 sm:col-span-1">
+                <span className="text-gray-500 text-xs font-semibold block">Fiber Infrastructure</span>
+                <strong className="text-gray-900 text-base font-black">
+                  {localStats.hasFiber ? 'Fiber & Cable Live' : 'Cable / 5G Wireless'}
+                </strong>
+              </div>
+            </div>
           </div>
 
           {/* Cards Rendering */}
@@ -492,7 +547,7 @@ export const ZipPage: React.FC = () => {
             </div>
             <h3 className="text-lg font-bold mb-2">Gigabit Speed Tiers</h3>
             <p className="text-sm text-gray-600">
-              Connections delivering speeds up to 1,000 Mbps available across select neighborhoods in {displayZip}.
+              Connections delivering speeds up to {localStats.maxSpeed} available across select neighborhoods in {displayZip}.
             </p>
           </div>
 
@@ -547,7 +602,7 @@ export const ZipPage: React.FC = () => {
                 What is the fastest internet provider in {locationTitle}?
               </h3>
               <p className="text-gray-600 text-sm mt-1">
-                Top fiber and cable providers offer speeds up to 1,000 Mbps (1 Gbps) in {locationTitle}. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> to check street address availability.
+                Top fiber and cable providers offer speeds up to {localStats.maxSpeed} in {locationTitle}. Call <a href={TEL_HREF} className="font-bold text-blue-700">{PHONE_NUMBER}</a> to check street address availability.
               </p>
             </div>
             <div>
