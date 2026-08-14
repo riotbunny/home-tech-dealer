@@ -32,8 +32,8 @@ export const ZipPage: React.FC = () => {
   });
 
   // PHONE & HOURS CONFIGURATION
-  const PHONE_NUMBER = "1-855-215-8469";
-  const TEL_HREF = "tel:18552158469";
+  const PHONE_NUMBER = "1 (888) 482-6192";
+  const TEL_HREF = "tel:18884826192";
   const HOURS_DISPLAY = "Mon–Fri 7am–8pm CT | Sat 9am–5pm CT";
 
   // CONVERSION EVENT TRACKER
@@ -109,7 +109,7 @@ export const ZipPage: React.FC = () => {
     },
     {
       question: `How do I set up internet service over the phone in ${formattedCity}?`,
-      directAnswer: `Call 1-855-215-8469 to connect directly with an address verification specialist who can check physical line availability and apply unadvertised move-in promos.`,
+      directAnswer: `Call 1 (888) 482-6192 to connect directly with an address verification specialist who can check physical line availability and apply unadvertised move-in promos.`,
       details: `Dispatch phone lines operate Mon–Fri 7AM–8PM CT and Sat 9AM–5PM CT.`
     }
   ];
@@ -122,8 +122,8 @@ export const ZipPage: React.FC = () => {
     document.title = pageTitle;
 
     const descriptionContent = hasValidLocation
-      ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Unadvertised move-in promos for Frontier, Kinetic, 5G Wireless, Spectrum, AT&T. Call 1-855-215-8469.`
-      : `Compare top high-speed internet providers in your location. Unadvertised move-in promos available over phone. Call 1-855-215-8469 for instant setup.`;
+      ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Unadvertised move-in promos for Frontier, Kinetic, 5G Wireless, Spectrum, AT&T. Call 1 (888) 482-6192.`
+      : `Compare top high-speed internet providers in your location. Unadvertised move-in promos available over phone. Call 1 (888) 482-6192 for instant setup.`;
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -951,7 +951,7 @@ export const ZipPage: React.FC = () => {
               {activeModal === 'dnc' && (
                 <>
                   <p><strong>Do Not Call Policy:</strong> Home Tech Dealer strictly adheres to TCPA and federal Do Not Call guidelines.</p>
-                  <p>Telephone requests placed to 1-855-215-8469 connect directly to authorized sales agents. You may request to be placed on our internal Do Not Call list at any time during a call or by written request.</p>
+                  <p>Telephone requests placed to 1 (888) 482-6192 connect directly to authorized sales agents. You may request to be placed on our internal Do Not Call list at any time during a call or by written request.</p>
                 </>
               )}
             </div>
