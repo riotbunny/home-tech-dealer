@@ -34,7 +34,7 @@ export const ZipPage: React.FC = () => {
   // PHONE & HOURS CONFIGURATION
   const PHONE_NUMBER = "1 (888) 482-6192";
   const TEL_HREF = "tel:18884826192";
-  const HOURS_DISPLAY = "Mon–Fri 7am–8pm CT | Sat 9am–5pm CT";
+  const HOURS_DISPLAY = "Open 24/7";
 
   // CONVERSION EVENT TRACKER
   const trackCall = (buttonSource: string) => {
@@ -110,7 +110,7 @@ export const ZipPage: React.FC = () => {
     {
       question: `How do I set up internet service over the phone in ${formattedCity}?`,
       directAnswer: `Call 1 (888) 482-6192 to connect directly with an address verification specialist who can check physical line availability and apply unadvertised move-in promos.`,
-      details: `Dispatch phone lines operate Mon–Fri 7AM–8PM CT and Sat 9AM–5PM CT.`
+      details: `Dispatch phone lines operate 24/7.`
     }
   ];
 
@@ -351,10 +351,20 @@ export const ZipPage: React.FC = () => {
           '@type': 'Organization',
           name: 'Home Tech Dealer',
           telephone: PHONE_NUMBER,
-          openingHours: [
-            "Mo-Fr 07:00-20:00",
-            "Sa 09:00-17:00"
-          ]
+          openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: [
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday',
+              'Sunday'
+            ],
+            opens: '00:00',
+            closes: '23:59'
+          }
         },
         areaServed: hasValidLocation ? {
           '@type': 'PostalCode',
