@@ -31,12 +31,12 @@ export const ZipPage: React.FC = () => {
     county: '',
   });
 
-  // PHONE & HOURS CONFIGURATION
+  // PHONE & HOURS CONFIGURATION (UNTOUCHED)
   const PHONE_NUMBER = "1 (888) 482-6192";
   const TEL_HREF = "tel:18884826192";
   const HOURS_DISPLAY = "Open 24/7";
 
-  // CONVERSION EVENT TRACKER
+  // CONVERSION EVENT TRACKER (UNTOUCHED)
   const trackCall = (buttonSource: string) => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'conversion', {
@@ -48,7 +48,7 @@ export const ZipPage: React.FC = () => {
     }
   };
 
-  // 1. PARAMETER EVALUATION & PLACEHOLDER FILTERING
+  // 1. PARAMETER EVALUATION & PLACEHOLDER FILTERING (UNTOUCHED)
   const rawCity = city?.trim() || '';
   const rawState = state?.trim() || '';
   const currentZip = zipCode?.trim() || '';
@@ -76,7 +76,7 @@ export const ZipPage: React.FC = () => {
 
   const displayZip = hasValidLocation ? currentZip : 'Your Location';
 
-  // Dynamic daily social proof generator
+  // Dynamic daily social proof generator (UNTOUCHED)
   const dynamicInquiries = React.useMemo(() => {
     if (!currentZip || currentZip === 'Your Location') return 16;
     const numericVal = parseInt(currentZip.replace(/\D/g, ''), 10) || 75000;
@@ -95,7 +95,7 @@ export const ZipPage: React.FC = () => {
     }));
   };
 
-  // 2. GEO CONVERSATIONAL FAQ DATA SET (Answer-First Engine for AI Crawlers)
+  // 2. GEO CONVERSATIONAL FAQ DATA SET (UNTOUCHED)
   const geoFaqs = [
     {
       question: `What is the cheapest internet provider in ${formattedCity}, ${formattedState}?`,
@@ -114,7 +114,7 @@ export const ZipPage: React.FC = () => {
     }
   ];
 
-  // 3. DYNAMIC METADATA & CANONICAL / OPEN GRAPH INJECTION
+  // 3. DYNAMIC METADATA & CANONICAL / OPEN GRAPH INJECTION (UNTOUCHED)
   useEffect(() => {
     const pageTitle = hasValidLocation
       ? `Best High-Speed Internet Providers in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`
@@ -160,7 +160,7 @@ export const ZipPage: React.FC = () => {
     });
   }, [hasValidLocation, formattedCity, formattedState, currentZip, canonicalUrl]);
 
-  // 4. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES (STRICTLY STATE-FILTERED)
+  // 4. FETCH DYNAMIC LOCAL STATS & NEARBY ZIP CODES (UNTOUCHED)
   useEffect(() => {
     async function fetchZipDetailsAndNearby() {
       if (!rawCity || !currentZip) return;
@@ -168,7 +168,6 @@ export const ZipPage: React.FC = () => {
       const cleanCityName = rawCity.replace(/-/g, ' ').trim();
 
       try {
-        // Query 1: Fetch ZIP details
         const { data: zipDetails } = await supabase
           .from('zip_codes')
           .select('*')
@@ -184,7 +183,6 @@ export const ZipPage: React.FC = () => {
           });
         }
 
-        // Query 2: Fetch nearby ZIP codes matching city name safely
         const { data: nearbyData } = await supabase
           .from('zip_codes')
           .select('zip_code, state')
@@ -193,7 +191,6 @@ export const ZipPage: React.FC = () => {
           .limit(25);
 
         if (nearbyData) {
-          // Client-side guard to guarantee ZIP codes strictly match the route state (e.g., 'tx')
           const filteredByState = nearbyData.filter((item: any) => {
             const itemState = (item.state || '').toLowerCase();
             return itemState === rawState.toLowerCase();
@@ -214,11 +211,12 @@ export const ZipPage: React.FC = () => {
     fetchZipDetailsAndNearby();
   }, [rawCity, currentZip, rawState]);
 
+  // DATA ARRAY (UNTOUCHED)
   const providers = [
     {
       name: "Frontier / Kinetic Fiber",
       badge: "Top Non-Cable Alternative",
-      badgeColor: "bg-emerald-400 text-emerald-950",
+      badgeColor: "bg-emerald-100 text-emerald-800",
       highlightText: "100% Dedicated Fiber Infrastructure (No Shared Bandwidth)",
       startingPrice: "$44.99/mo*",
       unclaimedPromo: "Install Fee Credits May Apply",
@@ -232,7 +230,7 @@ export const ZipPage: React.FC = () => {
     {
       name: "5G Home & Satellite Wireless",
       badge: "No Cable Lines Required",
-      badgeColor: "bg-purple-500 text-white",
+      badgeColor: "bg-slate-100 text-slate-800",
       highlightText: "Bypass regional cable monopolies with instant wireless dispatch",
       startingPrice: "$35.00/mo*",
       unclaimedPromo: "Self-Setup Kit Eligible in " + displayZip,
@@ -246,7 +244,7 @@ export const ZipPage: React.FC = () => {
     {
       name: "Regional & Local Independent Networks",
       badge: "Unadvertised Street Rates",
-      badgeColor: "bg-amber-400 text-amber-950",
+      badgeColor: "bg-blue-50 text-blue-800",
       highlightText: "Independent local carriers servicing specific ZIP " + displayZip + " areas",
       startingPrice: "Phone Match Quote*",
       unclaimedPromo: "Unlisted Move-In Credits Active",
@@ -265,7 +263,7 @@ export const ZipPage: React.FC = () => {
     {
       name: "AT&T Fiber & Broadband",
       badge: "Incumbent Fiber Network",
-      badgeColor: "bg-sky-400 text-blue-950",
+      badgeColor: "bg-slate-100 text-slate-800",
       highlightText: "Established fiber infrastructure across select neighborhoods",
       startingPrice: "$55.00/mo*",
       unclaimedPromo: "Requires Phone Verification",
@@ -280,7 +278,7 @@ export const ZipPage: React.FC = () => {
     {
       name: "Spectrum Cable",
       badge: "Standard Legacy Network",
-      badgeColor: "bg-blue-600 text-white",
+      badgeColor: "bg-slate-100 text-slate-800",
       highlightText: "Traditional coaxial cable service available across " + formattedCity,
       startingPrice: "$30.00/mo*",
       unclaimedPromo: "Contract Buyout Option Eligible",
@@ -294,7 +292,7 @@ export const ZipPage: React.FC = () => {
     },
   ];
 
-  // 5. ENHANCED JSON-LD STRUCTURED DATA SCHEMA
+  // 5. ENHANCED JSON-LD STRUCTURED DATA SCHEMA (UNTOUCHED)
   const jsonLdSchema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -402,20 +400,20 @@ export const ZipPage: React.FC = () => {
   };
 
   const brandList = [
-    { name: "Frontier Fiber", bg: "bg-rose-600 text-white hover:bg-rose-500" },
-    { name: "Kinetic Fiber", bg: "bg-emerald-500 text-gray-950 font-black hover:bg-emerald-400" },
-    { name: "T-Mobile 5G", bg: "bg-pink-600 text-white hover:bg-pink-500" },
-    { name: "Verizon 5G", bg: "bg-red-600 text-white hover:bg-red-500" },
-    { name: "CenturyLink", bg: "bg-indigo-600 text-white hover:bg-indigo-500" },
-    { name: "Optimum", bg: "bg-amber-400 text-amber-950 font-black hover:bg-amber-300" },
-    { name: "AT&T Fiber", bg: "bg-sky-400 text-blue-950 font-black hover:bg-sky-300" },
-    { name: "Spectrum", bg: "bg-blue-600 text-white hover:bg-blue-500" },
-    { name: "Xfinity", bg: "bg-purple-600 text-white hover:bg-purple-500" },
-    { name: "HughesNet", bg: "bg-orange-500 text-white hover:bg-orange-400" },
+    { name: "Frontier Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "Kinetic Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "T-Mobile 5G", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "Verizon 5G", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "CenturyLink", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "Optimum", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "AT&T Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "Spectrum", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "Xfinity", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
+    { name: "HughesNet", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col text-gray-900 font-sans pb-20 md:pb-0">
+    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 font-sans pb-20 md:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
@@ -429,159 +427,151 @@ export const ZipPage: React.FC = () => {
         .animate-ticker {
           display: flex;
           width: max-content;
-          animation: ticker 25s linear infinite;
+          animation: ticker 35s linear infinite;
         }
         .animate-ticker:hover {
           animation-play-state: paused;
         }
       `}</style>
 
-      {/* Persistent Floating Bottom Bar on Mobile Devices */}
-      <div className="fixed bottom-0 left-0 right-0 bg-amber-400 border-t-2 border-amber-500 p-3 z-50 md:hidden shadow-2xl flex items-center justify-between gap-2">
-        <div className="text-amber-950 text-xs font-black leading-tight">
-          <span className="block">Specialists Active Now</span>
-          <span className="text-[10px] text-amber-900 font-bold">{HOURS_DISPLAY}</span>
+      {/* Persistent Floating Bottom Bar on Mobile Devices (Refined for Trust) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-3 z-50 md:hidden shadow-2xl flex items-center justify-between gap-2">
+        <div className="text-white text-xs font-bold leading-tight">
+          <span className="block text-slate-300">Carrier Verification Desk</span>
+          <span className="text-[10px] text-emerald-400 font-bold">{HOURS_DISPLAY}</span>
         </div>
         <a
           href={TEL_HREF}
           onClick={() => trackCall('mobile_bottom_floating_bar')}
-          className="bg-gray-900 text-white font-black px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
+          className="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-lg text-sm flex items-center gap-2 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
         >
-          <PhoneCall className="w-4 h-4 text-amber-400 fill-amber-400" />
+          <PhoneCall className="w-4 h-4 text-white" />
           <span>CALL {PHONE_NUMBER}</span>
         </a>
       </div>
 
-      {/* Primary Sticky Top Bar */}
+      {/* Primary Sticky Top Bar (Neutral & Professional) */}
       <div 
         data-nosnippet
-        className="bg-amber-400 text-amber-950 font-black text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 shadow-md sticky top-0 z-40 border-b border-amber-500"
+        className="bg-white text-slate-700 font-medium text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 shadow-sm sticky top-0 z-40 border-b border-slate-200"
       >
         <div className="flex items-center space-x-2">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
-          </span>
-          <span className="uppercase tracking-wide text-xs font-black">Live Dispatch Line:</span>
-          <a href={TEL_HREF} onClick={() => trackCall('sticky_top_bar')} className="underline hover:text-black text-sm sm:text-base font-black">
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span className="uppercase tracking-wide text-[11px] font-bold text-slate-500">Official Verification Desk:</span>
+          <a href={TEL_HREF} onClick={() => trackCall('sticky_top_bar')} className="text-blue-700 font-bold hover:underline">
             {PHONE_NUMBER}
           </a>
         </div>
-        <div className="flex items-center text-amber-900 text-xs font-bold space-x-1">
-          <Clock className="w-3.5 h-3.5 text-amber-950" />
+        <div className="flex items-center text-slate-500 text-xs font-medium space-x-1.5">
+          <Clock className="w-3.5 h-3.5" />
           <span>{HOURS_DISPLAY}</span>
-          <span className="hidden sm:inline text-amber-800">•</span>
-          <span className="hidden sm:inline text-amber-950 font-black">Agents Available Now</span>
+          <span className="hidden sm:inline text-slate-300">|</span>
+          <span className="hidden sm:inline text-emerald-600 font-semibold flex items-center gap-1">
+             <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block"></span>
+             Agents Available
+          </span>
         </div>
       </div>
 
       {/* Visible Breadcrumb Navigation Bar */}
-      <nav aria-label="Breadcrumb" className="bg-blue-950 text-blue-200 text-xs py-2 px-4 border-b border-blue-900">
+      <nav aria-label="Breadcrumb" className="bg-slate-900 text-slate-400 text-xs py-2.5 px-4 border-b border-slate-800">
         <div className="max-w-5xl mx-auto flex items-center space-x-2 overflow-x-auto whitespace-nowrap">
-          <Link to="/internet" className="hover:text-amber-400 transition-colors">Internet</Link>
+          <Link to="/internet" className="hover:text-white transition-colors">Internet Coverage</Link>
           <span>/</span>
           {hasValidLocation ? (
             <>
-              <Link to={`/internet/${rawState.toLowerCase()}`} className="hover:text-amber-400 transition-colors">
+              <Link to={`/internet/${rawState.toLowerCase()}`} className="hover:text-white transition-colors">
                 {formattedState}
               </Link>
               <span>/</span>
-              <Link to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`} className="hover:text-amber-400 transition-colors">
+              <Link to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`} className="hover:text-white transition-colors">
                 {formattedCity}
               </Link>
               <span>/</span>
-              <span className="text-white font-bold">{displayZip}</span>
+              <span className="text-white font-medium">ZIP {displayZip}</span>
             </>
           ) : (
-            <span className="text-white font-bold">Your Location</span>
+            <span className="text-white font-medium">Your Location</span>
           )}
         </div>
       </nav>
 
-      {/* Hero Header Section */}
-      <section className="bg-gradient-to-b from-blue-950 via-blue-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 overflow-hidden relative">
+      {/* Hero Header Section (Clean, Authoritative Look) */}
+      <section className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 overflow-hidden relative border-b border-slate-800">
         <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
           
-          <div className="inline-flex items-center gap-2 bg-blue-900/90 border border-blue-700/80 px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 shadow-inner">
-            <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-            <span>Active Network Coverage Zone: <strong className="text-white">{locationTitle}</strong></span>
+          <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-4 py-1.5 rounded-full text-[11px] font-medium text-slate-300 shadow-inner tracking-wide">
+            <Activity className="w-3.5 h-3.5 text-blue-400" />
+            <span>Independent Infrastructure Report: <strong className="text-white">{locationTitle}</strong></span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            Check Unadvertised Internet Rates &amp; Speeds in <span className="text-amber-400 underline decoration-amber-400/40">{locationTitle}</span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Verify Carrier Availability &amp; Infrastructure in <span className="text-blue-400">{locationTitle}</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto font-medium">
-            Don't lock into standard sticker prices online. Call our phone dispatch center to claim unlisted move-in promotions, verify exact neighborhood speeds, and qualify for fee waivers.
+          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto font-normal">
+            Access official network data for ZIP {displayZip}. Call the verification desk to confirm exact street-level speeds, check active infrastructure, and apply address-specific discounts.
           </p>
 
-          {/* Call Box */}
-          <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-gray-950 border-2 border-amber-400 p-6 sm:p-8 rounded-3xl max-w-xl mx-auto shadow-2xl space-y-4 relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 bg-amber-400 text-amber-950 font-black text-[10px] uppercase tracking-widest px-10 py-2 rotate-45 shadow-md">
-              Exclusive
+          {/* Call Box (Structured Data Utility Look) */}
+          <div className="bg-white text-slate-900 border border-slate-200 p-6 sm:p-8 rounded-2xl max-w-xl mx-auto shadow-xl space-y-5 relative mt-8">
+            <div className="flex items-center justify-center space-x-2 text-slate-500 font-bold text-xs uppercase tracking-widest border-b border-slate-100 pb-4">
+              <ShieldCheck className="w-4 h-4 text-blue-600" />
+              <span>Local Carrier Match Specialists</span>
             </div>
 
-            <div className="flex items-center justify-center space-x-2 text-amber-300 font-extrabold text-xs uppercase tracking-widest">
-              <PhoneCall className="w-4 h-4 text-amber-400 animate-bounce" />
-              <span>Instant Address Verification Line</span>
+            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Call <a href={TEL_HREF} onClick={() => trackCall('hero_box_number_link')} className="text-blue-700 hover:underline transition-colors">{PHONE_NUMBER}</a>
             </div>
 
-            <div className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              Call <a href={TEL_HREF} onClick={() => trackCall('hero_box_number_link')} className="text-amber-400 underline hover:text-amber-300 transition-colors">{PHONE_NUMBER}</a>
-            </div>
-
-            <p className="text-xs sm:text-sm text-blue-200 leading-relaxed">
-              Speak directly with an address specialist to unlock non-public fiber and 5G promos for <strong>ZIP {displayZip}</strong>.
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-md mx-auto">
+              Speak directly with an independent address specialist to verify active line infrastructure and unlock unlisted residential promos for <strong>ZIP {displayZip}</strong>.
             </p>
 
             <div className="pt-2">
               <a
                 href={TEL_HREF}
                 onClick={() => trackCall('hero_primary_button')}
-                className="inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 text-amber-950 font-black px-8 py-4 rounded-2xl shadow-2xl text-xl transition-all duration-200 transform active:scale-95 w-full border-b-4 border-amber-600"
+                className="inline-flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl shadow-md text-lg transition-all duration-200 transform active:scale-95 w-full"
               >
-                <PhoneCall className="w-6 h-6 fill-amber-950" />
-                <span>TAP TO CALL: {PHONE_NUMBER}</span>
+                <PhoneCall className="w-5 h-5 text-white" />
+                <span>Verify Address Match (Free Call)</span>
               </a>
             </div>
 
-            <div className="pt-2 flex items-center justify-center gap-4 text-[11px] text-blue-300 font-bold border-t border-blue-800/60">
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-slate-400 font-medium">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> No Obligation
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> No Obligation
               </span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span className="flex items-center gap-1">
-                <Lock className="w-3.5 h-3.5 text-amber-400" /> Unlisted Rates
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> Objective Comparisons
               </span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span className="flex items-center gap-1">
-                <UserCheck className="w-3.5 h-3.5 text-sky-400" /> Promo Eligibility Check
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> Instant Promo Check
               </span>
             </div>
           </div>
 
-          {/* Provider Scroll Ticker */}
-          <div className="pt-6 border-t border-blue-800/80 mt-8 max-w-4xl mx-auto">
-            <p className="text-[11px] uppercase tracking-widest text-blue-300 font-black mb-3">
-              TAP ANY CARRIER BELOW TO CHECK UNADVERTISED ADDRESS PROMOS
+          {/* Provider Scroll Ticker (Subtle Data Feed) */}
+          <div className="pt-8 mt-4 max-w-4xl mx-auto opacity-70">
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-3">
+              Data synchronized from major networks operating in {formattedState}
             </p>
 
             <div className="relative w-full overflow-hidden py-1">
-              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-blue-950 to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-blue-950 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
 
               <div className="animate-ticker space-x-3">
                 {[...brandList, ...brandList].map((brand, index) => (
-                  <a
+                  <span
                     key={index}
-                    href={TEL_HREF}
-                    onClick={() => trackCall(`ticker_brand_${brand.name}`)}
-                    title={`Call ${PHONE_NUMBER} to unlock ${brand.name} local promos`}
-                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold shadow-md border border-white/20 whitespace-nowrap transition-transform active:scale-95 ${brand.bg}`}
+                    className={`inline-flex items-center px-4 py-1.5 rounded-md text-[11px] font-medium border border-slate-700 whitespace-nowrap bg-slate-800 text-slate-300`}
                   >
-                    <PhoneCall className="w-3 h-3 mr-1.5 fill-current" />
-                    <span>{brand.name}</span>
-                  </a>
+                    {brand.name}
+                  </span>
                 ))}
               </div>
             </div>
@@ -590,95 +580,95 @@ export const ZipPage: React.FC = () => {
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full space-y-10">
+      <main className="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
         
-        {/* Dynamic Activity Log */}
-        <div className="bg-emerald-950/90 border border-emerald-500/40 rounded-2xl p-4 text-emerald-100 text-xs sm:text-sm flex items-center justify-between gap-4 shadow-sm">
-          <div className="flex items-center space-x-3">
-            <span className="relative flex h-3 w-3 flex-shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+        {/* Dynamic Activity Log (Moved Up, Styled as Utility Status) */}
+        <div className="bg-white border border-slate-200 rounded-lg p-3 sm:px-5 text-slate-600 text-[11px] sm:text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center space-x-2.5">
+            <span className="flex h-2 w-2 relative">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <div>
-              <strong className="text-white font-bold block sm:inline">ZIP {displayZip} Status: Active.</strong>
-              <span className="text-emerald-200"> {dynamicInquiries} Address Coverage Inquiries Processed Today in {formattedCity}.</span>
+              <strong className="text-slate-900 font-semibold">System Status: Network Verified.</strong>
+              <span className="text-slate-500 ml-1"> {dynamicInquiries} Address lookups processed today in {formattedCity}. Last Updated: August 2026.</span>
             </div>
           </div>
           <a 
             href={TEL_HREF} 
             onClick={() => trackCall('system_log_bubble')}
-            className="hidden sm:inline-flex items-center gap-1 font-black text-amber-300 underline whitespace-nowrap"
+            className="text-blue-600 font-medium hover:underline flex items-center gap-1 whitespace-nowrap"
           >
-            Lock Your Rate <ChevronDown className="w-4 h-4 -rotate-90" />
+            Check Your Street <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
           </a>
         </div>
 
-        <section id="provider-plans" className="space-y-6">
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-black text-gray-900 mb-1">
-              Active Internet Carriers Serving {locationTitle}
+        <section id="provider-plans" className="space-y-6 pt-4">
+          <div className="text-left mb-6">
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">
+              Active Internet Infrastructure in {locationTitle}
             </h2>
-            <p className="text-gray-600 text-sm max-w-2xl mx-auto font-medium">
-              Below are verified carrier networks operating in <strong>{locationTitle}</strong>. Expand any carrier module to review base options or call <a href={TEL_HREF} onClick={() => trackCall('subheading_phone_link')} className="font-black text-blue-700 underline">{PHONE_NUMBER}</a> for address locking.
+            <p className="text-slate-500 text-sm max-w-3xl">
+              Below is the objective network data for carriers operating in <strong>{locationTitle}</strong>. Expand any module to review base options, or call the verification desk at <a href={TEL_HREF} onClick={() => trackCall('subheading_phone_link')} className="font-semibold text-blue-600 hover:underline">{PHONE_NUMBER}</a> for an exact street address match.
             </p>
           </div>
 
-          {/* Dynamic Local Overview Summary Table */}
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
-            <div className="flex items-center space-x-2 text-gray-900 mb-3">
-              <Activity className="w-5 h-5 text-blue-600" />
-              <h3 className="font-bold text-base">Local Network Profile: {displayZip}</h3>
+          {/* Dynamic Local Overview Summary Table (Clean Dashboard Look) */}
+          <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-sm">
+            <div className="flex items-center space-x-2 text-slate-900 mb-4 border-b border-slate-100 pb-3">
+              <MapPin className="w-5 h-5 text-slate-400" />
+              <h3 className="font-bold text-sm uppercase tracking-wide">Zone Profile: ZIP {displayZip}</h3>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200">
-                <span className="text-gray-500 font-semibold block text-[11px]">Active Network Lines</span>
-                <strong className="text-gray-900 text-base font-black">{localStats.providerCount}+ Confirmed Carriers</strong>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Active Network Lines</span>
+                <strong className="text-slate-900 text-lg font-extrabold">{localStats.providerCount}+ Carriers Found</strong>
               </div>
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200">
-                <span className="text-gray-500 font-semibold block text-[11px]">Peak Speed Capability</span>
-                <strong className="text-gray-900 text-base font-black">{localStats.maxSpeed}</strong>
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Peak Speed Capability</span>
+                <strong className="text-slate-900 text-lg font-extrabold">{localStats.maxSpeed}</strong>
               </div>
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 col-span-2 sm:col-span-1">
-                <span className="text-gray-500 font-semibold block text-[11px]">Infrastructure Type</span>
-                <strong className="text-gray-900 text-base font-black">
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Infrastructure Type</span>
+                <strong className="text-slate-900 text-lg font-extrabold">
                   {localStats.hasFiber ? 'Fiber & High-Speed Cable' : 'Fixed Wireless & Cable'}
                 </strong>
               </div>
             </div>
           </div>
 
-          {/* Collapsible Provider Cards */}
-          <div className="space-y-4">
+          {/* Collapsible Provider Cards (Table-like Utility Layout) */}
+          <div className="space-y-3">
             {providers.map((provider, idx) => {
               const isExpanded = Boolean(expandedProviders[idx]);
 
               return (
-                <article key={idx} className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden transition-all duration-200 hover:border-blue-400">
-                  <div className="p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white">
-                    <div className="space-y-1.5 max-w-lg">
+                <article key={idx} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all duration-200 hover:border-slate-300">
+                  <div className="p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 bg-white">
+                    <div className="space-y-2 max-w-xl">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className={`inline-flex items-center gap-1 text-[11px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wide ${provider.badgeColor}`}>
-                          <Sparkles className="w-3 h-3 fill-current" />
+                        <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide ${provider.badgeColor}`}>
                           {provider.badge}
                         </span>
-                        <span className="text-xs text-emerald-700 font-extrabold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                           <ShieldCheck className="w-3 h-3 text-slate-400" />
                           {provider.unclaimedPromo}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-black text-gray-900 tracking-tight">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                         {provider.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-600 font-medium">
+                      <p className="text-xs sm:text-sm text-slate-500">
                         {provider.highlightText}
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100">
+                    <div className="flex flex-wrap items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-100">
                       <div className="text-left md:text-right pr-2">
-                        <span className="text-[11px] text-gray-500 font-extrabold uppercase block">Baseline Rate</span>
-                        <div className="text-xl font-black text-blue-950">{provider.startingPrice}</div>
-                        <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-0.5 md:justify-end">
-                          <Zap className="w-3 h-3 fill-current" /> {provider.topSpeed}
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Est. Starting Rate</span>
+                        <div className="text-xl font-extrabold text-slate-900">{provider.startingPrice}</div>
+                        <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 md:justify-end mt-0.5">
+                          <Zap className="w-3 h-3 text-slate-400" /> {provider.topSpeed}
                         </span>
                       </div>
 
@@ -686,19 +676,19 @@ export const ZipPage: React.FC = () => {
                         <a
                           href={TEL_HREF}
                           onClick={() => trackCall(`card_lock_rate_${provider.name}`)}
-                          className="inline-flex items-center space-x-1.5 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 text-amber-950 font-black px-5 py-3 rounded-xl shadow-md text-sm transition-transform active:scale-95 whitespace-nowrap border-b-2 border-amber-600"
+                          className="inline-flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2.5 rounded-lg text-sm transition-transform active:scale-95 whitespace-nowrap"
                         >
-                          <PhoneCall className="w-4 h-4 fill-amber-950" />
-                          <span>Lock Rate: {PHONE_NUMBER}</span>
+                          <PhoneCall className="w-4 h-4 text-white" />
+                          <span>Verify Exact Rate</span>
                         </a>
 
                         <button
                           onClick={() => toggleProviderSpecs(idx)}
-                          className="inline-flex items-center justify-center p-3 rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-700 transition-colors"
-                          title={isExpanded ? "Hide Plans & Specs" : "View Plans & Specs"}
+                          className="inline-flex items-center justify-center p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
+                          title={isExpanded ? "Hide Plans" : "View Plans"}
                           aria-expanded={isExpanded}
                         >
-                          {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-700" /> : <ChevronDown className="w-5 h-5 text-gray-700" />}
+                          {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                         </button>
                       </div>
                     </div>
@@ -706,29 +696,29 @@ export const ZipPage: React.FC = () => {
 
                   <button
                     onClick={() => toggleProviderSpecs(idx)}
-                    className="w-full bg-gray-50 hover:bg-blue-50/60 px-6 py-2.5 border-t border-gray-100 text-xs font-bold text-blue-900 flex items-center justify-between transition-colors"
+                    className="w-full bg-slate-50 hover:bg-slate-100 px-6 py-2.5 border-t border-slate-200 text-xs font-semibold text-slate-600 flex items-center justify-between transition-colors"
                   >
-                    <span>{isExpanded ? "Collapse Specs & Tier Details" : "Inspect Available Speed Tiers & Plan Details"}</span>
-                    <span className="flex items-center gap-1 font-black">
+                    <span>{isExpanded ? "Collapse Infrastructure Specs" : "View Available Speed Tiers & Infrastructure Data"}</span>
+                    <span className="flex items-center gap-1">
                       {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </span>
                   </button>
 
                   {isExpanded && (
-                    <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-200 space-y-5">
+                    <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 space-y-5">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {provider.plans.map((plan, pIdx) => (
-                          <div key={pIdx} className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:border-blue-400 transition-colors shadow-sm">
+                          <div key={pIdx} className="bg-white border border-slate-200 rounded-lg p-5 flex flex-col justify-between hover:border-slate-300 transition-colors shadow-sm">
                             <div>
-                              <div className="flex justify-between items-start mb-2">
-                                <h4 className="font-bold text-gray-900 text-base">{plan.title}</h4>
-                                <span className="text-[11px] bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded">
+                              <div className="flex justify-between items-start mb-3">
+                                <h4 className="font-bold text-slate-900 text-sm">{plan.title}</h4>
+                                <span className="text-[10px] bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wider">
                                   {plan.type}
                                 </span>
                               </div>
-                              <div className="text-xl font-black text-gray-900 mb-1">{plan.price}</div>
-                              <div className="text-xs text-gray-500 font-medium mb-3 flex items-center gap-1">
-                                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                              <div className="text-xl font-extrabold text-slate-900 mb-1">{plan.price}</div>
+                              <div className="text-xs text-slate-500 font-medium mb-4 flex items-center gap-1">
+                                <Zap className="w-3.5 h-3.5 text-slate-400" />
                                 <span>Speeds up to {plan.speed}</span>
                               </div>
                             </div>
@@ -736,26 +726,26 @@ export const ZipPage: React.FC = () => {
                             <a
                               href={TEL_HREF}
                               onClick={() => trackCall(`expanded_plan_${provider.name}_${plan.title}`)}
-                              className="w-full mt-2 bg-blue-900 hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-center text-sm flex items-center justify-center space-x-1.5 transition-colors"
+                              className="w-full mt-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2 rounded-md text-center text-xs flex items-center justify-center space-x-1.5 transition-colors"
                             >
-                              <PhoneCall className="w-4 h-4" />
+                              <PhoneCall className="w-3.5 h-3.5" />
                               <span>Check Address Fit</span>
                             </a>
                           </div>
                         ))}
                       </div>
 
-                      <div className="bg-white p-4 rounded-xl border border-gray-200 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-600">
+                      <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
                         <div className="flex flex-wrap items-center gap-4">
                           {provider.features.map((feat, fIdx) => (
-                            <span key={fIdx} className="flex items-center gap-1 font-medium text-gray-700">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            <span key={fIdx} className="flex items-center gap-1.5 font-medium">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                               <span>{feat}</span>
                             </span>
                           ))}
                         </div>
-                        <div className="text-gray-400 font-medium">
-                          Verified for {displayZip}
+                        <div className="text-slate-400 font-medium">
+                          Data logged for ZIP {displayZip}
                         </div>
                       </div>
                     </div>
@@ -764,106 +754,89 @@ export const ZipPage: React.FC = () => {
               );
             })}
 
-            {/* Alternative Provider Fallback Banner */}
-            <div className="bg-blue-950 border-2 border-amber-400 rounded-2xl p-6 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-              <div className="space-y-1 max-w-xl">
-                <h3 className="text-xl font-black text-amber-400">
-                  Seeking Non-Monopoly Alternatives in {formattedCity}?
+            {/* Alternative Provider Fallback Banner (Professional Trust Block) */}
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-5 mt-6 shadow-sm">
+              <div className="space-y-1.5 max-w-xl text-center sm:text-left">
+                <h3 className="text-lg font-bold text-white flex items-center justify-center sm:justify-start gap-2">
+                  <Activity className="w-5 h-5 text-blue-400" />
+                  Seeking Independent Alternatives in {formattedCity}?
                 </h3>
-                <p className="text-xs sm:text-sm text-blue-200 leading-relaxed font-medium">
-                  Frustrated with unannounced bill hikes? We cross-reference 10+ independent regional fiber, 5G fixed wireless, and local carriers in {displayZip}. Call now for an instant street address match.
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
+                  Our database cross-references multiple independent regional fiber, 5G fixed wireless, and local carriers operating in {displayZip}. Call the verification desk for a completely free, objective address match.
                 </p>
               </div>
               <a
                 href={TEL_HREF}
                 onClick={() => trackCall('alternative_banner')}
-                className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black px-6 py-3.5 rounded-xl shadow-lg text-sm flex items-center space-x-2 whitespace-nowrap transition-transform active:scale-95 border-b-2 border-amber-600"
+                className="bg-white hover:bg-slate-100 text-slate-900 font-bold px-6 py-3 rounded-lg shadow-sm text-sm flex items-center space-x-2 whitespace-nowrap transition-transform active:scale-95"
               >
-                <PhoneCall className="w-4 h-4 fill-amber-950" />
+                <PhoneCall className="w-4 h-4" />
                 <span>Call {PHONE_NUMBER}</span>
               </a>
             </div>
 
             {/* Price & Plan Disclaimer */}
-            <div className="bg-gray-200/80 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 flex items-start space-x-2.5">
-              <AlertCircle className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" />
+            <div className="p-4 rounded-lg border border-slate-200 text-xs text-slate-500 flex items-start space-x-3 bg-slate-50">
+              <AlertCircle className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
               <p className="leading-relaxed">
-                <strong>*Pricing &amp; Speed Disclaimer:</strong> Baseline promotional rates represent starting estimates for new residential connections and may require auto-pay enrollment. Final rates, activation fees, and promotional discounts are confirmed directly by the carrier based on exact physical street address matching. Call <a href={TEL_HREF} onClick={() => trackCall('disclaimer_phone_link')} className="font-bold underline text-blue-800">{PHONE_NUMBER}</a> to secure unadvertised move-in offers.
+                <strong>*Data & Pricing Disclaimer:</strong> Baseline promotional rates shown represent starting estimates for new residential connections and may require auto-pay enrollment. Final rates, infrastructure availability, activation fees, and promotional discounts are confirmed directly by the carrier based on exact physical street address mapping. Call the desk at <a href={TEL_HREF} onClick={() => trackCall('disclaimer_phone_link')} className="font-semibold underline text-slate-700">{PHONE_NUMBER}</a> to verify unadvertised status.
               </p>
-            </div>
-
-            {/* Direct Phone Callout Banner */}
-            <div className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 rounded-2xl p-6 text-amber-950 border border-amber-500 shadow-lg text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="space-y-1">
-                <h4 className="text-xl font-black">Ready for immediate setup in {formattedCity}?</h4>
-                <p className="text-xs sm:text-sm font-semibold text-amber-900">
-                  Phone agents verify physical line status, apply unlisted discounts, and schedule priority technician dispatch.
-                </p>
-              </div>
-              <a
-                href={TEL_HREF}
-                onClick={() => trackCall('bottom_callout_banner')}
-                className="bg-gray-900 hover:bg-black text-white font-black px-7 py-3.5 rounded-xl shadow-xl text-base flex items-center space-x-2 whitespace-nowrap transition-transform active:scale-95"
-              >
-                <PhoneCall className="w-5 h-5 text-amber-400 fill-amber-400" />
-                <span>Call {PHONE_NUMBER}</span>
-              </a>
             </div>
           </div>
         </section>
 
-        {/* High-Level Value Props */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-amber-100 text-amber-800 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-200">
-              <PhoneCall className="w-6 h-6" />
+        {/* High-Level Value Props (Clean Utility Badges) */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+              <PhoneCall className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Direct Phone Lock</h3>
-            <p className="text-sm text-gray-600">
-              Bypass third-party online forms. Call <a href={TEL_HREF} onClick={() => trackCall('value_prop_1')} className="font-bold text-blue-700">{PHONE_NUMBER}</a> to secure your rate directly over the phone.
+            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Direct Line Verification</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Bypass third-party online forms. Call <a href={TEL_HREF} onClick={() => trackCall('value_prop_1')} className="font-medium text-blue-600 hover:underline">{PHONE_NUMBER}</a> to check address eligibility directly over the phone.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-200">
-              <Zap className="w-6 h-6" />
+          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+              <Zap className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Gigabit Speeds</h3>
-            <p className="text-sm text-gray-600">
-              Gigabit speed tiers up to {localStats.maxSpeed} available across residential connections in {displayZip}.
+            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Objective Speed Data</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Speed tiers up to {localStats.maxSpeed} evaluated across active residential network nodes in {displayZip}.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-200">
-              <ShieldCheck className="w-6 h-6" />
+          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Verified Coverage Database</h3>
-            <p className="text-sm text-gray-600">
-              Database mapped across fiber, cable, 5G wireless, and satellite infrastructure in {hasValidLocation ? formattedState : 'your state'}.
+            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Independent Database</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Data aggregated across verified fiber, cable, 5G wireless, and satellite infrastructure in {hasValidLocation ? formattedState : 'your state'}.
             </p>
           </div>
         </section>
 
         {/* Nearby ZIP Codes Cross-Linking Widget */}
         {nearbyZips.length > 0 && (
-          <section className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm space-y-4">
-            <div className="flex items-center space-x-2 text-gray-900">
-              <MapPin className="w-5 h-5 text-blue-600" />
-              <h3 className="text-xl font-bold">
-                Other Internet Options Near {formattedCity}
+          <section className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+            <div className="flex items-center space-x-2 text-slate-900">
+              <MapPin className="w-4 h-4 text-slate-400" />
+              <h3 className="text-base font-bold">
+                Explore Network Coverage Near {formattedCity}
               </h3>
             </div>
-            <p className="text-sm text-gray-600">
-              Comparing providers in neighboring areas? Explore nearby ZIP codes in {formattedCity}, {formattedState}:
+            <p className="text-xs text-slate-500">
+              Comparing provider options in neighboring regions? View data for other ZIP codes in {formattedCity}, {formattedState}:
             </p>
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap gap-2 pt-1">
               {nearbyZips.map((nearZip) => (
                 <Link
                   key={nearZip}
                   to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${nearZip}`}
                   title={`Check internet providers in ZIP ${nearZip}`}
-                  className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-xl border border-blue-200 text-sm transition-colors"
+                  className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 font-medium rounded-md border border-slate-200 text-xs transition-colors"
                 >
                   ZIP {nearZip}
                 </Link>
@@ -873,23 +846,23 @@ export const ZipPage: React.FC = () => {
         )}
 
         {/* GEO-Optimized Conversational Answer-First FAQ Block */}
-        <section className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm space-y-6">
-          <div className="flex items-center space-x-2 text-blue-950">
-            <HelpCircle className="w-6 h-6 text-blue-700" />
-            <h2 className="text-2xl font-bold">
-              Frequently Asked Questions About {formattedCity} Internet
+        <section className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6">
+          <div className="flex items-center space-x-2 text-slate-900 border-b border-slate-100 pb-4">
+            <HelpCircle className="w-5 h-5 text-blue-600" />
+            <h2 className="text-xl font-extrabold tracking-tight">
+              Frequently Asked Questions: {formattedCity} Internet
             </h2>
           </div>
           <div className="space-y-6">
             {geoFaqs.map((faq, fIdx) => (
-              <div key={fIdx} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
-                <h3 className="text-base font-bold text-gray-900 mb-1">
+              <div key={fIdx} className="border-b border-slate-100 pb-5 last:border-b-0 last:pb-0">
+                <h3 className="text-sm font-bold text-slate-900 mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-sm font-semibold text-blue-950 bg-blue-50/80 p-3 rounded-xl border border-blue-100 mb-1.5">
+                <p className="text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 p-3.5 rounded-lg border border-slate-200 mb-2">
                   {faq.directAnswer}
                 </p>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed pl-1">
+                <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed pl-1">
                   {faq.details}
                 </p>
               </div>
@@ -898,45 +871,45 @@ export const ZipPage: React.FC = () => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-10 px-4 text-xs border-t border-gray-800">
+      {/* Footer (UNTOUCHED LOGIC/MODALS, STYLED CLEAN) */}
+      <footer className="bg-slate-900 text-slate-400 py-10 px-4 text-xs border-t border-slate-800">
         <div className="max-w-5xl mx-auto space-y-6 text-center">
           
-          <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 font-medium text-xs">
-            <button onClick={() => setActiveModal('privacy')} className="hover:text-amber-400 transition-colors">Privacy Policy</button>
+          <div className="flex flex-wrap justify-center items-center gap-4 text-slate-300 font-medium text-xs">
+            <button onClick={() => setActiveModal('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
             <span>•</span>
-            <button onClick={() => setActiveModal('terms')} className="hover:text-amber-400 transition-colors">Terms of Service</button>
+            <button onClick={() => setActiveModal('terms')} className="hover:text-white transition-colors">Terms of Service</button>
             <span>•</span>
-            <button onClick={() => setActiveModal('disclaimer')} className="hover:text-amber-400 transition-colors">Disclaimer</button>
+            <button onClick={() => setActiveModal('disclaimer')} className="hover:text-white transition-colors">Disclaimer</button>
             <span>•</span>
-            <button onClick={() => setActiveModal('dnc')} className="hover:text-amber-400 transition-colors">Do Not Call Policy</button>
+            <button onClick={() => setActiveModal('dnc')} className="hover:text-white transition-colors">Do Not Call Policy</button>
           </div>
 
-          <p className="max-w-3xl mx-auto text-[11px] text-gray-500 leading-relaxed">
-            Home Tech Dealer is an independent provider comparison platform and marketing partner. Trademarks, service marks, logos, and brand names featured on this site are the property of their respective owners. Speeds and availability vary by address.
+          <p className="max-w-3xl mx-auto text-[10px] text-slate-500 leading-relaxed">
+            Home Tech Dealer is an independent provider comparison platform and marketing partner. Trademarks, service marks, logos, and brand names featured on this site are the property of their respective owners. Mention of brands does not imply endorsement. Speeds, pricing, and availability vary strictly by physical address.
           </p>
 
-          <p>© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
+          <p className="text-[10px] text-slate-600">© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
         </div>
       </footer>
 
       {/* Pop-up Legal Overlay Modals */}
       {activeModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 text-gray-800 text-left">
-            <div className="p-4 bg-gray-900 text-white flex justify-between items-center">
-              <h3 className="font-bold text-lg capitalize">
+        <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl border border-slate-200 text-slate-800 text-left">
+            <div className="p-4 bg-slate-50 border-b border-slate-200 text-slate-900 flex justify-between items-center">
+              <h3 className="font-bold text-sm uppercase tracking-wide">
                 {activeModal === 'dnc' ? 'Do Not Call Policy' : `${activeModal} Policy`}
               </h3>
               <button 
                 onClick={() => setActiveModal(null)} 
-                className="text-gray-400 hover:text-white font-bold text-xl px-2"
+                className="text-slate-400 hover:text-slate-700 font-bold text-xl px-2"
               >
                 ✕
               </button>
             </div>
             
-            <div className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm leading-relaxed text-gray-600">
+            <div className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm leading-relaxed text-slate-600">
               {activeModal === 'privacy' && (
                 <>
                   <p><strong>Privacy Policy:</strong> Home Tech Dealer respects your privacy. We collect minimal personal information solely for facilitating broadband and telecommunication service connections with verified providers.</p>
@@ -966,10 +939,10 @@ export const ZipPage: React.FC = () => {
               )}
             </div>
 
-            <div className="p-4 bg-gray-50 border-t border-gray-200 text-right">
+            <div className="p-4 bg-slate-50 border-t border-slate-200 text-right">
               <button 
                 onClick={() => setActiveModal(null)} 
-                className="bg-blue-900 text-white font-bold px-5 py-2 rounded-lg text-xs hover:bg-blue-800"
+                className="bg-slate-900 text-white font-semibold px-5 py-2 rounded-md text-xs hover:bg-slate-800 transition-colors"
               >
                 Close
               </button>

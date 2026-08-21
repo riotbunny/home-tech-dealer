@@ -1,4 +1,23 @@
+# Home Tech Dealer - robots.txt
+# Optimized for standard search engines and Generative AI search crawlers
+
 User-agent: *
+Allow: /
+
+# Explicitly permit major AI search and discovery bots for GEO visibility
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://hometechdealer.com/sitemap.xml

@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import StatePage from './pages/StatePage';
 import CityPage from './pages/CityPage';
 import ZipPage from './pages/ZipPage';
+import SecurityZipPage from './pages/SecurityZipPage';
 
 const App: React.FC = () => {
   return (
@@ -12,14 +13,13 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         
-        {/* State Hub Route (e.g., /internet/tx) */}
+        {/* Internet Hub Routes */}
         <Route path="/internet/:state" element={<StatePage />} />
-        
-        {/* City Hub Route (e.g., /internet/tx/brownsville) */}
         <Route path="/internet/:state/:city" element={<CityPage />} />
-        
-        {/* ZIP Route (e.g., /internet/tx/brownsville/78520) */}
         <Route path="/internet/:state/:city/:zipCode" element={<ZipPage />} />
+        
+        {/* ADT Security Programmatic Routes */}
+        <Route path="/security/:state/:city/:zipCode" element={<SecurityZipPage />} />
         
         <Route path="*" element={<HomePage />} />
       </Routes>
