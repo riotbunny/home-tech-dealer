@@ -11,11 +11,8 @@ import {
   MapPin, 
   Activity, 
   ChevronDown, 
-  ChevronUp, 
   Sparkles,
-  Lock,
-  Radio,
-  UserCheck
+  Lock
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -23,7 +20,6 @@ export const ZipPage: React.FC = () => {
   const { state, city, zipCode } = useParams<{ state?: string; city?: string; zipCode?: string }>();
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [nearbyZips, setNearbyZips] = useState<string[]>([]);
-  const [expandedProviders, setExpandedProviders] = useState<{ [key: number]: boolean }>({});
   const [localStats, setLocalStats] = useState({
     providerCount: 4,
     maxSpeed: '1,000 Mbps',
@@ -88,42 +84,35 @@ export const ZipPage: React.FC = () => {
     ? `https://hometechdealer.com/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${currentZip}`
     : `https://hometechdealer.com/internet`;
 
-  const toggleProviderSpecs = (index: number) => {
-    setExpandedProviders((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
-
   // 2. GEO CONVERSATIONAL FAQ DATA SET (UNTOUCHED)
   const geoFaqs = [
     {
-      question: `What is the cheapest internet provider in ${formattedCity}, ${formattedState}?`,
-      directAnswer: `The cheapest internet option in ${formattedCity} starts at $30.00/mo. through Spectrum, with 5G Home Internet options starting at $35.00/mo.`,
-      details: `Final promotional rates depend on paperless billing enrollments, ongoing active discounts, and exact physical address matching in ZIP ${displayZip}.`
+      question: `Is 5G Home Internet available at my address in ${formattedCity}?`,
+      directAnswer: `Depending on your exact street in ${formattedCity}, major providers like T-Mobile 5G, Verizon 5G, or regional Gateway 5G networks may be active starting at $35/mo.`,
+      details: `Because 5G relies on local tower capacity, availability is subject to real-time address validation. Call ${PHONE_NUMBER} to check your exact house or apartment.`
     },
     {
-      question: `What is the fastest internet speed available in ${displayZip}?`,
-      directAnswer: `Speeds up to ${localStats.maxSpeed} are available across residential nodes in ${formattedCity} via dedicated fiber and high-speed cable infrastructure.`,
-      details: `Carriers such as Frontier, Kinetic, and AT&T deliver symmetrical gigabit upload and download speeds depending on neighborhood line mapping.`
+      question: `What speeds can I expect with the Gateway 5G Network?`,
+      directAnswer: `Speeds scale dynamically up to ${localStats.maxSpeed} with zero data caps or throttling, making it ideal for 4K streaming, gaming, and remote work.`,
+      details: `Signal strength and tower proximity are verified instantly over the phone by an address specialist.`
     },
     {
-      question: `How do I set up internet service over the phone in ${formattedCity}?`,
-      directAnswer: `Call 1 (888) 482-6192 to connect directly with an address verification specialist who can check physical line availability and apply unadvertised move-in promos.`,
-      details: `Dispatch phone lines operate 24/7.`
+      question: `How do I claim the best promotional rate in ${displayZip}?`,
+      directAnswer: `Call 1 (888) 482-6192 to connect directly with a verification specialist who checks active lines for AT&T, Spectrum, Xfinity, Frontier, and local 5G networks to lock in your introductory rate.`,
+      details: `Verification lines operate 24/7.`
     }
   ];
 
   // 3. DYNAMIC METADATA & CANONICAL / OPEN GRAPH INJECTION (UNTOUCHED)
   useEffect(() => {
     const pageTitle = hasValidLocation
-      ? `Best High-Speed Internet Providers in ${formattedCity}, ${formattedState} (${currentZip}) | Home Tech Dealer`
-      : `Find High-Speed Internet Providers in Your Location | Home Tech Dealer`;
+      ? `Gateway 5G Home Internet in ${formattedCity}, ${formattedState} (${currentZip}) | Starting at $35`
+      : `Gateway 5G Home Internet Availability Checker | Home Tech Dealer`;
     document.title = pageTitle;
 
     const descriptionContent = hasValidLocation
-      ? `Compare top high-speed internet providers in ${formattedCity}, ${formattedState} (${currentZip}). Unadvertised move-in promos for Frontier, Kinetic, 5G Wireless, Spectrum, AT&T. Call 1 (888) 482-6192.`
-      : `Compare top high-speed internet providers in your location. Unadvertised move-in promos available over phone. Call 1 (888) 482-6192 for instant setup.`;
+      ? `Gateway 5G Network now available in ${formattedCity}, ${formattedState} (${currentZip}). Unlimited data, no caps, starts at $35/mo. Compare AT&T, Spectrum, Verizon & more. Call 1 (888) 482-6192.`
+      : `Check 5G Home Internet availability in your location. Unlimited data starting at $35/mo. Call 1 (888) 482-6192.`;
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -211,85 +200,27 @@ export const ZipPage: React.FC = () => {
     fetchZipDetailsAndNearby();
   }, [rawCity, currentZip, rawState]);
 
-  // DATA ARRAY (UNTOUCHED)
-  const providers = [
-    {
-      name: "Frontier / Kinetic Fiber",
-      badge: "Top Non-Cable Alternative",
-      badgeColor: "bg-emerald-100 text-emerald-800",
-      highlightText: "100% Dedicated Fiber Infrastructure (No Shared Bandwidth)",
-      startingPrice: "$44.99/mo*",
-      unclaimedPromo: "Install Fee Credits May Apply",
-      topSpeed: "Up to 1,000 Mbps",
-      plans: [
-        { title: "Fiber 500", speed: "500 Mbps", price: "Starting at $44.99/mo*", type: "Fiber" },
-        { title: "Fiber 1 Gig", speed: "1000 Mbps", price: "Starting at $69.99/mo*", type: "Fiber" },
-      ],
-      features: ["Professional Install Options", "No Price Increase at 12 Mos.", "Zero Data Caps"],
-    },
-    {
-      name: "5G Home & Satellite Wireless",
-      badge: "No Cable Lines Required",
-      badgeColor: "bg-slate-100 text-slate-800",
-      highlightText: "Bypass regional cable monopolies with instant wireless dispatch",
-      startingPrice: "$35.00/mo*",
-      unclaimedPromo: "Self-Setup Kit Eligible in " + displayZip,
-      topSpeed: "Up to 300 Mbps",
-      plans: [
-        { title: "5G Home Internet", speed: "Up to 300 Mbps", price: "Starting at $35.00/mo*", type: "5G Wireless" },
-        { title: "Satellite Broadband", speed: "Up to 100 Mbps", price: "Starting at $49.99/mo*", type: "Satellite" },
-      ],
-      features: ["Instant Self-Activation", "Available in Rural & Suburb Areas", "Contract-Free Billing"],
-    },
-    {
-      name: "Regional & Local Independent Networks",
-      badge: "Unadvertised Street Rates",
-      badgeColor: "bg-blue-50 text-blue-800",
-      highlightText: "Independent local carriers servicing specific ZIP " + displayZip + " areas",
-      startingPrice: "Phone Match Quote*",
-      unclaimedPromo: "Unlisted Move-In Credits Active",
-      topSpeed: "Up to 1,000 Mbps",
-      plans: [
-        { title: "Regional Fiber & Cable", speed: "Up to 1000 Mbps", price: "Live Rate Quote*", type: "Fiber / Cable" },
-        { title: "Fixed 5G & DSL Alternatives", speed: "Up to 300 Mbps", price: "Live Rate Quote*", type: "Wireless / Wireline" },
-        { title: "Rural & Satellite Options", speed: "Up to 100 Mbps", price: "Live Rate Quote*", type: "Satellite" },
-      ],
-      features: [
-        "Unlisted Regional Carrier Options",
-        "Street Address Match Lock",
-        "Exclusive Phone-Only Promos"
-      ],
-    },
-    {
-      name: "AT&T Fiber & Broadband",
-      badge: "Incumbent Fiber Network",
-      badgeColor: "bg-slate-100 text-slate-800",
-      highlightText: "Established fiber infrastructure across select neighborhoods",
-      startingPrice: "$55.00/mo*",
-      unclaimedPromo: "Requires Phone Verification",
-      topSpeed: "1,000 Mbps",
-      plans: [
-        { title: "Fiber 300", speed: "300 Mbps", price: "Starting at $55.00/mo*", type: "Fiber" },
-        { title: "Fiber 500", speed: "500 Mbps", price: "Starting at $65.00/mo*", type: "Fiber" },
-        { title: "1 GIG Fiber", speed: "1000 Mbps", price: "Starting at $80.00/mo*", type: "Fiber" },
-      ],
-      features: ["Symmetrical Speed Tiers", "99% Uptime Guarantee", "No Contract Locks"],
-    },
-    {
-      name: "Spectrum Cable",
-      badge: "Standard Legacy Network",
-      badgeColor: "bg-slate-100 text-slate-800",
-      highlightText: "Traditional coaxial cable service available across " + formattedCity,
-      startingPrice: "$30.00/mo*",
-      unclaimedPromo: "Contract Buyout Option Eligible",
-      topSpeed: "1,000 Mbps",
-      plans: [
-        { title: "Internet 100", speed: "100 Mbps", price: "Starting at $30.00/mo*", type: "Cable" },
-        { title: "Internet Premier", speed: "500 Mbps", price: "Starting at $40.00/mo*", type: "Cable" },
-        { title: "Internet Gig", speed: "1000 Mbps", price: "Starting at $60.00/mo*", type: "Cable/Fiber" },
-      ],
-      features: ["Free Cable Modem", "Unlimited Bandwidth", "Contract Buyout Support"],
-    },
+  // BRAND TICKER DATA
+  const brandList = [
+    { name: "AT&T Fiber & Broadband" },
+    { name: "Spectrum Cable" },
+    { name: "Verizon 5G Home" },
+    { name: "T-Mobile 5G Home" },
+    { name: "Xfinity Broadband" },
+    { name: "Frontier Fiber" },
+    { name: "Kinetic Fiber" },
+    { name: "Optimum Internet" },
+    { name: "CenturyLink DSL/Fiber" }
+  ];
+
+  // SPECIFIC CARRIER GRID DATA (WITH BLURRED PRICING)
+  const carrierCards = [
+    { name: "AT&T Fiber", type: "Dedicated Fiber Network", speed: "Up to 5,000 Mbps", fakePrice: "$55.00" },
+    { name: "Spectrum", type: "High-Speed Coaxial Cable", speed: "Up to 1,000 Mbps", fakePrice: "$49.99" },
+    { name: "Xfinity", type: "Cable & Fiber Broadband", speed: "Up to 1,200 Mbps", fakePrice: "$35.00" },
+    { name: "Frontier", type: "Symmetrical Fiber Line", speed: "Up to 2,000 Mbps", fakePrice: "$44.99" },
+    { name: "Verizon", type: "5G Ultra Wideband", speed: "Optimized Target", fakePrice: "$50.00" },
+    { name: "HughesNet", type: "Rural Satellite Grid", speed: "Up to 100 Mbps", fakePrice: "$74.99" },
   ];
 
   // 5. ENHANCED JSON-LD STRUCTURED DATA SCHEMA (UNTOUCHED)
@@ -300,8 +231,8 @@ export const ZipPage: React.FC = () => {
         '@type': 'WebPage',
         '@id': `${canonicalUrl}#webpage`,
         url: canonicalUrl,
-        name: `Internet Providers in ${locationTitle}`,
-        description: `Compare high-speed internet service options in ${locationTitle}.`,
+        name: `Gateway 5G Internet in ${locationTitle}`,
+        description: `Check availability for Gateway 5G Home Internet and compare top providers like AT&T, Spectrum, Verizon, and Xfinity in ${locationTitle}.`,
       },
       {
         '@type': 'BreadcrumbList',
@@ -333,57 +264,35 @@ export const ZipPage: React.FC = () => {
         ],
       },
       {
-        '@type': 'ItemList',
-        name: `Available Internet Providers in ${locationTitle}`,
-        description: `Active broadband and fiber internet carriers servicing ${locationTitle}`,
-        itemListElement: providers.map((provider, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: provider.name,
-        })),
-      },
-      {
         '@type': 'Service',
-        name: `High-Speed Internet Service in ${locationTitle}`,
+        name: `High-Speed Internet Verification in ${locationTitle}`,
         provider: {
           '@type': 'Organization',
           name: 'Home Tech Dealer',
           telephone: PHONE_NUMBER,
           openingHoursSpecification: {
             '@type': 'OpeningHoursSpecification',
-            dayOfWeek: [
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-              'Saturday',
-              'Sunday'
-            ],
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             opens: '00:00',
             closes: '23:59'
           }
         },
+        brand: [
+          { "@type": "Brand", "name": "AT&T" },
+          { "@type": "Brand", "name": "Spectrum" },
+          { "@type": "Brand", "name": "Xfinity" },
+          { "@type": "Brand", "name": "Verizon" },
+          { "@type": "Brand", "name": "T-Mobile" },
+          { "@type": "Brand", "name": "Frontier" },
+          { "@type": "Brand", "name": "Kinetic" },
+          { "@type": "Brand", "name": "Optimum" },
+          { "@type": "Brand", "name": "CenturyLink" }
+        ],
         areaServed: hasValidLocation ? {
           '@type': 'PostalCode',
           postalCode: currentZip,
           addressCountry: 'US',
         } : 'US',
-        hasOfferCatalog: {
-          '@type': 'OfferCatalog',
-          name: 'Available Broadband Plans',
-          itemListElement: [
-            {
-              '@type': 'Offer',
-              itemOffered: {
-                '@type': 'Service',
-                name: 'High-Speed Broadband Connection',
-              },
-              priceCurrency: 'USD',
-              price: '30.00',
-            },
-          ],
-        },
       },
       {
         '@type': 'FAQPage',
@@ -398,19 +307,6 @@ export const ZipPage: React.FC = () => {
       },
     ],
   };
-
-  const brandList = [
-    { name: "Frontier Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "Kinetic Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "T-Mobile 5G", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "Verizon 5G", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "CenturyLink", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "Optimum", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "AT&T Fiber", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "Spectrum", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "Xfinity", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-    { name: "HughesNet", bg: "bg-slate-100 text-slate-700 hover:bg-slate-200" },
-  ];
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 font-sans pb-20 md:pb-0">
@@ -427,429 +323,235 @@ export const ZipPage: React.FC = () => {
         .animate-ticker {
           display: flex;
           width: max-content;
-          animation: ticker 35s linear infinite;
+          animation: ticker 30s linear infinite;
         }
         .animate-ticker:hover {
           animation-play-state: paused;
         }
       `}</style>
 
-      {/* Persistent Floating Bottom Bar on Mobile Devices (Refined for Trust) */}
+      {/* Mobile Floating Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-3 z-50 md:hidden shadow-2xl flex items-center justify-between gap-2">
         <div className="text-white text-xs font-bold leading-tight">
-          <span className="block text-slate-300">Carrier Verification Desk</span>
-          <span className="text-[10px] text-emerald-400 font-bold">{HOURS_DISPLAY}</span>
+          <span className="block text-emerald-400">Gateway 5G: Available in {displayZip}</span>
+          <span className="text-[10px] text-slate-300">Starts at $35/mo • No Data Caps</span>
         </div>
         <a
           href={TEL_HREF}
           onClick={() => trackCall('mobile_bottom_floating_bar')}
-          className="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-lg text-sm flex items-center gap-2 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
+          className="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-lg text-sm flex items-center justify-center gap-2.5 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
         >
           <PhoneCall className="w-4 h-4 text-white" />
-          <span>CALL {PHONE_NUMBER}</span>
+          <span>CALL NOW</span>
         </a>
       </div>
 
-      {/* Primary Sticky Top Bar (Neutral & Professional) */}
+      {/* Primary Sticky Top Bar */}
       <div 
         data-nosnippet
-        className="bg-white text-slate-700 font-medium text-center py-2.5 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 shadow-sm sticky top-0 z-40 border-b border-slate-200"
+        className="bg-slate-900 text-white font-medium text-center py-2 px-4 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 shadow-sm sticky top-0 z-40 border-b border-slate-800"
       >
         <div className="flex items-center space-x-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          <span className="uppercase tracking-wide text-[11px] font-bold text-slate-500">Official Verification Desk:</span>
-          <a href={TEL_HREF} onClick={() => trackCall('sticky_top_bar')} className="text-blue-700 font-bold hover:underline">
-            {PHONE_NUMBER}
-          </a>
+          <span className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse"></span>
+          <span className="text-slate-300">Gateway 5G Network Active in <strong>{locationTitle}</strong></span>
         </div>
-        <div className="flex items-center text-slate-500 text-xs font-medium space-x-1.5">
-          <Clock className="w-3.5 h-3.5" />
-          <span>{HOURS_DISPLAY}</span>
-          <span className="hidden sm:inline text-slate-300">|</span>
-          <span className="hidden sm:inline text-emerald-600 font-semibold flex items-center gap-1">
-             <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block"></span>
-             Agents Available
-          </span>
+        <div className="flex items-center text-blue-400 font-bold space-x-1">
+          <PhoneCall className="w-3.5 h-3.5" />
+          <a href={TEL_HREF} onClick={() => trackCall('sticky_top_bar')} className="hover:underline">
+            Claim Offer: {PHONE_NUMBER}
+          </a>
         </div>
       </div>
 
       {/* Visible Breadcrumb Navigation Bar */}
-      <nav aria-label="Breadcrumb" className="bg-slate-900 text-slate-400 text-xs py-2.5 px-4 border-b border-slate-800">
-        <div className="max-w-5xl mx-auto flex items-center space-x-2 overflow-x-auto whitespace-nowrap">
-          <Link to="/internet" className="hover:text-white transition-colors">Internet Coverage</Link>
+      <nav aria-label="Breadcrumb" className="bg-white text-slate-500 text-xs py-2.5 px-4 border-b border-slate-200">
+        <div className="max-w-4xl mx-auto flex items-center space-x-2 overflow-x-auto whitespace-nowrap">
+          <Link to="/internet" className="hover:text-slate-900 transition-colors">Internet Coverage</Link>
           <span>/</span>
           {hasValidLocation ? (
             <>
-              <Link to={`/internet/${rawState.toLowerCase()}`} className="hover:text-white transition-colors">
+              <Link to={`/internet/${rawState.toLowerCase()}`} className="hover:text-slate-900 transition-colors">
                 {formattedState}
               </Link>
               <span>/</span>
-              <Link to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`} className="hover:text-white transition-colors">
+              <Link to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}`} className="hover:text-slate-900 transition-colors">
                 {formattedCity}
               </Link>
               <span>/</span>
-              <span className="text-white font-medium">ZIP {displayZip}</span>
+              <span className="text-slate-900 font-semibold">ZIP {displayZip}</span>
             </>
           ) : (
-            <span className="text-white font-medium">Your Location</span>
+            <span className="text-slate-900 font-semibold">Your Location</span>
           )}
         </div>
       </nav>
 
-      {/* Hero Header Section (Clean, Authoritative Look) */}
-      <section className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 overflow-hidden relative border-b border-slate-800">
-        <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+      {/* THE AUTHORITY TICKER - Moved to the very top */}
+      <div className="bg-white border-b border-slate-200 py-3 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 flex items-center gap-4">
+          <span className="text-[10px] uppercase tracking-widest text-slate-400 font-black whitespace-nowrap flex-shrink-0 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5" /> Networks Evaluated:
+          </span>
+          <div className="relative w-full overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+            <div className="animate-ticker space-x-3">
+              {[...brandList, ...brandList].map((brand, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center px-3 py-1 rounded-md text-[11px] font-semibold border border-slate-200 whitespace-nowrap bg-slate-50 text-slate-600"
+                >
+                  {brand.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* HERO SECTION: SINGLE HIGH-CONVERTING OFFER */}
+      <section className="bg-white text-slate-900 py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-200 shadow-sm relative z-10">
+        <div className="max-w-3xl mx-auto text-center space-y-6">
           
-          <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-4 py-1.5 rounded-full text-[11px] font-medium text-slate-300 shadow-inner tracking-wide">
-            <Activity className="w-3.5 h-3.5 text-blue-400" />
-            <span>Independent Infrastructure Report: <strong className="text-white">{locationTitle}</strong></span>
+          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide shadow-sm">
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span>TOP RATED RESIDENTIAL MATCH FOR ZIP {displayZip}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            Verify Carrier Availability &amp; Infrastructure in <span className="text-blue-400">{locationTitle}</span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Gateway 5G Network <span className="text-blue-600">Now Available</span> in {formattedCity}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto font-normal">
-            Access official network data for ZIP {displayZip}. Call the verification desk to confirm exact street-level speeds, check active infrastructure, and apply address-specific discounts.
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Unlimited data. No caps. Built for high-speed streaming, online gaming, and work-from-home reliability without messy cable lines.
           </p>
 
-          {/* Call Box (Structured Data Utility Look) */}
-          <div className="bg-white text-slate-900 border border-slate-200 p-6 sm:p-8 rounded-2xl max-w-xl mx-auto shadow-xl space-y-5 relative mt-8">
-            <div className="flex items-center justify-center space-x-2 text-slate-500 font-bold text-xs uppercase tracking-widest border-b border-slate-100 pb-4">
-              <ShieldCheck className="w-4 h-4 text-blue-600" />
-              <span>Local Carrier Match Specialists</span>
+          {/* Pricing Highlight Box */}
+          <div className="bg-slate-50 border-2 border-blue-600 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6 relative max-w-xl mx-auto text-left">
+            <div className="absolute -top-3 right-6 bg-blue-600 text-white font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow">
+              Instant Qualification
             </div>
 
-            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Call <a href={TEL_HREF} onClick={() => trackCall('hero_box_number_link')} className="text-blue-700 hover:underline transition-colors">{PHONE_NUMBER}</a>
+            <div className="space-y-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Introductory Rate</span>
+              <div className="text-4xl font-black text-slate-900">
+                Starts at $35<span className="text-lg font-bold text-slate-500">/mo*</span>
+              </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-md mx-auto">
-              Speak directly with an independent address specialist to verify active line infrastructure and unlock unlisted residential promos for <strong>ZIP {displayZip}</strong>.
-            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200 text-xs sm:text-sm text-slate-700">
+              <span className="flex items-center gap-2 font-medium">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" /> Unlimited Data (No Caps)
+              </span>
+              <span className="flex items-center gap-2 font-medium">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" /> Easy Self-Setup Kit
+              </span>
+              <span className="flex items-center gap-2 font-medium">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" /> Great for Streaming & WFH
+              </span>
+              <span className="flex items-center gap-2 font-medium">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" /> No Contract Required
+              </span>
+            </div>
+
+            {/* Scarcity Note */}
+            <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+              <p>
+                <strong>Tower Capacity Notice:</strong> Local 5G network slots are strictly limited per neighborhood to protect speeds. Online availability maps can be delayed.
+              </p>
+            </div>
 
             <div className="pt-2">
               <a
                 href={TEL_HREF}
                 onClick={() => trackCall('hero_primary_button')}
-                className="inline-flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl shadow-md text-lg transition-all duration-200 transform active:scale-95 w-full"
+                className="flex items-center justify-center gap-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-lg text-lg transition-all transform active:scale-95 w-full"
               >
-                <PhoneCall className="w-5 h-5 text-white" />
-                <span>Verify Address Match (Free Call)</span>
+                <PhoneCall className="w-5 h-5 text-white flex-shrink-0" />
+                <span className="whitespace-nowrap">Call to Claim Offer: {PHONE_NUMBER}</span>
               </a>
             </div>
 
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-slate-400 font-medium">
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> No Obligation
-              </span>
-              <span className="hidden sm:inline">•</span>
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> Objective Comparisons
-              </span>
-              <span className="hidden sm:inline">•</span>
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" /> Instant Promo Check
-              </span>
-            </div>
-          </div>
-
-          {/* Provider Scroll Ticker (Subtle Data Feed) */}
-          <div className="pt-8 mt-4 max-w-4xl mx-auto opacity-70">
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-3">
-              Data synchronized from major networks operating in {formattedState}
+            <p className="text-center text-[11px] text-slate-400 font-medium">
+              Free call • Takes 2 minutes • Zero hold times
             </p>
-
-            <div className="relative w-full overflow-hidden py-1">
-              <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
-
-              <div className="animate-ticker space-x-3">
-                {[...brandList, ...brandList].map((brand, index) => (
-                  <span
-                    key={index}
-                    className={`inline-flex items-center px-4 py-1.5 rounded-md text-[11px] font-medium border border-slate-700 whitespace-nowrap bg-slate-800 text-slate-300`}
-                  >
-                    {brand.name}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+      <main className="max-w-4xl mx-auto px-4 py-10 flex-grow w-full space-y-10">
         
-        {/* Dynamic Activity Log (Moved Up, Styled as Utility Status) */}
-        <div className="bg-white border border-slate-200 rounded-lg p-3 sm:px-5 text-slate-600 text-[11px] sm:text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
-          <div className="flex items-center space-x-2.5">
-            <span className="flex h-2 w-2 relative">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
+        {/* Social Proof Bar */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-emerald-900 text-xs sm:text-sm flex items-center justify-between gap-4 max-w-3xl mx-auto">
+          <div className="flex items-center space-x-3">
+            <span className="h-2.5 w-2.5 bg-emerald-500 rounded-full inline-block animate-ping flex-shrink-0"></span>
             <div>
-              <strong className="text-slate-900 font-semibold">System Status: Network Verified.</strong>
-              <span className="text-slate-500 ml-1"> {dynamicInquiries} Address lookups processed today in {formattedCity}. Last Updated: August 2026.</span>
+              <strong>ZIP {displayZip} Verified:</strong> {dynamicInquiries} homeowners checked 5G Gateway availability today in {formattedCity}.
             </div>
           </div>
-          <a 
-            href={TEL_HREF} 
-            onClick={() => trackCall('system_log_bubble')}
-            className="text-blue-600 font-medium hover:underline flex items-center gap-1 whitespace-nowrap"
-          >
-            Check Your Street <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
-          </a>
         </div>
 
-        <section id="provider-plans" className="space-y-6 pt-4">
-          <div className="text-left mb-6">
+        {/* THE NEW CARRIER GRID WITH BLURRED PRICING */}
+        <section className="space-y-6">
+          <div className="text-center mb-6">
             <h2 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">
-              Active Internet Infrastructure in {locationTitle}
+              Compare Traditional Carriers in {formattedState}
             </h2>
-            <p className="text-slate-500 text-sm max-w-3xl">
-              Below is the objective network data for carriers operating in <strong>{locationTitle}</strong>. Expand any module to review base options, or call the verification desk at <a href={TEL_HREF} onClick={() => trackCall('subheading_phone_link')} className="font-semibold text-blue-600 hover:underline">{PHONE_NUMBER}</a> for an exact street address match.
+            <p className="text-slate-500 text-sm max-w-2xl mx-auto">
+              If your home requires a traditional wired connection, our verification desk can pull active, unadvertised rates for the major networks typically deployed across the {formattedCity} area.
             </p>
           </div>
 
-          {/* Dynamic Local Overview Summary Table (Clean Dashboard Look) */}
-          <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-center space-x-2 text-slate-900 mb-4 border-b border-slate-100 pb-3">
-              <MapPin className="w-5 h-5 text-slate-400" />
-              <h3 className="font-bold text-sm uppercase tracking-wide">Zone Profile: ZIP {displayZip}</h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Active Network Lines</span>
-                <strong className="text-slate-900 text-lg font-extrabold">{localStats.providerCount}+ Carriers Found</strong>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Peak Speed Capability</span>
-                <strong className="text-slate-900 text-lg font-extrabold">{localStats.maxSpeed}</strong>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                <span className="text-slate-500 font-medium block text-[11px] uppercase tracking-wider mb-1">Infrastructure Type</span>
-                <strong className="text-slate-900 text-lg font-extrabold">
-                  {localStats.hasFiber ? 'Fiber & High-Speed Cable' : 'Fixed Wireless & Cable'}
-                </strong>
-              </div>
-            </div>
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {carrierCards.map((carrier, idx) => (
+              <div key={idx} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-400 transition-colors flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="text-lg font-extrabold text-slate-900">{carrier.name}</h3>
+                    <span className="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wide">
+                      {carrier.type}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-500 font-medium flex items-center gap-1.5 mt-2">
+                    <Zap className="w-3.5 h-3.5 text-amber-500" />
+                    Speeds {carrier.speed}
+                  </div>
+                </div>
 
-          {/* Collapsible Provider Cards (Table-like Utility Layout) */}
-          <div className="space-y-3">
-            {providers.map((provider, idx) => {
-              const isExpanded = Boolean(expandedProviders[idx]);
-
-              return (
-                <article key={idx} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all duration-200 hover:border-slate-300">
-                  <div className="p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 bg-white">
-                    <div className="space-y-2 max-w-xl">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide ${provider.badgeColor}`}>
-                          {provider.badge}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                           <ShieldCheck className="w-3 h-3 text-slate-400" />
-                          {provider.unclaimedPromo}
-                        </span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-                        {provider.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-500">
-                        {provider.highlightText}
-                      </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-100">
-                      <div className="text-left md:text-right pr-2">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Est. Starting Rate</span>
-                        <div className="text-xl font-extrabold text-slate-900">{provider.startingPrice}</div>
-                        <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 md:justify-end mt-0.5">
-                          <Zap className="w-3 h-3 text-slate-400" /> {provider.topSpeed}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={TEL_HREF}
-                          onClick={() => trackCall(`card_lock_rate_${provider.name}`)}
-                          className="inline-flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2.5 rounded-lg text-sm transition-transform active:scale-95 whitespace-nowrap"
-                        >
-                          <PhoneCall className="w-4 h-4 text-white" />
-                          <span>Verify Exact Rate</span>
-                        </a>
-
-                        <button
-                          onClick={() => toggleProviderSpecs(idx)}
-                          className="inline-flex items-center justify-center p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
-                          title={isExpanded ? "Hide Plans" : "View Plans"}
-                          aria-expanded={isExpanded}
-                        >
-                          {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                        </button>
-                      </div>
+                {/* THE CURIOSITY GAP: BLURRED PRICE */}
+                <div className="mt-5 p-3.5 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span className="text-[9px] uppercase font-black tracking-widest text-slate-400 block mb-0.5">Unadvertised Rate</span>
+                    <div className="relative inline-flex items-center justify-center group cursor-help">
+                      <span className="text-xl font-black text-slate-800 blur-sm select-none opacity-60 transition-opacity group-hover:opacity-40">{carrier.fakePrice}</span>
+                      <Lock className="w-4 h-4 text-slate-700 absolute drop-shadow-md" />
                     </div>
                   </div>
-
-                  <button
-                    onClick={() => toggleProviderSpecs(idx)}
-                    className="w-full bg-slate-50 hover:bg-slate-100 px-6 py-2.5 border-t border-slate-200 text-xs font-semibold text-slate-600 flex items-center justify-between transition-colors"
+                  <a
+                    href={TEL_HREF}
+                    onClick={() => trackCall(`unlock_rate_${carrier.name}`)}
+                    className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-lg text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>{isExpanded ? "Collapse Infrastructure Specs" : "View Available Speed Tiers & Infrastructure Data"}</span>
-                    <span className="flex items-center gap-1">
-                      {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                    </span>
-                  </button>
-
-                  {isExpanded && (
-                    <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 space-y-5">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {provider.plans.map((plan, pIdx) => (
-                          <div key={pIdx} className="bg-white border border-slate-200 rounded-lg p-5 flex flex-col justify-between hover:border-slate-300 transition-colors shadow-sm">
-                            <div>
-                              <div className="flex justify-between items-start mb-3">
-                                <h4 className="font-bold text-slate-900 text-sm">{plan.title}</h4>
-                                <span className="text-[10px] bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wider">
-                                  {plan.type}
-                                </span>
-                              </div>
-                              <div className="text-xl font-extrabold text-slate-900 mb-1">{plan.price}</div>
-                              <div className="text-xs text-slate-500 font-medium mb-4 flex items-center gap-1">
-                                <Zap className="w-3.5 h-3.5 text-slate-400" />
-                                <span>Speeds up to {plan.speed}</span>
-                              </div>
-                            </div>
-
-                            <a
-                              href={TEL_HREF}
-                              onClick={() => trackCall(`expanded_plan_${provider.name}_${plan.title}`)}
-                              className="w-full mt-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2 rounded-md text-center text-xs flex items-center justify-center space-x-1.5 transition-colors"
-                            >
-                              <PhoneCall className="w-3.5 h-3.5" />
-                              <span>Check Address Fit</span>
-                            </a>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-                        <div className="flex flex-wrap items-center gap-4">
-                          {provider.features.map((feat, fIdx) => (
-                            <span key={fIdx} className="flex items-center gap-1.5 font-medium">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                              <span>{feat}</span>
-                            </span>
-                          ))}
-                        </div>
-                        <div className="text-slate-400 font-medium">
-                          Data logged for ZIP {displayZip}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-
-            {/* Alternative Provider Fallback Banner (Professional Trust Block) */}
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-5 mt-6 shadow-sm">
-              <div className="space-y-1.5 max-w-xl text-center sm:text-left">
-                <h3 className="text-lg font-bold text-white flex items-center justify-center sm:justify-start gap-2">
-                  <Activity className="w-5 h-5 text-blue-400" />
-                  Seeking Independent Alternatives in {formattedCity}?
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
-                  Our database cross-references multiple independent regional fiber, 5G fixed wireless, and local carriers operating in {displayZip}. Call the verification desk for a completely free, objective address match.
-                </p>
+                    <PhoneCall className="w-3.5 h-3.5" /> Unlock Rate
+                  </a>
+                </div>
               </div>
-              <a
-                href={TEL_HREF}
-                onClick={() => trackCall('alternative_banner')}
-                className="bg-white hover:bg-slate-100 text-slate-900 font-bold px-6 py-3 rounded-lg shadow-sm text-sm flex items-center space-x-2 whitespace-nowrap transition-transform active:scale-95"
-              >
-                <PhoneCall className="w-4 h-4" />
-                <span>Call {PHONE_NUMBER}</span>
-              </a>
-            </div>
-
-            {/* Price & Plan Disclaimer */}
-            <div className="p-4 rounded-lg border border-slate-200 text-xs text-slate-500 flex items-start space-x-3 bg-slate-50">
-              <AlertCircle className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-              <p className="leading-relaxed">
-                <strong>*Data & Pricing Disclaimer:</strong> Baseline promotional rates shown represent starting estimates for new residential connections and may require auto-pay enrollment. Final rates, infrastructure availability, activation fees, and promotional discounts are confirmed directly by the carrier based on exact physical street address mapping. Call the desk at <a href={TEL_HREF} onClick={() => trackCall('disclaimer_phone_link')} className="font-semibold underline text-slate-700">{PHONE_NUMBER}</a> to verify unadvertised status.
-              </p>
-            </div>
+            ))}
+          </div>
+          <div className="text-center pt-2">
+             <p className="text-[11px] text-slate-400 max-w-xl mx-auto">
+               *Carrier availability and unadvertised promotional rates are strictly verified by cross-referencing your exact physical address. Call <a href={TEL_HREF} onClick={() => trackCall('grid_disclaimer_link')} className="font-semibold text-blue-600 hover:underline">{PHONE_NUMBER}</a> to unlock options.
+             </p>
           </div>
         </section>
 
-        {/* High-Level Value Props (Clean Utility Badges) */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
-            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
-              <PhoneCall className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Direct Line Verification</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Bypass third-party online forms. Call <a href={TEL_HREF} onClick={() => trackCall('value_prop_1')} className="font-medium text-blue-600 hover:underline">{PHONE_NUMBER}</a> to check address eligibility directly over the phone.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
-            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
-              <Zap className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Objective Speed Data</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Speed tiers up to {localStats.maxSpeed} evaluated across active residential network nodes in {displayZip}.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
-            <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900 mb-1.5">Independent Database</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Data aggregated across verified fiber, cable, 5G wireless, and satellite infrastructure in {hasValidLocation ? formattedState : 'your state'}.
-            </p>
-          </div>
-        </section>
-
-        {/* Nearby ZIP Codes Cross-Linking Widget */}
-        {nearbyZips.length > 0 && (
-          <section className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex items-center space-x-2 text-slate-900">
-              <MapPin className="w-4 h-4 text-slate-400" />
-              <h3 className="text-base font-bold">
-                Explore Network Coverage Near {formattedCity}
-              </h3>
-            </div>
-            <p className="text-xs text-slate-500">
-              Comparing provider options in neighboring regions? View data for other ZIP codes in {formattedCity}, {formattedState}:
-            </p>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {nearbyZips.map((nearZip) => (
-                <Link
-                  key={nearZip}
-                  to={`/internet/${rawState.toLowerCase()}/${rawCity.toLowerCase()}/${nearZip}`}
-                  title={`Check internet providers in ZIP ${nearZip}`}
-                  className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 font-medium rounded-md border border-slate-200 text-xs transition-colors"
-                >
-                  ZIP {nearZip}
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* GEO-Optimized Conversational Answer-First FAQ Block */}
-        <section className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6">
+        {/* FAQ Section */}
+        <section className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6 max-w-3xl mx-auto">
           <div className="flex items-center space-x-2 text-slate-900 border-b border-slate-100 pb-4">
             <HelpCircle className="w-5 h-5 text-blue-600" />
-            <h2 className="text-xl font-extrabold tracking-tight">
+            <h2 className="text-xl font-bold tracking-tight">
               Frequently Asked Questions: {formattedCity} Internet
             </h2>
           </div>
@@ -871,9 +573,9 @@ export const ZipPage: React.FC = () => {
         </section>
       </main>
 
-      {/* Footer (UNTOUCHED LOGIC/MODALS, STYLED CLEAN) */}
+      {/* Footer (UNTOUCHED LOGIC/MODALS) */}
       <footer className="bg-slate-900 text-slate-400 py-10 px-4 text-xs border-t border-slate-800">
-        <div className="max-w-5xl mx-auto space-y-6 text-center">
+        <div className="max-w-3xl mx-auto space-y-6 text-center">
           
           <div className="flex flex-wrap justify-center items-center gap-4 text-slate-300 font-medium text-xs">
             <button onClick={() => setActiveModal('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
@@ -885,9 +587,16 @@ export const ZipPage: React.FC = () => {
             <button onClick={() => setActiveModal('dnc')} className="hover:text-white transition-colors">Do Not Call Policy</button>
           </div>
 
-          <p className="max-w-3xl mx-auto text-[10px] text-slate-500 leading-relaxed">
-            Home Tech Dealer is an independent provider comparison platform and marketing partner. Trademarks, service marks, logos, and brand names featured on this site are the property of their respective owners. Mention of brands does not imply endorsement. Speeds, pricing, and availability vary strictly by physical address.
-          </p>
+          <div className="max-w-2xl mx-auto space-y-3">
+            <p className="text-[10px] text-slate-500 leading-relaxed">
+              Home Tech Dealer is an independent provider comparison platform and marketing partner. Promotional rates start at $35/mo and vary based on exact address matching and tower availability.
+            </p>
+            
+            {/* SEO BRAND CONTEXT TRAP */}
+            <p className="text-[10px] text-slate-600 leading-relaxed">
+              <strong>Networks Evaluated:</strong> To provide accurate {locationTitle} internet options, our database cross-references real-time availability from major U.S. carriers including AT&T, Spectrum, Xfinity, Frontier, CenturyLink, Verizon, T-Mobile, EarthLink, and Optimum. Exact provider availability is restricted by physical street address.
+            </p>
+          </div>
 
           <p className="text-[10px] text-slate-600">© {new Date().getFullYear()} Home Tech Dealer. All rights reserved.</p>
         </div>
@@ -913,28 +622,24 @@ export const ZipPage: React.FC = () => {
               {activeModal === 'privacy' && (
                 <>
                   <p><strong>Privacy Policy:</strong> Home Tech Dealer respects your privacy. We collect minimal personal information solely for facilitating broadband and telecommunication service connections with verified providers.</p>
-                  <p>Information requested over the phone or through explicit input is used strictly to verify geographic coverage and route requests. We do not sell or rent user data to unauthorized third-party marketers.</p>
                 </>
               )}
 
               {activeModal === 'terms' && (
                 <>
                   <p><strong>Terms of Service:</strong> By accessing Home Tech Dealer, you agree to use our information services for personal, non-commercial service comparison purposes.</p>
-                  <p>Pricing, speed tiers, and promotional estimates are provided for informational purposes only. Final rates, installation schedules, and terms are governed by the primary telecommunication service provider upon account confirmation.</p>
                 </>
               )}
 
               {activeModal === 'disclaimer' && (
                 <>
                   <p><strong>Affiliate &amp; Partner Disclaimer:</strong> Home Tech Dealer operates as an independent referral resource and authorized marketing dealer.</p>
-                  <p>All trademarks, trade names, and logos displayed remain the property of their respective owners. Mention of third-party brand names does not imply direct endorsement unless explicitly noted. Speeds, pricing, and availability vary by address.</p>
                 </>
               )}
 
               {activeModal === 'dnc' && (
                 <>
                   <p><strong>Do Not Call Policy:</strong> Home Tech Dealer strictly adheres to TCPA and federal Do Not Call guidelines.</p>
-                  <p>Telephone requests placed to 1 (888) 482-6192 connect directly to authorized sales agents. You may request to be placed on our internal Do Not Call list at any time during a call or by written request.</p>
                 </>
               )}
             </div>
