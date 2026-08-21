@@ -10,9 +10,8 @@ import {
   AlertCircle, 
   MapPin, 
   Activity, 
-  ChevronDown, 
-  Sparkles,
-  Lock
+  Lock,
+  Sparkles
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -200,20 +199,20 @@ export const ZipPage: React.FC = () => {
     fetchZipDetailsAndNearby();
   }, [rawCity, currentZip, rawState]);
 
-  // BRAND TICKER DATA
+  // BRAND TICKER DATA (COLORED PILLS)
   const brandList = [
-    { name: "AT&T Fiber & Broadband" },
-    { name: "Spectrum Cable" },
-    { name: "Verizon 5G Home" },
-    { name: "T-Mobile 5G Home" },
-    { name: "Xfinity Broadband" },
-    { name: "Frontier Fiber" },
-    { name: "Kinetic Fiber" },
-    { name: "Optimum Internet" },
-    { name: "CenturyLink DSL/Fiber" }
+    { name: "AT&T Fiber", bg: "bg-sky-50 text-sky-800 border-sky-200" },
+    { name: "Spectrum Cable", bg: "bg-blue-50 text-blue-800 border-blue-200" },
+    { name: "Verizon 5G Home", bg: "bg-red-50 text-red-800 border-red-200" },
+    { name: "T-Mobile 5G Home", bg: "bg-pink-50 text-pink-800 border-pink-200" },
+    { name: "Xfinity Broadband", bg: "bg-purple-50 text-purple-800 border-purple-200" },
+    { name: "Frontier Fiber", bg: "bg-rose-50 text-rose-800 border-rose-200" },
+    { name: "Kinetic Fiber", bg: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+    { name: "Optimum Internet", bg: "bg-amber-50 text-amber-900 border-amber-200" },
+    { name: "CenturyLink", bg: "bg-indigo-50 text-indigo-800 border-indigo-200" }
   ];
 
-  // SPECIFIC CARRIER GRID DATA (WITH BLURRED PRICING)
+  // SPECIFIC CARRIER GRID DATA
   const carrierCards = [
     { name: "AT&T Fiber", type: "Dedicated Fiber Network", speed: "Up to 5,000 Mbps", fakePrice: "$55.00" },
     { name: "Spectrum", type: "High-Speed Coaxial Cable", speed: "Up to 1,000 Mbps", fakePrice: "$49.99" },
@@ -309,7 +308,7 @@ export const ZipPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 font-sans pb-20 md:pb-0">
+    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 font-sans pb-24 md:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
@@ -339,9 +338,9 @@ export const ZipPage: React.FC = () => {
         <a
           href={TEL_HREF}
           onClick={() => trackCall('mobile_bottom_floating_bar')}
-          className="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-lg text-sm flex items-center justify-center gap-2.5 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
+          className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg active:scale-95 transition-transform whitespace-nowrap"
         >
-          <PhoneCall className="w-4 h-4 text-white" />
+          <PhoneCall className="w-3.5 h-3.5 text-white flex-shrink-0" />
           <span>CALL NOW</span>
         </a>
       </div>
@@ -386,20 +385,20 @@ export const ZipPage: React.FC = () => {
         </div>
       </nav>
 
-      {/* THE AUTHORITY TICKER - Moved to the very top */}
+      {/* THE AUTHORITY TICKER - Colored Pills */}
       <div className="bg-white border-b border-slate-200 py-3 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 flex items-center gap-4">
-          <span className="text-[10px] uppercase tracking-widest text-slate-400 font-black whitespace-nowrap flex-shrink-0 flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5" /> Networks Evaluated:
+        <div className="max-w-5xl mx-auto px-4 flex items-center gap-3">
+          <span className="text-[10px] uppercase tracking-widest text-slate-400 font-black whitespace-nowrap flex-shrink-0 flex items-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-600" /> Networks:
           </span>
           <div className="relative w-full overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-            <div className="animate-ticker space-x-3">
+            <div className="animate-ticker space-x-2.5">
               {[...brandList, ...brandList].map((brand, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-md text-[11px] font-semibold border border-slate-200 whitespace-nowrap bg-slate-50 text-slate-600"
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border whitespace-nowrap shadow-xs ${brand.bg}`}
                 >
                   {brand.name}
                 </span>
@@ -409,37 +408,37 @@ export const ZipPage: React.FC = () => {
         </div>
       </div>
 
-      {/* HERO SECTION: SINGLE HIGH-CONVERTING OFFER */}
-      <section className="bg-white text-slate-900 py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-200 shadow-sm relative z-10">
+      {/* HERO SECTION: SINGLE HIGH-CONVERTING 5G OFFER */}
+      <section className="bg-white text-slate-900 py-8 sm:py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-200 shadow-sm relative z-10">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide shadow-sm">
-            <Sparkles className="w-4 h-4 text-blue-600" />
-            <span>TOP RATED RESIDENTIAL MATCH FOR ZIP {displayZip}</span>
+          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-3.5 py-1 rounded-full text-xs font-bold tracking-wide shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span>TOP RESIDENTIAL MATCH FOR ZIP {displayZip}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
             Gateway 5G Network <span className="text-blue-600">Now Available</span> in {formattedCity}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
             Unlimited data. No caps. Built for high-speed streaming, online gaming, and work-from-home reliability without messy cable lines.
           </p>
 
           {/* Pricing Highlight Box */}
-          <div className="bg-slate-50 border-2 border-blue-600 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6 relative max-w-xl mx-auto text-left">
-            <div className="absolute -top-3 right-6 bg-blue-600 text-white font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow">
+          <div className="bg-slate-50 border-2 border-blue-600 p-5 sm:p-8 rounded-2xl shadow-xl space-y-5 sm:space-y-6 relative max-w-xl mx-auto text-left">
+            <div className="absolute -top-3 right-4 sm:right-6 bg-blue-600 text-white font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow">
               Instant Qualification
             </div>
 
             <div className="space-y-1">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Introductory Rate</span>
-              <div className="text-4xl font-black text-slate-900">
-                Starts at $35<span className="text-lg font-bold text-slate-500">/mo*</span>
+              <div className="text-3xl sm:text-4xl font-black text-slate-900">
+                Starts at $35<span className="text-base sm:text-lg font-bold text-slate-500">/mo*</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200 text-xs sm:text-sm text-slate-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2 border-t border-slate-200 text-xs sm:text-sm text-slate-700">
               <span className="flex items-center gap-2 font-medium">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" /> Unlimited Data (No Caps)
               </span>
@@ -462,14 +461,18 @@ export const ZipPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="pt-2">
+            {/* MOBILE-OPTIMIZED CALL BUTTON (NO OVERFLOW / NO CRAMPING) */}
+            <div className="pt-1">
               <a
                 href={TEL_HREF}
                 onClick={() => trackCall('hero_primary_button')}
-                className="flex items-center justify-center gap-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-lg text-lg transition-all transform active:scale-95 w-full"
+                className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-blue-600 hover:bg-blue-700 text-white font-black px-4 py-3.5 sm:py-4 rounded-xl shadow-lg transition-all transform active:scale-95 w-full text-center"
               >
-                <PhoneCall className="w-5 h-5 text-white flex-shrink-0" />
-                <span className="whitespace-nowrap">Call to Claim Offer: {PHONE_NUMBER}</span>
+                <div className="flex items-center gap-2">
+                  <PhoneCall className="w-5 h-5 text-white flex-shrink-0" />
+                  <span className="text-sm sm:text-base md:text-lg">Call to Claim Offer</span>
+                </div>
+                <span className="text-blue-100 text-xs sm:text-base md:text-lg font-bold">({PHONE_NUMBER})</span>
               </a>
             </div>
 
@@ -481,7 +484,7 @@ export const ZipPage: React.FC = () => {
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-4xl mx-auto px-4 py-10 flex-grow w-full space-y-10">
+      <main className="max-w-4xl mx-auto px-4 py-8 sm:py-10 flex-grow w-full space-y-8 sm:space-y-10">
         
         {/* Social Proof Bar */}
         <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-emerald-900 text-xs sm:text-sm flex items-center justify-between gap-4 max-w-3xl mx-auto">
@@ -493,75 +496,75 @@ export const ZipPage: React.FC = () => {
           </div>
         </div>
 
-        {/* THE NEW CARRIER GRID WITH BLURRED PRICING */}
+        {/* CARRIER GRID WITH BLURRED PRICING */}
         <section className="space-y-6">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">
               Compare Traditional Carriers in {formattedState}
             </h2>
-            <p className="text-slate-500 text-sm max-w-2xl mx-auto">
+            <p className="text-slate-500 text-xs sm:text-sm max-w-2xl mx-auto">
               If your home requires a traditional wired connection, our verification desk can pull active, unadvertised rates for the major networks typically deployed across the {formattedCity} area.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {carrierCards.map((carrier, idx) => (
-              <div key={idx} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-400 transition-colors flex flex-col justify-between">
+              <div key={idx} className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm hover:border-blue-400 transition-colors flex flex-col justify-between">
                 <div>
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-lg font-extrabold text-slate-900">{carrier.name}</h3>
-                    <span className="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wide">
+                  <div className="flex justify-between items-start mb-1 gap-2">
+                    <h3 className="text-base sm:text-lg font-extrabold text-slate-900">{carrier.name}</h3>
+                    <span className="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wide flex-shrink-0 text-center">
                       {carrier.type}
                     </span>
                   </div>
                   <div className="text-xs text-slate-500 font-medium flex items-center gap-1.5 mt-2">
-                    <Zap className="w-3.5 h-3.5 text-amber-500" />
+                    <Zap className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                     Speeds {carrier.speed}
                   </div>
                 </div>
 
-                {/* THE CURIOSITY GAP: BLURRED PRICE */}
-                <div className="mt-5 p-3.5 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
+                {/* BLURRED PRICE */}
+                <div className="mt-4 sm:mt-5 p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
                   <div>
                     <span className="text-[9px] uppercase font-black tracking-widest text-slate-400 block mb-0.5">Unadvertised Rate</span>
                     <div className="relative inline-flex items-center justify-center group cursor-help">
-                      <span className="text-xl font-black text-slate-800 blur-sm select-none opacity-60 transition-opacity group-hover:opacity-40">{carrier.fakePrice}</span>
-                      <Lock className="w-4 h-4 text-slate-700 absolute drop-shadow-md" />
+                      <span className="text-lg sm:text-xl font-black text-slate-800 blur-sm select-none opacity-60 transition-opacity group-hover:opacity-40">{carrier.fakePrice}</span>
+                      <Lock className="w-3.5 h-3.5 text-slate-700 absolute drop-shadow-md" />
                     </div>
                   </div>
                   <a
                     href={TEL_HREF}
                     onClick={() => trackCall(`unlock_rate_${carrier.name}`)}
-                    className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-lg text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shadow-sm"
+                    className="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-lg text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shadow-xs whitespace-nowrap"
                   >
-                    <PhoneCall className="w-3.5 h-3.5" /> Unlock Rate
+                    <PhoneCall className="w-3 h-3 flex-shrink-0" /> Unlock Rate
                   </a>
                 </div>
               </div>
             ))}
           </div>
           <div className="text-center pt-2">
-             <p className="text-[11px] text-slate-400 max-w-xl mx-auto">
+             <p className="text-[11px] text-slate-400 max-w-xl mx-auto leading-relaxed">
                *Carrier availability and unadvertised promotional rates are strictly verified by cross-referencing your exact physical address. Call <a href={TEL_HREF} onClick={() => trackCall('grid_disclaimer_link')} className="font-semibold text-blue-600 hover:underline">{PHONE_NUMBER}</a> to unlock options.
              </p>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6 max-w-3xl mx-auto">
+        <section className="bg-white p-5 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-6 max-w-3xl mx-auto">
           <div className="flex items-center space-x-2 text-slate-900 border-b border-slate-100 pb-4">
             <HelpCircle className="w-5 h-5 text-blue-600" />
-            <h2 className="text-xl font-bold tracking-tight">
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight">
               Frequently Asked Questions: {formattedCity} Internet
             </h2>
           </div>
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {geoFaqs.map((faq, fIdx) => (
-              <div key={fIdx} className="border-b border-slate-100 pb-5 last:border-b-0 last:pb-0">
+              <div key={fIdx} className="border-b border-slate-100 pb-4 last:border-b-0 last:pb-0">
                 <h3 className="text-sm font-bold text-slate-900 mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 p-3.5 rounded-lg border border-slate-200 mb-2">
+                <p className="text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 p-3 rounded-lg border border-slate-200 mb-2">
                   {faq.directAnswer}
                 </p>
                 <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed pl-1">
