@@ -117,13 +117,6 @@ export function AddressQualifier({
   const [expandedPickIds, setExpandedPickIds] = useState(() => new Set());
   const hasAutoExpandedPicksRef = useRef(false);
 
-  useEffect(() => {
-    if (cityTopPicks && cityTopPicks.length > 0 && !hasAutoExpandedPicksRef.current) {
-      setExpandedPickIds(new Set(cityTopPicks.map(p => p.id)));
-      hasAutoExpandedPicksRef.current = true;
-    }
-  }, [cityTopPicks]);
-
   const togglePickExpansion = (pickId) => {
     setExpandedPickIds(prev => {
       const next = new Set(prev);
@@ -345,6 +338,13 @@ export function AddressQualifier({
     }
     return picks;
   }, [catalog, activeProviderIds]);
+
+  useEffect(() => {
+    if (cityTopPicks && cityTopPicks.length > 0 && !hasAutoExpandedPicksRef.current) {
+      setExpandedPickIds(new Set(cityTopPicks.map(p => p.id)));
+      hasAutoExpandedPicksRef.current = true;
+    }
+  }, [cityTopPicks]);
 
   // City Providers Comparison Table Data (Crawlable pSEO Entity Data)
   const cityComparisonTable = useMemo(() => {
