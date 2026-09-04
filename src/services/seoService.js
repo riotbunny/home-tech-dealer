@@ -11,7 +11,9 @@ export function updateCitySEO(cityData, phoneNumber = '1 (888) 555-5555') {
   const cityName = cityData.cityName || cityData.city.split(',')[0].trim();
   const state = cityData.state || 'USA';
   const zip = cityData.zip || '';
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.hometechdealer.com';
+  const origin = (typeof window !== 'undefined' && window.location.hostname === 'localhost')
+    ? window.location.origin 
+    : 'https://www.hometechdealer.com';
   
   // Canonical URL matching the exact 44k canonical path (e.g. /internet/tx/brownsville/78522)
   const canonicalPath = cityData.canonicalPath || (zip 
