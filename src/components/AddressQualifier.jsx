@@ -18,7 +18,10 @@ import {
   Loader2,
   CheckCircle2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Sparkles,
+  Award,
+  ChevronRight
 } from 'lucide-react';
 import { SAMPLE_MARKETS } from '../data/sampleMarkets';
 import { PROVIDERS_CATALOG } from '../data/providersData';
@@ -36,6 +39,8 @@ export function AddressQualifier({
   onOpenSpeedQuiz,
   currentAddress,
   setCurrentAddress,
+  isAddressQualified = false,
+  onClearAddress,
   activeProviderIds,
   lookupSource,
   isSearching,
@@ -45,6 +50,8 @@ export function AddressQualifier({
   speedFilterOverride,
   catalog,
   cityName = '',
+  state = '',
+  zip = '',
   phoneNumber = DEFAULT_PHONE_NUMBER
 }) {
   const [localAddressInput, setLocalAddressInput] = useState(currentAddress || '');
@@ -187,6 +194,117 @@ export function AddressQualifier({
     return [...firstCards, ...remainingPlans];
   }, [serviceableProviders, speedFilter, typeFilter, searchQuery, maxPrice]);
 
+  // Qualified state evaluation: true only if user searched a specific street address
+  const isQualified = Boolean(isAddressQualified && (localAddressInput || currentAddress));
+
+  const focusAddressInput = () => {
+    const el = document.getElementById('marketplace-address-input') || 
+               document.querySelector('input[placeholder*="Search your street address"]') ||
+               document.querySelector('input[placeholder*="street address"]') ||
+               document.querySelector('input[placeholder*="Type any street address"]');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.focus();
+    }
+  };
+
+  // Curated Top 3 Picks for the City (Fiber Pick, Cable Pick, Value/5G Pick)
+  const cityTopPicks = useMemo(() => {
+    const activeData = catalog || PROVIDERS_CATALOG;
+    const baseList = (activeProviderIds && activeProviderIds.length > 0)
+      ? activeProviderIds
+      : ['att', 'spectrum', 'verizon', 'tmobile', 'frontier', 'earthlink', 'starlink'];
+    
+    const marketProviders = activeData.filter(p => !p.paused && baseList.includes(p.id));
+    const pool = marketProviders.length >= 3 ? marketProviders : activeData.filter(p => !p.paused);
+
+    // 1. Fiber Pick
+    let fiberPick = pool.find(p => p.type?.toLowerCase().includes('fiber') && !p.id.includes('viasat') && !p.id.includes('starlink'));
+    if (!fiberPick) {
+      fiberPick = pool.find(p => ['att', 'frontier', 'earthlink', 'verizon', 'ziply', 'altafiber'].includes(p.id)) || pool[0];
+    }
+
+    // 2. Cable Pick
+    let cablePick = pool.find(p => p.type?.toLowerCase().includes('cable') && p.id !== fiberPick?.id);
+    if (!cablePick) {
+      cablePick = pool.find(p => ['spectrum', 'comcast', 'cox', 'astound', 'breezeline'].includes(p.id) && p.id !== fiberPick?.id) || pool[1] || pool[0];
+    }
+
+    // 3. Value / 5G Pick
+    let valuePick = pool.find(p => (p.id === 'tmobile' || p.id === 'verizon') && p.id !== fiberPick?.id && p.id !== cablePick?.id);
+    if (!valuePick) {
+      valuePick = pool.find(p => p.id !== fiberPick?.id && p.id !== cablePick?.id) || pool[2] || pool[0];
+    }
+
+    const picks = [];
+    if (fiberPick) {
+      const bestPlan = fiberPick.plans.find(p => p.popular) || fiberPick.plans[0];
+      picks.push({
+        badge: 'Top Pick • Best Fiber Internet',
+        badgeColor: 'bg-emerald-600 text-white',
+        borderColor: 'hover:border-emerald-500 hover:shadow-emerald-500/10',
+        provider: fiberPick,
+        plan: bestPlan,
+        category: 'Pure Fiber Optic'
+      });
+    }
+    if (cablePick && cablePick.id !== fiberPick?.id) {
+      const bestPlan = cablePick.plans.find(p => p.popular) || cablePick.plans[0];
+      picks.push({
+        badge: 'Top Pick • Best Cable Broadband',
+        badgeColor: 'bg-blue-600 text-white',
+        borderColor: 'hover:border-blue-500 hover:shadow-blue-500/10',
+        provider: cablePick,
+        plan: bestPlan,
+        category: 'High-Speed Cable'
+      });
+    }
+    if (valuePick && valuePick.id !== fiberPick?.id && valuePick.id !== cablePick?.id) {
+      const bestPlan = valuePick.plans.find(p => p.popular) || valuePick.plans[0];
+      picks.push({
+        badge: 'Top Pick • Best Value & 5G',
+        badgeColor: 'bg-purple-600 text-white',
+        borderColor: 'hover:border-purple-500 hover:shadow-purple-500/10',
+        provider: valuePick,
+        plan: bestPlan,
+        category: '5G Home / Wireless'
+      });
+    }
+    return picks;
+  }, [catalog, activeProviderIds]);
+
+  // City Providers Comparison Table Data (Crawlable pSEO Entity Data)
+  const cityComparisonTable = useMemo(() => {
+    const activeData = catalog || PROVIDERS_CATALOG;
+    const baseList = (activeProviderIds && activeProviderIds.length > 0)
+      ? activeProviderIds
+      : ['att', 'spectrum', 'verizon', 'tmobile', 'earthlink', 'starlink', 'directv'];
+    
+    const providers = activeData.filter(p => !p.paused && baseList.includes(p.id));
+    const displayList = providers.length > 0 ? providers : activeData.filter(p => !p.paused).slice(0, 6);
+
+    return displayList.map(p => {
+      const sortedPlans = [...p.plans].sort((a, b) => a.price - b.price);
+      const startingPrice = sortedPlans[0]?.price || 49.99;
+      
+      const speeds = p.plans.map(plan => parseInt(plan.downloadSpeed) || 0);
+      const maxSpeedNum = Math.max(...speeds, 300);
+      const maxSpeedStr = maxSpeedNum >= 1000 ? `${maxSpeedNum / 1000} Gbps` : `${maxSpeedNum} Mbps`;
+
+      return {
+        id: p.id,
+        name: p.name,
+        fullName: p.fullName,
+        type: p.type,
+        category: p.category,
+        startingPrice,
+        maxSpeed: maxSpeedStr,
+        contract: p.plans[0]?.contract || 'No annual contract',
+        samplePlan: sortedPlans[0] || p.plans[0]
+      };
+    });
+  }, [catalog, activeProviderIds]);
+
   return (
     <section id="plans-marketplace" className="pt-2 sm:pt-6 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
       
@@ -195,10 +313,12 @@ export function AddressQualifier({
         <div>
           <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 mb-0.5">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>FCC Verified Service Availability</span>
+            <span>{isQualified ? 'FCC Verified Service Availability' : 'FCC Speed Benchmarks & Local Carrier Matrix'}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            {localAddressInput ? `Plans Available at ${localAddressInput}` : (cityName ? `Plans Available in ${cityName}` : 'Plans Available in Your Area')}
+            {isQualified 
+              ? `Plans Available at ${localAddressInput || currentAddress}` 
+              : (cityName ? `Internet & TV Providers in ${cityName}${state ? `, ${state}` : ''}` : 'Internet & TV Providers in Your Area')}
           </h2>
         </div>
 
@@ -236,26 +356,20 @@ export function AddressQualifier({
         </div>
         <button
           type="button"
-          onClick={() => {
-            const heroInput = document.querySelector('input[placeholder*="Search any street address"]');
-            if (heroInput) {
-              heroInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              heroInput.focus();
-            }
-          }}
+          onClick={focusAddressInput}
           className="text-[11px] font-bold text-blue-600 hover:text-blue-700 shrink-0 bg-blue-50 px-2.5 py-1 rounded-lg"
         >
           Change
         </button>
       </div>
 
-      {/* Desktop Address Search Bar (Hidden on mobile phones) */}
-      <div className="hidden md:block mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
+      {/* Desktop Address Search Bar (Always visible for fast qualification) */}
+      <div id="marketplace-address-input" className="hidden md:block mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
         <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center justify-between">
-          <span>Search Address:</span>
+          <span>Search Exact Street Address:</span>
           <span className="text-xs text-blue-700 font-medium flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>{serviceableProviders.length} Providers Available</span>
+            <span>{isQualified ? `${serviceableProviders.length} Providers Verified` : `${cityComparisonTable.length} Top Carriers Featured`}</span>
           </span>
         </div>
 
@@ -333,7 +447,46 @@ export function AddressQualifier({
         )}
       </div>
 
-      {/* Mobile Filter Toggle Button */}
+      {isQualified ? (
+        <>
+          {/* Qualified Address Banner */}
+          <div className="mt-5 p-4 sm:p-5 rounded-3xl bg-emerald-50/90 border border-emerald-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white px-2.5 py-0.5 rounded-full">
+                    Address Verified
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                    {localAddressInput || currentAddress}
+                  </span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-emerald-800 font-medium mt-0.5">
+                  Showing <strong>{filteredPlans.length} plans</strong> serviceable at your location from FCC broadband map data.
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (onClearAddress) {
+                  onClearAddress();
+                }
+                setLocalAddressInput('');
+                focusAddressInput();
+              }}
+              className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shrink-0 shadow-2xs"
+            >
+              <ArrowLeftRight className="w-3.5 h-3.5 text-blue-600" />
+              <span>Change Address / Browse City</span>
+            </button>
+          </div>
+
+          {/* Mobile Filter Toggle Button */}
       <div className="sm:hidden mt-3 flex items-center justify-between gap-2">
         <button
           type="button"
@@ -974,6 +1127,212 @@ export function AddressQualifier({
           </div>
         )}
       </div>
+      </>
+      ) : (
+        <div className="space-y-8 mt-6">
+          {/* Top 3 Curated Market Picks */}
+          <div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
+                  <Sparkles className="w-3 h-3 text-blue-600" />
+                  <span>Curated Local Top Picks</span>
+                </span>
+                <h3 className="text-lg sm:text-2xl font-black text-slate-900 mt-1 tracking-tight">
+                  Top Rated Internet Providers in {cityName ? `${cityName}${state ? `, ${state}` : ''}` : 'Your Area'}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                  Verified against regional FCC speed filings, customer reliability ratings, and contract flexibility.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={focusAddressInput}
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3.5 py-2 rounded-xl transition-all shrink-0 border border-blue-100"
+              >
+                <span>Check Exact Address</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+              {cityTopPicks.map((pick, idx) => (
+                <div 
+                  key={idx}
+                  className={`rounded-3xl p-5 sm:p-6 bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between ${pick.borderColor} group relative`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className={`text-[10px] font-extrabold tracking-wide uppercase px-2.5 py-1 rounded-full ${pick.badgeColor}`}>
+                        {pick.badge}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-400">
+                        {pick.category}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3 my-2.5">
+                      <CarrierLogo id={pick.provider.id} name={pick.provider.name} className="h-6 w-auto max-w-[130px]" />
+                      <div className="text-xs font-extrabold text-slate-800">
+                        {pick.provider.name}
+                      </div>
+                    </div>
+
+                    <h4 className="text-sm font-bold text-slate-900 mt-1">
+                      {pick.plan.name}
+                    </h4>
+
+                    <div className="my-3.5 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-center">
+                      <div className="flex-1">
+                        <div className="text-[10px] uppercase font-bold text-slate-400">Max Speeds</div>
+                        <div className="text-base font-black text-blue-700 font-mono">{pick.plan.downloadSpeed}</div>
+                      </div>
+                      <div className="h-6 w-px bg-slate-200" />
+                      <div className="flex-1">
+                        <div className="text-[10px] uppercase font-bold text-slate-400">Starting At</div>
+                        <div className="text-base font-black text-slate-900 font-mono">${pick.plan.price}<span className="text-[11px] font-normal text-slate-500">/mo</span></div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 my-3">
+                      {pick.plan.perks.slice(0, 3).map((perk, pIdx) => (
+                        <div key={pIdx} className="flex items-start gap-2 text-xs text-slate-600">
+                          <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                          <span className="line-clamp-1">{perk}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                    <button
+                      type="button"
+                      onClick={focusAddressInput}
+                      className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                    >
+                      <span>Check Availability at My Address</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <a
+                      href={telHref}
+                      className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Order by Phone: {phoneNumber}</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* City Broadband Comparison Table (Critical for pSEO & Crawlers) */}
+          <div className="rounded-3xl bg-white border border-slate-200/90 shadow-sm overflow-hidden p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+              <div>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-blue-600">
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>Crawlable Market Matrix</span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-0.5">
+                  Internet Providers in {cityName ? `${cityName}${state ? `, ${state}` : ''}` : 'Your Area'} at a Glance
+                </h3>
+              </div>
+              <span className="text-xs font-semibold text-slate-500">
+                Comparing {cityComparisonTable.length} Top Carriers
+              </span>
+            </div>
+
+            {/* Semantic HTML Table for Search Engines */}
+            <div className="overflow-x-auto -mx-5 sm:mx-0">
+              <table className="w-full text-left border-collapse min-w-[640px]">
+                <thead>
+                  <tr className="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/70">
+                    <th scope="col" className="py-3 px-4">Provider</th>
+                    <th scope="col" className="py-3 px-4">Max Speed</th>
+                    <th scope="col" className="py-3 px-4">Starting Price</th>
+                    <th scope="col" className="py-3 px-4">Connection Type</th>
+                    <th scope="col" className="py-3 px-4">Contract Terms</th>
+                    <th scope="col" className="py-3 px-4 text-right">Door-to-Door Service</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
+                  {cityComparisonTable.map((row) => (
+                    <tr key={row.id} className="hover:bg-blue-50/40 transition-colors">
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-2.5">
+                          <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[90px]" />
+                          <div>
+                            <div className="font-bold text-slate-900">{row.name}</div>
+                            <div className="text-[10px] text-slate-400">{row.category || 'National Carrier'}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono font-bold text-blue-700">
+                        {row.maxSpeed}
+                      </td>
+                      <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
+                        ${row.startingPrice}<span className="text-[10px] font-normal text-slate-500">/mo</span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">
+                          {row.type}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        {row.contract}
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <button
+                          type="button"
+                          onClick={focusAddressInput}
+                          className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-xs font-bold transition-all shadow-xs"
+                        >
+                          Check Address
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* High-Converting Address Qualification Gate Banner */}
+          <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold mb-3 border border-white/10">
+                <MapPin className="w-3.5 h-3.5 text-blue-400" />
+                <span>Exact Address Qualification</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                Looking for exact plans and live promotions at your address?
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm text-blue-100/90 leading-relaxed">
+                Broadband availability changes street-by-street in {cityName || 'your city'}. Enter your full street address to unlock exact gigabit speeds, promotional price locks, and exclusive mover gift cards for your home.
+              </p>
+
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={focusAddressInput}
+                  className="px-5 py-3 rounded-2xl bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all active:scale-95"
+                >
+                  <Search className="w-4 h-4" />
+                  <span>Enter Address to Unlock Plans</span>
+                </button>
+                <a
+                  href={telHref}
+                  className="px-5 py-3 rounded-2xl bg-white/15 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-2 border border-white/20 transition-all"
+                >
+                  <PhoneCall className="w-4 h-4 text-emerald-400" />
+                  <span>Call {phoneNumber}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Live Tech Infrastructure Diagnostics Strip (Positioned below carrier results) */}
       <div className="mt-10">

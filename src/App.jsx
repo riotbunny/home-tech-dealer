@@ -46,6 +46,7 @@ export function App() {
   const [defaultLocation, setDefaultLocation] = useState(initialLoc);
   const [selectedMarket, setSelectedMarket] = useState(SAMPLE_MARKETS[0]);
   const [currentAddress, setCurrentAddress] = useState('');
+  const [isAddressQualified, setIsAddressQualified] = useState(false);
   const [activeProviderIds, setActiveProviderIds] = useState(SAMPLE_MARKETS[0].serviceableProviderIds);
   const [lookupSource, setLookupSource] = useState('Local Provider Network');
   const [isSearching, setIsSearching] = useState(false);
@@ -77,6 +78,7 @@ export function App() {
     setCityName(cityData.cityName);
     // Keep currentAddress empty so search bar shows inviting placeholder instead of pre-filled address
     setCurrentAddress('');
+    setIsAddressQualified(false);
     setActiveProviderIds(cityData.serviceableProviderIds);
     setLookupSource('Local Provider Network');
 
@@ -181,6 +183,7 @@ export function App() {
       setLookupSource(result.source);
       if (isUserInitiated) {
         setCurrentAddress(result.address || addressQuery);
+        setIsAddressQualified(true);
       }
       
       const clean = getDisplayCityName(result.city, result.state);
@@ -242,11 +245,18 @@ export function App() {
     navigateToCity(nearbyCity.city, nearbyCity.state, null, true);
   };
 
+  // Clear address and return to city browsing state
+  const handleClearAddress = () => {
+    setCurrentAddress('');
+    setIsAddressQualified(false);
+  };
+
   // Handle quick sample market select
   const handleMarketSelect = (market) => {
     setSelectedMarket(market);
     const addr = `${market.street}, ${market.city} ${market.zip}`;
     setCurrentAddress(addr);
+    setIsAddressQualified(true);
     setActiveProviderIds(market.serviceableProviderIds);
     setLookupSource('Local Provider Network');
   };
@@ -403,6 +413,8 @@ export function App() {
               onOpenSpeedQuiz={() => setIsSpeedQuizOpen(true)}
               currentAddress={currentAddress}
               setCurrentAddress={setCurrentAddress}
+              isAddressQualified={isAddressQualified}
+              onClearAddress={handleClearAddress}
               activeProviderIds={activeProviderIds}
               lookupSource={lookupSource}
               isSearching={isSearching}
@@ -412,6 +424,8 @@ export function App() {
               speedFilterOverride={speedFilterOverride}
               catalog={catalog}
               cityName={cityName}
+              state={selectedMarket?.state || currentCityData?.state || ''}
+              zip={selectedMarket?.zip || currentCityData?.zip || ''}
               phoneNumber={phoneNumber}
             />
 
