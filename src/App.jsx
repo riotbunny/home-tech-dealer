@@ -19,6 +19,7 @@ import { CityDirectoryModal } from './components/CityDirectoryModal';
 import { BreadcrumbNav } from './components/BreadcrumbNav';
 import { StateHubView } from './components/StateHubView';
 import { CarrierComparisonView } from './components/CarrierComparisonView';
+import { CarrierHubView } from './components/CarrierHubView';
 import { useCityRoute } from './hooks/useCityRoute';
 import { updateCitySEO } from './services/seoService';
 import { getNearbyCities, createCitySlug } from './data/usCitiesData';
@@ -110,12 +111,26 @@ export function App() {
 
   const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved);
 
+  // Dynamic Phone Routing (Prepared for future Call Tracking/Ringba/Retreaver)
+  const routedPhoneNumber = useMemo(() => {
+    // If you ever want to track which pages generate the most revenue,
+    // you can swap out these variables with real tracking numbers.
+    // For now, they all safely default to your main global phoneNumber.
+    
+    // if (currentCityData?.routeType === 'provider') return '(844) 555-0001';
+    // if (currentCityData?.routeType === 'tech') return '(844) 555-0002';
+    // if (currentCityData?.routeType === 'compare') return '(844) 555-0003';
+    // if (currentCityData?.routeType === 'state') return '(844) 555-0004';
+    
+    return phoneNumber;
+  }, [currentCityData, phoneNumber]);
+
   // Synchronize SEO if phone number changes in admin
   useEffect(() => {
     if (currentCityData) {
-      updateCitySEO(currentCityData, phoneNumber);
+      updateCitySEO(currentCityData, routedPhoneNumber);
     }
-  }, [phoneNumber, currentCityData]);
+  }, [routedPhoneNumber, currentCityData]);
 
   // Automatically detect user's city via Geo IP on initial load (only if no specific pSEO slug in URL)
   useEffect(() => {
@@ -378,7 +393,7 @@ export function App() {
         cityName={cityName}
         state={selectedMarket?.state || currentCityData?.state || ''}
         zip={selectedMarket?.zip || currentCityData?.zip || ''}
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
         onOpenCityDirectory={() => setIsCityDirectoryOpen(true)}
       />
 
@@ -389,7 +404,7 @@ export function App() {
         cityName={cityName}
         state={selectedMarket?.state || currentCityData?.state || ''}
         zip={selectedMarket?.zip || currentCityData?.zip || ''}
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
         onSearchAddress={(addr) => {
           setActiveTab('qualifier');
           handlePerformAddressSearch(addr);
@@ -416,7 +431,7 @@ export function App() {
           <StateHubView
             stateCode={currentCityData.state}
             stateName={currentCityData.stateName || currentCityData.state}
-            phoneNumber={phoneNumber}
+            phoneNumber={routedPhoneNumber}
             onSelectCity={(path) => navigateToCity(path, null, null, true)}
             onOpenCallToOrder={handleOpenCallToOrder}
           />
@@ -426,12 +441,22 @@ export function App() {
           <CarrierComparisonView
             carrierAId={currentCityData.carrierA}
             carrierBId={currentCityData.carrierB}
-            phoneNumber={phoneNumber}
+            phoneNumber={routedPhoneNumber}
             onNavigateComparison={(path) => navigateToCity(path, null, null, true)}
           />
         )}
 
-        {activeTab === 'qualifier' && currentCityData?.routeType !== 'state' && currentCityData?.routeType !== 'compare' && (
+        {activeTab === 'qualifier' && currentCityData?.routeType === 'provider' && (
+          <CarrierHubView
+            carrierId={currentCityData.carrierId}
+            cityName={currentCityData.cityName}
+            stateName={currentCityData.stateName || currentCityData.state}
+            phoneNumber={routedPhoneNumber}
+            onSelectCity={(path) => navigateToCity(path, null, null, true)}
+          />
+        )}
+
+        {activeTab === 'qualifier' && currentCityData?.routeType !== 'state' && currentCityData?.routeType !== 'compare' && currentCityData?.routeType !== 'provider' && (
           <>
             <AddressQualifier
               comparisonCart={comparisonCart}
@@ -450,16 +475,17 @@ export function App() {
               onSelectNearbyCity={handleSelectNearbyCity}
               nearbyCities={nearbyCities}
               speedFilterOverride={speedFilterOverride}
+              techFilter={currentCityData?.techFilter}
               catalog={catalog}
               cityName={cityName}
               state={selectedMarket?.state || currentCityData?.state || ''}
               zip={selectedMarket?.zip || currentCityData?.zip || ''}
-              phoneNumber={phoneNumber}
+              phoneNumber={routedPhoneNumber}
             />
 
             {/* Interactive Switcher Savings Calculator (Positioned below plans as an objection handler) */}
             <SwitcherSavingsCalculator
-              phoneNumber={phoneNumber}
+              phoneNumber={routedPhoneNumber}
               onScrollToMarketplace={() => {
                 const el = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -504,7 +530,7 @@ export function App() {
               state={selectedMarket?.state || currentCityData?.state || ''}
               zip={selectedMarket?.zip || currentCityData?.zip || ''}
               marketData={selectedMarket || currentCityData}
-              phoneNumber={phoneNumber}
+              phoneNumber={routedPhoneNumber}
             />
 
             {/* General Consumer Service FAQs */}
@@ -518,7 +544,7 @@ export function App() {
               setActiveTab('qualifier');
               window.scrollTo({ top: 350, behavior: 'smooth' });
             }}
-            phoneNumber={phoneNumber}
+            phoneNumber={routedPhoneNumber}
           />
         )}
 
@@ -581,7 +607,7 @@ export function App() {
         onClearCart={handleClearCart}
         onOpenBuyflowModal={(plan) => handleOpenCallToOrder(plan)}
         currentAddress={currentAddress}
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
       />
 
       {/* Customer Call-To-Order & Immediate Callback Modal */}
@@ -590,7 +616,7 @@ export function App() {
         onClose={handleCloseCallToOrder}
         selectedPlan={callToOrderState.plan}
         currentAddress={callToOrderState.address}
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
       />
 
       {/* 30-Second Speed Matcher Quiz Modal */}
@@ -629,7 +655,7 @@ export function App() {
       <Footer
         onNavigate={setActiveTab}
         onOpenAdminLogin={() => setIsAdminLoginOpen(true)}
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
         onOpenCityDirectory={() => setIsCityDirectoryOpen(true)}
         onSelectCity={(slug) => navigateToCity(slug, null, true)}
       />
@@ -644,7 +670,7 @@ export function App() {
 
       {/* Mobile Floating Sticky Action Bar for Instant 1-Tap Calling & Compare */}
       <MobileStickyActionBar
-        phoneNumber={phoneNumber}
+        phoneNumber={routedPhoneNumber}
         comparisonCartCount={comparisonCart.length}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSpeedQuiz={() => setIsSpeedQuizOpen(true)}

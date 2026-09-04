@@ -48,6 +48,7 @@ export function AddressQualifier({
   onSelectNearbyCity,
   nearbyCities = [],
   speedFilterOverride,
+  techFilter,
   catalog,
   cityName = '',
   state = '',
@@ -70,6 +71,15 @@ export function AddressQualifier({
   useEffect(() => {
     setLocalAddressInput(currentAddress || '');
   }, [currentAddress]);
+
+  // Apply techFilter if provided
+  useEffect(() => {
+    if (techFilter) {
+      if (techFilter.includes('fiber')) setTypeFilter('Fiber');
+      else if (techFilter.includes('5g')) setTypeFilter('5G Home Internet');
+      else if (techFilter.includes('satellite')) setTypeFilter('Satellite');
+    }
+  }, [techFilter]);
 
   // Apply speed filter override if set from speed quiz
   useEffect(() => {
@@ -105,6 +115,14 @@ export function AddressQualifier({
 
   // Pre-search city view: Top Picks card expansion
   const [expandedPickIds, setExpandedPickIds] = useState(() => new Set());
+  const hasAutoExpandedPicksRef = useRef(false);
+
+  useEffect(() => {
+    if (cityTopPicks && cityTopPicks.length > 0 && !hasAutoExpandedPicksRef.current) {
+      setExpandedPickIds(new Set(cityTopPicks.map(p => p.id)));
+      hasAutoExpandedPicksRef.current = true;
+    }
+  }, [cityTopPicks]);
 
   const togglePickExpansion = (pickId) => {
     setExpandedPickIds(prev => {
