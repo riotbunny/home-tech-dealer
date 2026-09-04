@@ -6,6 +6,13 @@
   SECRETS_SCAN_ENABLED = "false"
   SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY,SUPABASE_SECRET_KEY"
 
+# Prerender processing optimization
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
+
 # Single Page Application (SPA) routing for dynamic 44k pSEO routes
 [[redirects]]
   from = "/*"
@@ -29,3 +36,9 @@
   [headers.values]
     Content-Type = "text/plain"
     Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=0, must-revalidate"

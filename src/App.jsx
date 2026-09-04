@@ -16,6 +16,9 @@ import { VerifiedSocialProof } from './components/VerifiedSocialProof';
 import { Footer } from './components/Footer';
 import { LocalMarketGuide } from './components/LocalMarketGuide';
 import { CityDirectoryModal } from './components/CityDirectoryModal';
+import { BreadcrumbNav } from './components/BreadcrumbNav';
+import { StateHubView } from './components/StateHubView';
+import { CarrierComparisonView } from './components/CarrierComparisonView';
 import { useCityRoute } from './hooks/useCityRoute';
 import { updateCitySEO } from './services/seoService';
 import { getNearbyCities, createCitySlug } from './data/usCitiesData';
@@ -401,9 +404,34 @@ export function App() {
       {/* Verified Customer Social Proof & Trust Architecture Ribbon */}
       <VerifiedSocialProof />
 
+      {/* Dynamic Programmatic SEO Breadcrumb Hierarchy & Schema */}
+      <BreadcrumbNav 
+        routeData={currentCityData}
+        onNavigate={(path) => navigateToCity(path, null, null, true)}
+      />
+
       {/* Main Content Area */}
       <main className="flex-1">
-        {activeTab === 'qualifier' && (
+        {activeTab === 'qualifier' && currentCityData?.routeType === 'state' && (
+          <StateHubView
+            stateCode={currentCityData.state}
+            stateName={currentCityData.stateName || currentCityData.state}
+            phoneNumber={phoneNumber}
+            onSelectCity={(path) => navigateToCity(path, null, null, true)}
+            onOpenCallToOrder={handleOpenCallToOrder}
+          />
+        )}
+
+        {activeTab === 'qualifier' && currentCityData?.routeType === 'compare' && (
+          <CarrierComparisonView
+            carrierAId={currentCityData.carrierA}
+            carrierBId={currentCityData.carrierB}
+            phoneNumber={phoneNumber}
+            onNavigateComparison={(path) => navigateToCity(path, null, null, true)}
+          />
+        )}
+
+        {activeTab === 'qualifier' && currentCityData?.routeType !== 'state' && currentCityData?.routeType !== 'compare' && (
           <>
             <AddressQualifier
               comparisonCart={comparisonCart}

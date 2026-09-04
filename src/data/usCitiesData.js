@@ -262,14 +262,38 @@ export function parseCitySlug(rawSlug) {
   };
 }
 
+export const POPULAR_COMPARISONS = [
+  { id: 'spectrum-vs-att', carrierA: 'spectrum', carrierB: 'att', nameA: 'Spectrum', nameB: 'AT&T', tag: 'Most Compared' },
+  { id: 'att-vs-comcast', carrierA: 'att', carrierB: 'comcast', nameA: 'AT&T', nameB: 'Xfinity (Comcast)', tag: 'Fiber vs Cable' },
+  { id: 'verizon-vs-tmobile', carrierA: 'verizon', carrierB: 'tmobile', nameA: 'Verizon', nameB: 'T-Mobile', tag: '5G Home Battle' },
+  { id: 'frontier-vs-spectrum', carrierA: 'frontier', carrierB: 'spectrum', nameA: 'Frontier', nameB: 'Spectrum', tag: 'Fiber vs Hybrid' },
+  { id: 'cox-vs-att', carrierA: 'cox', carrierB: 'att', nameA: 'Cox', nameB: 'AT&T', tag: 'Cable vs Fiber' },
+  { id: 'starlink-vs-viasat', carrierA: 'starlink', carrierB: 'viasat', nameA: 'Starlink', nameB: 'ViaSat', tag: 'Rural Satellite' },
+  { id: 'optimum-vs-verizon', carrierA: 'optimum', carrierB: 'verizon', nameA: 'Optimum', nameB: 'Verizon', tag: 'Tri-State Matchup' },
+  { id: 'earthlink-vs-att', carrierA: 'earthlink', carrierB: 'att', nameA: 'EarthLink', nameB: 'AT&T', tag: 'Value vs Speed' }
+];
+
+export const POPULAR_CARRIER_HUBS = [
+  { carrierId: 'spectrum', city: 'Austin', state: 'TX', name: 'Spectrum' },
+  { carrierId: 'att', city: 'Dallas', state: 'TX', name: 'AT&T' },
+  { carrierId: 'verizon', city: 'New York', state: 'NY', name: 'Verizon' },
+  { carrierId: 'tmobile', city: 'Miami', state: 'FL', name: 'T-Mobile' },
+  { carrierId: 'frontier', city: 'Tampa', state: 'FL', name: 'Frontier' },
+  { carrierId: 'comcast', city: 'Chicago', state: 'IL', name: 'Xfinity' },
+  { carrierId: 'cox', city: 'Phoenix', state: 'AZ', name: 'Cox' },
+  { carrierId: 'starlink', city: 'Denver', state: 'CO', name: 'Starlink' },
+  { carrierId: 'earthlink', city: 'Atlanta', state: 'GA', name: 'EarthLink' }
+];
+
 /**
- * Universal Location & 44k ZIP Route Resolver
- * Seamlessly resolves any URL format:
- * 1. /internet/:state/:city/:zip (e.g. /internet/tx/brownsville/78522 - 44k canonical format)
- * 2. /internet/:state/:city (e.g. /internet/tx/brownsville)
- * 3. /internet/:zip or /zip/:zip (e.g. /internet/78522 or /zip/78522)
- * 4. /internet/:citySlug (e.g. /internet/brownsville-tx)
- * 5. Query parameters (?state=TX&city=Brownsville&zip=78522)
+ * Universal Location, State Hub, Carrier & Comparison Route Resolver
+ * Supports 5 programmatic SEO matrices:
+ * 1. /internet/:state/:city/:zip (Canonical 44k ZIP format)
+ * 2. /internet/:state/:city (City Hub)
+ * 3. /internet/:state (50 State Directory Hub)
+ * 4. /providers/:carrier or /providers/:carrier/:city-state (Carrier in City)
+ * 5. /compare/:carrierA-vs-:carrierB (Head-to-head comparison)
+ * 6. /fiber-internet, /5g-home-internet, /cheap-internet (Tech verticals)
  */
 export function resolveLocationRoute(pathname, searchParams) {
   let state = '';
@@ -279,6 +303,146 @@ export function resolveLocationRoute(pathname, searchParams) {
   const cleanPath = (pathname || '').replace(/\/$/, '').toLowerCase().trim();
   const parts = cleanPath.split('/').filter(Boolean);
 
+  // Vector 3: Head-to-Head Comparisons (/compare/spectrum-vs-att)
+  if (parts.length >= 2 && parts[0] === 'compare') {
+    const slug = parts[1];
+    let carrierA = 'spectrum';
+    let carrierB = 'att';
+    if (slug.includes('-vs-')) {
+      const match = slug.split('-vs-');
+      carrierA = match[0];
+      carrierB = match[1];
+    }
+    const compData = POPULAR_COMPARISONS.find(c => c.id === slug) || {
+      id: `${carrierA}-vs-${carrierB}`,
+      carrierA,
+      carrierB,
+      nameA: carrierA.toUpperCase(),
+      nameB: carrierB.toUpperCase(),
+      tag: 'Head-to-Head Comparison'
+    };
+    return {
+      routeType: 'compare',
+      id: `compare-${carrierA}-vs-${carrierB}`,
+      carrierA,
+      carrierB,
+      compData,
+      cityName: 'USA Nationwide',
+      city: 'USA Nationwide',
+      state: 'USA',
+      stateName: 'United States',
+      zip: '78701',
+      street: '100 Main St',
+      canonicalPath: `/compare/${carrierA}-vs-${carrierB}`,
+      description: `Compare ${compData.nameA} vs ${compData.nameB} internet speeds, monthly prices, contracts, and customer ratings for 2026.`,
+      serviceableProviderIds: [carrierA, carrierB, 'verizon', 'tmobile', 'earthlink', 'starlink'],
+      medianHouseholdSpeed: '1000 Mbps',
+      fiberCoverage: '89%'
+    };
+  }
+
+  // Vector 4: Carrier-in-City (/providers/spectrum/austin-tx or /providers/spectrum)
+  if (parts.length >= 2 && (parts[0] === 'providers' || parts[0] === 'provider')) {
+    const carrierId = parts[1];
+    let parsedCity = 'Austin';
+    let parsedState = 'TX';
+    if (parts.length >= 3) {
+      if (parts.length >= 4) {
+        parsedState = (parts[2] || 'TX').toUpperCase();
+        parsedCity = (parts[3] || 'Austin').replace(/-/g, ' ');
+      } else {
+        const parsed = parseCitySlug(parts[2]);
+        if (parsed) {
+          parsedCity = parsed.city;
+          parsedState = parsed.state;
+        }
+      }
+    }
+    const stateInfo = US_STATES.find(s => s.code === parsedState) || { name: parsedState, code: parsedState };
+    const regional = ALL_STATES_CARRIER_FOOTPRINTS[parsedState] || ['att', 'spectrum', 'directv'];
+    const providersList = Array.from(new Set([carrierId, ...regional]));
+    const canonicalPath = parts.length >= 3 
+      ? `/providers/${carrierId}/${createCitySlug(parsedCity, parsedState)}`
+      : `/providers/${carrierId}`;
+
+    return {
+      routeType: 'provider',
+      id: `provider-${carrierId}-${createCitySlug(parsedCity, parsedState)}`,
+      carrierId,
+      cityName: parsedCity,
+      city: `${parsedCity}, ${parsedState}`,
+      state: parsedState,
+      stateName: stateInfo.name,
+      zip: '78701',
+      street: 'Main Street',
+      canonicalPath,
+      description: `Official ${carrierId.toUpperCase()} internet availability, fiber coverage, speed tiers, and promotional deals in ${parsedCity}, ${parsedState}.`,
+      serviceableProviderIds: providersList,
+      medianHouseholdSpeed: '1000 Mbps',
+      fiberCoverage: '92%'
+    };
+  }
+
+  // Vector 5: Tech Verticals (/fiber-internet/austin-tx or /5g-home-internet/miami-fl)
+  if (parts.length >= 1 && (parts[0] === 'fiber-internet' || parts[0] === '5g-home-internet' || parts[0] === 'cheap-internet')) {
+    const techType = parts[0].replace('-internet', '');
+    let locCity = 'Austin';
+    let locState = 'TX';
+    if (parts.length >= 2) {
+      const parsed = parseCitySlug(parts[1]);
+      if (parsed) {
+        locCity = parsed.city;
+        locState = parsed.state;
+      }
+    }
+    const stateInfo = US_STATES.find(s => s.code === locState) || { name: locState, code: locState };
+    const regional = ALL_STATES_CARRIER_FOOTPRINTS[locState] || ['att', 'spectrum', 'directv'];
+    return {
+      routeType: 'tech',
+      techFilter: techType,
+      id: `${techType}-${createCitySlug(locCity, locState)}`,
+      cityName: locCity,
+      city: `${locCity}, ${locState}`,
+      state: locState,
+      stateName: stateInfo.name,
+      zip: '78701',
+      street: 'Main Street',
+      canonicalPath: `/${parts[0]}/${createCitySlug(locCity, locState)}`,
+      description: `Best ${techType.toUpperCase()} internet options and verified plans in ${locCity}, ${locState}. Check address availability with zero hold time.`,
+      serviceableProviderIds: regional,
+      medianHouseholdSpeed: '1000 Mbps',
+      fiberCoverage: '94%'
+    };
+  }
+
+  // Vector 2: 50 State Directory Hubs (/internet/tx or /internet/texas)
+  if (parts.length === 2 && parts[0] === 'internet') {
+    const stateKey = parts[1].toLowerCase();
+    const matchedStateCode = STATE_NAME_TO_CODE[stateKey] || (US_STATES.some(s => s.code.toLowerCase() === stateKey) ? stateKey.toUpperCase() : null);
+    if (matchedStateCode) {
+      const stateObj = US_STATES.find(s => s.code === matchedStateCode) || { name: matchedStateCode, code: matchedStateCode };
+      const citiesInState = CURATED_CITIES.filter(c => c.state === matchedStateCode);
+      const regionalProviders = ALL_STATES_CARRIER_FOOTPRINTS[matchedStateCode] || ['att', 'spectrum', 'directv'];
+      return {
+        routeType: 'state',
+        id: `state-${matchedStateCode.toLowerCase()}`,
+        cityName: stateObj.name,
+        city: `${stateObj.name} Statewide`,
+        state: matchedStateCode,
+        stateName: stateObj.name,
+        zip: '',
+        street: 'State Capital',
+        canonicalPath: `/internet/${matchedStateCode.toLowerCase()}`,
+        description: `Complete 2026 broadband, fiber, and TV provider guide for ${stateObj.name}. Compare all licensed carriers across all cities and counties.`,
+        serviceableProviderIds: regionalProviders,
+        medianHouseholdSpeed: matchedStateCode === 'TX' ? '1200 Mbps' : '1000 Mbps',
+        fiberCoverage: matchedStateCode === 'TX' ? '91%' : matchedStateCode === 'CA' ? '89%' : '86%',
+        cities: citiesInState
+      };
+    }
+  }
+
+  // Vector 1: Standard City / 44k ZIP Route (/internet/:state/:city/:zip, etc.)
   // Pattern 1: /internet/:state/:city/:zip (Canonical 44k pSEO pattern)
   if (parts.length >= 4 && parts[0] === 'internet') {
     state = (parts[1] || '').toUpperCase();
@@ -357,6 +521,7 @@ export function resolveLocationRoute(pathname, searchParams) {
     : `/internet/${validState.toLowerCase()}/${createCitySlug(finalCity)}`;
 
   return {
+    routeType: 'city',
     id: citySlug,
     city: `${finalCity}, ${validState}`,
     cityName: finalCity,

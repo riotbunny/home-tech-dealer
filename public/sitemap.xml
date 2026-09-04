@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
+    <loc>https://www.hometechdealer.com/sitemap-hubs.xml</loc>
+    <lastmod>2026-09-04T00:00:00.000Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://www.hometechdealer.com/sitemap-zips-1.xml</loc>
     <lastmod>2026-08-09T01:08:59.097Z</lastmod>
   </sitemap>

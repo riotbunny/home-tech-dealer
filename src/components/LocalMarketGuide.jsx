@@ -227,6 +227,49 @@ export function LocalMarketGuide({
 
       </div>
 
+      {/* Neighboring Markets & Regional Crawl Mesh */}
+      <div className="mt-12 pt-8 border-t border-slate-200">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2">
+            <Compass className="w-4 h-4 text-blue-600" />
+            <h3 className="font-extrabold text-sm text-slate-900">
+              Broadband Availability in Nearby {displayState} Communities
+            </h3>
+          </div>
+          {displayState && displayState !== 'USA' && (
+            <a
+              href={`/internet/${displayState.toLowerCase()}`}
+              className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+            >
+              <span>View Full {displayState} Directory</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
+          {[
+            { city: 'Austin', state: 'TX', zip: '78701' },
+            { city: 'Dallas', state: 'TX', zip: '75201' },
+            { city: 'Houston', state: 'TX', zip: '77002' },
+            { city: 'San Antonio', state: 'TX', zip: '78205' },
+            { city: 'Fort Worth', state: 'TX', zip: '76102' },
+            { city: 'Brownsville', state: 'TX', zip: '78522' }
+          ].map(c => {
+            const path = `/internet/${c.state.toLowerCase()}/${c.city.toLowerCase().replace(/[^a-z0-9]/g, '-')}/${c.zip}`;
+            return (
+              <a
+                key={c.city}
+                href={path}
+                className="p-3 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition-all text-xs font-bold text-slate-700 hover:text-blue-700 truncate"
+              >
+                {c.city}, {c.state}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
     </section>
   );
 }

@@ -84,6 +84,7 @@ export function useCityRoute(onCityResolved) {
 
   return {
     currentCityData,
-    navigateToCity
+    navigateToCity,
+    navigateToRoute: navigateToCity
   };
 }
