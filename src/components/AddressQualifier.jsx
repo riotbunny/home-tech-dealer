@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   MapPin, 
   Search, 
@@ -78,8 +78,9 @@ export function AddressQualifier({
     }
   }, [speedFilterOverride]);
 
-  // Set of card IDs that are expanded. Closed by default to show clean carrier summary.
+  // Set of card IDs that are expanded in qualified view
   const [expandedPlanIds, setExpandedPlanIds] = useState(() => new Set());
+  const hasAutoExpandedRef = useRef(false);
 
   const toggleCardExpansion = (planId) => {
     setExpandedPlanIds(prev => {
@@ -100,6 +101,44 @@ export function AddressQualifier({
 
   const handleCollapseAll = () => {
     setExpandedPlanIds(new Set());
+  };
+
+  // Pre-search city view: Top Picks card expansion
+  const [expandedPickIds, setExpandedPickIds] = useState(() => new Set());
+
+  const togglePickExpansion = (pickId) => {
+    setExpandedPickIds(prev => {
+      const next = new Set(prev);
+      if (next.has(pickId)) {
+        next.delete(pickId);
+      } else {
+        next.add(pickId);
+      }
+      return next;
+    });
+  };
+
+  const handleExpandAllPicks = () => {
+    setExpandedPickIds(new Set(cityTopPicks.map(p => p.id)));
+  };
+
+  const handleCollapseAllPicks = () => {
+    setExpandedPickIds(new Set());
+  };
+
+  // Pre-search city view: Table row expansion
+  const [expandedTableRowIds, setExpandedTableRowIds] = useState(() => new Set());
+
+  const toggleTableRow = (rowId) => {
+    setExpandedTableRowIds(prev => {
+      const next = new Set(prev);
+      if (next.has(rowId)) {
+        next.delete(rowId);
+      } else {
+        next.add(rowId);
+      }
+      return next;
+    });
   };
 
   const scrollToCarriers = () => {
@@ -197,6 +236,16 @@ export function AddressQualifier({
   // Qualified state evaluation: true only if user searched a specific street address
   const isQualified = Boolean(isAddressQualified && (localAddressInput || currentAddress));
 
+  // Auto-expand first 3 plans upon initial address qualification
+  useEffect(() => {
+    if (isQualified && !hasAutoExpandedRef.current && filteredPlans.length > 0) {
+      setExpandedPlanIds(new Set(filteredPlans.slice(0, 3).map(p => p.id)));
+      hasAutoExpandedRef.current = true;
+    } else if (!isQualified) {
+      hasAutoExpandedRef.current = false;
+    }
+  }, [isQualified, filteredPlans]);
+
   const focusAddressInput = () => {
     const el = document.getElementById('marketplace-address-input') || 
                document.querySelector('input[placeholder*="Search your street address"]') ||
@@ -240,34 +289,40 @@ export function AddressQualifier({
     if (fiberPick) {
       const bestPlan = fiberPick.plans.find(p => p.popular) || fiberPick.plans[0];
       picks.push({
+        id: `pick-${fiberPick.id}`,
         badge: 'Top Pick • Best Fiber Internet',
         badgeColor: 'bg-emerald-600 text-white',
         borderColor: 'hover:border-emerald-500 hover:shadow-emerald-500/10',
         provider: fiberPick,
         plan: bestPlan,
-        category: 'Pure Fiber Optic'
+        category: 'Pure Fiber Optic',
+        providerPlans: fiberPick.plans
       });
     }
     if (cablePick && cablePick.id !== fiberPick?.id) {
       const bestPlan = cablePick.plans.find(p => p.popular) || cablePick.plans[0];
       picks.push({
+        id: `pick-${cablePick.id}`,
         badge: 'Top Pick • Best Cable Broadband',
         badgeColor: 'bg-blue-600 text-white',
         borderColor: 'hover:border-blue-500 hover:shadow-blue-500/10',
         provider: cablePick,
         plan: bestPlan,
-        category: 'High-Speed Cable'
+        category: 'High-Speed Cable',
+        providerPlans: cablePick.plans
       });
     }
     if (valuePick && valuePick.id !== fiberPick?.id && valuePick.id !== cablePick?.id) {
       const bestPlan = valuePick.plans.find(p => p.popular) || valuePick.plans[0];
       picks.push({
+        id: `pick-${valuePick.id}`,
         badge: 'Top Pick • Best Value & 5G',
         badgeColor: 'bg-purple-600 text-white',
         borderColor: 'hover:border-purple-500 hover:shadow-purple-500/10',
         provider: valuePick,
         plan: bestPlan,
-        category: '5G Home / Wireless'
+        category: '5G Home / Wireless',
+        providerPlans: valuePick.plans
       });
     }
     return picks;
@@ -300,7 +355,9 @@ export function AddressQualifier({
         startingPrice,
         maxSpeed: maxSpeedStr,
         contract: p.plans[0]?.contract || 'No annual contract',
-        samplePlan: sortedPlans[0] || p.plans[0]
+        samplePlan: sortedPlans[0] || p.plans[0],
+        allPlans: p.plans,
+        rawProvider: p
       };
     });
   }, [catalog, activeProviderIds]);
@@ -346,25 +403,8 @@ export function AddressQualifier({
         </div>
       </div>
 
-      {/* Mobile Address Location Pill (Avoids redundant search input taking up screen height) */}
-      <div className="md:hidden mt-3 p-3 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
-          <span className="text-xs font-bold text-slate-800 truncate">
-            {localAddressInput || (cityName ? `${cityName} Area` : 'Your Address')}
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={focusAddressInput}
-          className="text-[11px] font-bold text-blue-600 hover:text-blue-700 shrink-0 bg-blue-50 px-2.5 py-1 rounded-lg"
-        >
-          Change
-        </button>
-      </div>
-
-      {/* Desktop Address Search Bar (Always visible for fast qualification) */}
-      <div id="marketplace-address-input" className="hidden md:block mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
+      {/* Address Search Bar (Always visible for fast qualification) */}
+      <div id="marketplace-address-input" className="mt-4 sm:mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
         <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center justify-between">
           <span>Search Exact Street Address:</span>
           <span className="text-xs text-blue-700 font-medium flex items-center gap-1.5">
@@ -588,12 +628,14 @@ export function AddressQualifier({
               Showing <strong className="text-slate-900">{filteredPlans.length}</strong> available plans
             </div>
 
-            {/* Expand / Collapse All Controls (Mobile Only) */}
-            <div className="md:hidden flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[11px] font-semibold border border-slate-200/80">
+            {/* Expand / Collapse All Controls */}
+            <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-xl text-xs font-bold border border-slate-200">
               <button
                 type="button"
                 onClick={handleExpandAll}
-                className="px-2.5 py-1 rounded-md hover:bg-white text-slate-700 hover:text-blue-700 transition-all font-bold"
+                className={`px-3 py-1 rounded-lg transition-all font-bold ${
+                  expandedPlanIds.size > 0 ? 'bg-white text-blue-700 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
                 Expand All
               </button>
@@ -601,7 +643,9 @@ export function AddressQualifier({
               <button
                 type="button"
                 onClick={handleCollapseAll}
-                className="px-2.5 py-1 rounded-md hover:bg-white text-slate-700 hover:text-blue-700 transition-all font-bold"
+                className={`px-3 py-1 rounded-lg transition-all font-bold ${
+                  expandedPlanIds.size === 0 ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
                 Collapse All
               </button>
@@ -651,17 +695,17 @@ export function AddressQualifier({
 
               /* ---------------------------------------------------- */
               /* HELPER RENDERERS FOR FULL LUXURY CARDS              */
-              /* (Always open on Desktop; collapsible on Mobile)     */
+              /* (Collapsible & Expandable on All Devices)           */
               /* ---------------------------------------------------- */
-              const renderFullStarlink = (isDesktopOnly = false) => (
+              const renderFullStarlink = () => (
                 <div
-                  key={plan.id + (isDesktopOnly ? '-desktop' : '')}
-                  className={`${isDesktopOnly ? 'hidden md:flex' : 'flex'} rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-300 flex-col justify-between bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 border-2 border-slate-700/80 text-white shadow-[0_20px_50px_rgba(15,23,42,0.45)] ${carrierAtmosphere} ${
+                  key={plan.id}
+                  className={`flex rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-300 flex-col justify-between bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 border-2 border-slate-700/80 text-white shadow-[0_20px_50px_rgba(15,23,42,0.45)] ${carrierAtmosphere} ${
                     isAddedToCompare ? 'ring-2 ring-cyan-400' : ''
                   }`}
                 >
                   <div>
-                    {/* Top Provider Header with Vector Logo and Mobile-Only Collapse Trigger */}
+                    {/* Top Provider Header with Vector Logo and Collapse Trigger */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
                       <div className="flex items-center gap-2">
                         <CarrierLogo id="starlink" name={plan.providerName} className="h-5 w-auto text-white" />
@@ -672,7 +716,7 @@ export function AddressQualifier({
                       <button
                         type="button"
                         onClick={() => toggleCardExpansion(plan.id)}
-                        className="md:hidden text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+                        className="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
                         title="Collapse card"
                       >
                         <span>Hide</span>
@@ -791,11 +835,11 @@ export function AddressQualifier({
                     </a>
                   </div>
 
-                  {/* Bottom Quick Collapse Option (Mobile Only) */}
+                  {/* Bottom Quick Collapse Option */}
                   <button
                     type="button"
                     onClick={() => toggleCardExpansion(plan.id)}
-                    className="md:hidden w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-200 font-semibold flex items-center justify-center gap-1 transition-colors"
+                    className="w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-200 font-semibold flex items-center justify-center gap-1 transition-colors"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
                     <span>Hide Details</span>
@@ -803,18 +847,18 @@ export function AddressQualifier({
                 </div>
               );
 
-              const renderFullStandard = (isDesktopOnly = false) => (
+              const renderFullStandard = () => (
                 <div
-                  key={plan.id + (isDesktopOnly ? '-desktop' : '')}
+                  key={plan.id}
                   style={{ borderTop: `4px solid ${plan.providerColor || '#2563EB'}` }}
-                  className={`${isDesktopOnly ? 'hidden md:flex' : 'flex'} bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border transition-all duration-300 flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] ${carrierAtmosphere} ${
+                  className={`flex bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border transition-all duration-300 flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] ${carrierAtmosphere} ${
                     isAddedToCompare 
                       ? 'border-amber-500 shadow-md ring-2 ring-amber-100' 
                       : 'border-slate-200/90'
                   }`}
                 >
                   <div>
-                    {/* Top Provider Header with Vector SVG Logo and Mobile-Only Collapse Trigger */}
+                    {/* Top Provider Header with Vector SVG Logo and Collapse Trigger */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
                       <div className="flex items-center gap-2">
                         <CarrierLogo id={plan.providerId} name={plan.providerName} className="h-5 w-auto max-w-[130px]" />
@@ -825,7 +869,7 @@ export function AddressQualifier({
                       <button
                         type="button"
                         onClick={() => toggleCardExpansion(plan.id)}
-                        className="md:hidden text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
+                        className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
                         title="Collapse card"
                       >
                         <span>Hide</span>
@@ -944,11 +988,11 @@ export function AddressQualifier({
                     </a>
                   </div>
 
-                  {/* Bottom Quick Collapse Option (Mobile Only) */}
+                  {/* Bottom Quick Collapse Option */}
                   <button
                     type="button"
                     onClick={() => toggleCardExpansion(plan.id)}
-                    className="md:hidden w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-600 font-semibold flex items-center justify-center gap-1 transition-colors"
+                    className="w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-600 font-semibold flex items-center justify-center gap-1 transition-colors"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
                     <span>Hide Details</span>
@@ -962,115 +1006,29 @@ export function AddressQualifier({
               if (isStarlink) {
                 if (!isExpanded) {
                   return (
-                    <React.Fragment key={plan.id}>
-                      {/* Collapsed Starlink Card (Mobile Only) */}
-                      <div
-                        onClick={() => toggleCardExpansion(plan.id)}
-                        className={`md:hidden cursor-pointer rounded-2xl p-4 transition-all duration-300 flex flex-col justify-between bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-2 border-slate-700/80 text-white shadow-md hover:border-cyan-400 hover:shadow-cyan-500/15 group ${carrierAtmosphere} ${
-                          isAddedToCompare ? 'ring-2 ring-cyan-400' : ''
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <CarrierLogo id="starlink" name={plan.providerName} className="h-5 w-auto text-white shrink-0" />
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2">
-                                <h4 className="font-black text-xs sm:text-sm text-white truncate">
-                                  {plan.name}
-                                </h4>
-                                <span className="text-[10px] font-mono uppercase tracking-wider font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2 py-0.5 rounded-full shrink-0">
-                                  LEO Orbit
-                                </span>
-                              </div>
-                              <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                                <span className="font-mono font-bold text-cyan-300">{plan.downloadSpeed}</span>
-                                <span>&bull;</span>
-                                <span className="truncate text-slate-300">{plan.contract}</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                            <div className="text-right pr-0.5 sm:pr-1">
-                              <div className="flex items-baseline justify-end gap-0.5">
-                                <span className="text-lg sm:text-2xl font-black text-white font-mono">${plan.price}</span>
-                                <span className="text-[10px] text-slate-400">/{plan.period}</span>
-                              </div>
-                              <span className="text-[10px] text-cyan-300 font-mono hidden md:inline">
-                                SpaceX LEO
-                              </span>
-                            </div>
-
-                            {/* 1-Tap Direct Native Call Button on Collapsed Card */}
-                            <a
-                              href={telHref}
-                              onClick={(e) => e.stopPropagation()}
-                              className="min-h-[38px] sm:min-h-[40px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition-all shrink-0"
-                              title={`Call ${phoneNumber} to order ${plan.name}`}
-                            >
-                              <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-                              <span className="font-black text-xs">Call</span>
-                              <span className="hidden sm:inline font-mono text-[11px] text-cyan-100 font-bold">to Order</span>
-                            </a>
-
-                            {/* Expand Details Toggle */}
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleCardExpansion(plan.id);
-                              }}
-                              className="min-h-[38px] sm:min-h-[40px] px-2 sm:px-2.5 py-1.5 sm:py-2 rounded-xl bg-slate-800 text-cyan-300 hover:bg-slate-700 border border-slate-700 transition-all flex items-center gap-1 text-xs font-bold shrink-0"
-                              title="Expand plan details"
-                            >
-                              <span className="hidden xs:inline">Details</span>
-                              <ChevronDown className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Expanded Starlink Card (Always Open on Desktop Browsers) */}
-                      {renderFullStarlink(true)}
-                    </React.Fragment>
-                  );
-                }
-
-                // Expanded Starlink Card (Mobile Expanded View & Desktop View)
-                return renderFullStarlink(false);
-              }
-
-              /* ---------------------------------------------------- */
-              /* STANDARD LUXURY CARDS                               */
-              /* ---------------------------------------------------- */
-              if (!isExpanded) {
-                // Collapsed Standard Card
-                return (
-                  <React.Fragment key={plan.id}>
-                    {/* Collapsed Standard Card (Mobile Only) */}
                     <div
-                      style={{ borderTop: `4px solid ${plan.providerColor || '#2563EB'}` }}
+                      key={plan.id}
                       onClick={() => toggleCardExpansion(plan.id)}
-                      className={`md:hidden cursor-pointer bg-white/95 backdrop-blur-xl rounded-2xl p-4 border transition-all duration-300 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-300 group ${carrierAtmosphere} ${
-                        isAddedToCompare ? 'border-amber-500 ring-2 ring-amber-100' : 'border-slate-200/90'
+                      className={`cursor-pointer rounded-2xl p-4 transition-all duration-300 flex flex-col justify-between bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-2 border-slate-700/80 text-white shadow-md hover:border-cyan-400 hover:shadow-cyan-500/15 group ${carrierAtmosphere} ${
+                        isAddedToCompare ? 'ring-2 ring-cyan-400' : ''
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
-                          <CarrierLogo id={plan.providerId} name={plan.providerName} className="h-5 w-auto max-w-[120px] shrink-0" />
+                          <CarrierLogo id="starlink" name={plan.providerName} className="h-5 w-auto text-white shrink-0" />
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
-                              <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
+                              <h4 className="font-black text-xs sm:text-sm text-white truncate">
                                 {plan.name}
                               </h4>
-                              <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full shrink-0 hidden xs:inline-block">
-                                {plan.providerType}
+                              <span className="text-[10px] font-mono uppercase tracking-wider font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2 py-0.5 rounded-full shrink-0">
+                                LEO Orbit
                               </span>
                             </div>
-                            <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
-                              <span className="font-mono font-bold text-blue-700">{plan.downloadSpeed}</span>
+                            <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                              <span className="font-mono font-bold text-cyan-300">{plan.downloadSpeed}</span>
                               <span>&bull;</span>
-                              <span className="truncate text-slate-500">{plan.contract}</span>
+                              <span className="truncate text-slate-300">{plan.contract}</span>
                             </div>
                           </div>
                         </div>
@@ -1078,11 +1036,11 @@ export function AddressQualifier({
                         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
                           <div className="text-right pr-0.5 sm:pr-1">
                             <div className="flex items-baseline justify-end gap-0.5">
-                              <span className="text-lg sm:text-2xl font-black text-slate-900 font-mono">${plan.price}</span>
-                              <span className="text-[10px] text-slate-500 font-medium">/{plan.period}</span>
+                              <span className="text-lg sm:text-2xl font-black text-white font-mono">${plan.price}</span>
+                              <span className="text-[10px] text-slate-400">/{plan.period}</span>
                             </div>
-                            <span className="text-[10px] text-emerald-600 font-bold hidden md:inline">
-                              Promo locked
+                            <span className="text-[10px] text-cyan-300 font-mono hidden sm:inline">
+                              SpaceX LEO
                             </span>
                           </div>
 
@@ -1090,12 +1048,12 @@ export function AddressQualifier({
                           <a
                             href={telHref}
                             onClick={(e) => e.stopPropagation()}
-                            className="min-h-[38px] sm:min-h-[40px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition-all shrink-0"
+                            className="min-h-[38px] sm:min-h-[40px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition-all shrink-0"
                             title={`Call ${phoneNumber} to order ${plan.name}`}
                           >
                             <PhoneCall className="w-3.5 h-3.5 shrink-0" />
                             <span className="font-black text-xs">Call</span>
-                            <span className="hidden sm:inline font-mono text-[11px] text-emerald-100 font-bold">to Order</span>
+                            <span className="hidden sm:inline font-mono text-[11px] text-cyan-100 font-bold">to Order</span>
                           </a>
 
                           {/* Expand Details Toggle */}
@@ -1105,7 +1063,7 @@ export function AddressQualifier({
                               e.stopPropagation();
                               toggleCardExpansion(plan.id);
                             }}
-                            className="min-h-[38px] sm:min-h-[40px] px-2 sm:px-2.5 py-1.5 sm:py-2 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition-all flex items-center gap-1 text-xs font-bold shrink-0"
+                            className="min-h-[38px] sm:min-h-[40px] px-2 sm:px-2.5 py-1.5 sm:py-2 rounded-xl bg-slate-800 text-cyan-300 hover:bg-slate-700 border border-slate-700 transition-all flex items-center gap-1 text-xs font-bold shrink-0"
                             title="Expand plan details"
                           >
                             <span className="hidden xs:inline">Details</span>
@@ -1114,15 +1072,91 @@ export function AddressQualifier({
                         </div>
                       </div>
                     </div>
+                  );
+                }
 
-                    {/* Expanded Standard Card (Always Open on Desktop Browsers) */}
-                    {renderFullStandard(true)}
-                  </React.Fragment>
+                // Expanded Starlink Card
+                return renderFullStarlink();
+              }
+
+              /* ---------------------------------------------------- */
+              /* STANDARD LUXURY CARDS                               */
+              /* ---------------------------------------------------- */
+              if (!isExpanded) {
+                // Collapsed Standard Card
+                return (
+                  <div
+                    key={plan.id}
+                    style={{ borderTop: `4px solid ${plan.providerColor || '#2563EB'}` }}
+                    onClick={() => toggleCardExpansion(plan.id)}
+                    className={`cursor-pointer bg-white/95 backdrop-blur-xl rounded-2xl p-4 border transition-all duration-300 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-300 group ${carrierAtmosphere} ${
+                      isAddedToCompare ? 'border-amber-500 ring-2 ring-amber-100' : 'border-slate-200/90'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <CarrierLogo id={plan.providerId} name={plan.providerName} className="h-5 w-auto max-w-[120px] shrink-0" />
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
+                              {plan.name}
+                            </h4>
+                            <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full shrink-0 hidden xs:inline-block">
+                              {plan.providerType}
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                            <span className="font-mono font-bold text-blue-700">{plan.downloadSpeed}</span>
+                            <span>&bull;</span>
+                            <span className="truncate text-slate-500">{plan.contract}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+                        <div className="text-right pr-0.5 sm:pr-1">
+                          <div className="flex items-baseline justify-end gap-0.5">
+                            <span className="text-lg sm:text-2xl font-black text-slate-900 font-mono">${plan.price}</span>
+                            <span className="text-[10px] text-slate-500 font-medium">/{plan.period}</span>
+                          </div>
+                          <span className="text-[10px] text-emerald-600 font-bold hidden sm:inline">
+                            Promo locked
+                          </span>
+                        </div>
+
+                        {/* 1-Tap Direct Native Call Button on Collapsed Card */}
+                        <a
+                          href={telHref}
+                          onClick={(e) => e.stopPropagation()}
+                          className="min-h-[38px] sm:min-h-[40px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition-all shrink-0"
+                          title={`Call ${phoneNumber} to order ${plan.name}`}
+                        >
+                          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+                          <span className="font-black text-xs">Call</span>
+                          <span className="hidden sm:inline font-mono text-[11px] text-emerald-100 font-bold">to Order</span>
+                        </a>
+
+                        {/* Expand Details Toggle */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleCardExpansion(plan.id);
+                          }}
+                          className="min-h-[38px] sm:min-h-[40px] px-2 sm:px-2.5 py-1.5 sm:py-2 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition-all flex items-center gap-1 text-xs font-bold shrink-0"
+                          title="Expand plan details"
+                        >
+                          <span className="hidden xs:inline">Details</span>
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 );
               }
 
-              // Expanded Standard Card (Mobile Expanded View & Desktop View)
-              return renderFullStandard(false);
+              // Expanded Standard Card
+              return renderFullStandard();
             })}
           </div>
         )}
@@ -1145,84 +1179,185 @@ export function AddressQualifier({
                   Verified against regional FCC speed filings, customer reliability ratings, and contract flexibility.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={focusAddressInput}
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3.5 py-2 rounded-xl transition-all shrink-0 border border-blue-100"
-              >
-                <span>Check Exact Address</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-xl text-xs font-bold border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={handleExpandAllPicks}
+                    className={`px-2.5 py-1 rounded-lg transition-all font-bold ${
+                      expandedPickIds.size > 0 ? 'bg-white text-blue-700 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Expand All
+                  </button>
+                  <span className="text-slate-300">&bull;</span>
+                  <button
+                    type="button"
+                    onClick={handleCollapseAllPicks}
+                    className={`px-2.5 py-1 rounded-lg transition-all font-bold ${
+                      expandedPickIds.size === 0 ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Collapse All
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={focusAddressInput}
+                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3.5 py-2 rounded-xl transition-all shrink-0 border border-blue-100"
+                >
+                  <span>Check Exact Address</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
-              {cityTopPicks.map((pick, idx) => (
-                <div 
-                  key={idx}
-                  className={`rounded-3xl p-5 sm:p-6 bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between ${pick.borderColor} group relative`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className={`text-[10px] font-extrabold tracking-wide uppercase px-2.5 py-1 rounded-full ${pick.badgeColor}`}>
-                        {pick.badge}
-                      </span>
-                      <span className="text-[11px] font-semibold text-slate-400">
-                        {pick.category}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-3 my-2.5">
-                      <CarrierLogo id={pick.provider.id} name={pick.provider.name} className="h-6 w-auto max-w-[130px]" />
-                      <div className="text-xs font-extrabold text-slate-800">
-                        {pick.provider.name}
+              {cityTopPicks.map((pick) => {
+                const isPickExpanded = expandedPickIds.has(pick.id);
+                return (
+                  <div 
+                    key={pick.id}
+                    className={`rounded-3xl p-5 sm:p-6 bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between ${pick.borderColor} group relative`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className={`text-[10px] font-extrabold tracking-wide uppercase px-2.5 py-1 rounded-full ${pick.badgeColor}`}>
+                          {pick.badge}
+                        </span>
+                        <span className="text-[11px] font-semibold text-slate-400">
+                          {pick.category}
+                        </span>
                       </div>
-                    </div>
 
-                    <h4 className="text-sm font-bold text-slate-900 mt-1">
-                      {pick.plan.name}
-                    </h4>
-
-                    <div className="my-3.5 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-center">
-                      <div className="flex-1">
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Max Speeds</div>
-                        <div className="text-base font-black text-blue-700 font-mono">{pick.plan.downloadSpeed}</div>
-                      </div>
-                      <div className="h-6 w-px bg-slate-200" />
-                      <div className="flex-1">
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Starting At</div>
-                        <div className="text-base font-black text-slate-900 font-mono">${pick.plan.price}<span className="text-[11px] font-normal text-slate-500">/mo</span></div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5 my-3">
-                      {pick.plan.perks.slice(0, 3).map((perk, pIdx) => (
-                        <div key={pIdx} className="flex items-start gap-2 text-xs text-slate-600">
-                          <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                          <span className="line-clamp-1">{perk}</span>
+                      <div className="flex items-center justify-between gap-3 my-2.5">
+                        <div className="flex items-center gap-2.5">
+                          <CarrierLogo id={pick.provider.id} name={pick.provider.name} className="h-6 w-auto max-w-[130px]" />
+                          <div className="text-xs font-extrabold text-slate-800">
+                            {pick.provider.name}
+                          </div>
                         </div>
-                      ))}
+                        <button
+                          type="button"
+                          onClick={() => togglePickExpansion(pick.id)}
+                          className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
+                        >
+                          <span>{isPickExpanded ? 'Hide' : 'Details'}</span>
+                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPickExpanded ? 'rotate-180' : ''}`} />
+                        </button>
+                      </div>
+
+                      <h4 className="text-sm font-bold text-slate-900 mt-1">
+                        {pick.plan.name}
+                      </h4>
+
+                      <div className="my-3.5 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-center">
+                        <div className="flex-1">
+                          <div className="text-[10px] uppercase font-bold text-slate-400">Max Speeds</div>
+                          <div className="text-base font-black text-blue-700 font-mono">{pick.plan.downloadSpeed}</div>
+                        </div>
+                        <div className="h-6 w-px bg-slate-200" />
+                        <div className="flex-1">
+                          <div className="text-[10px] uppercase font-bold text-slate-400">Starting At</div>
+                          <div className="text-base font-black text-slate-900 font-mono">${pick.plan.price}<span className="text-[11px] font-normal text-slate-500">/mo</span></div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 my-3">
+                        {pick.plan.perks.slice(0, 3).map((perk, pIdx) => (
+                          <div key={pIdx} className="flex items-start gap-2 text-xs text-slate-600">
+                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <span className="line-clamp-1">{perk}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Expand Details Drawer */}
+                      {isPickExpanded && (
+                        <div className="mt-4 pt-3.5 border-t border-slate-200/80 space-y-3 animate-fade-in text-xs">
+                          <div>
+                            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                              Available Plans from {pick.provider.name}
+                            </div>
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                              {pick.providerPlans.map((pTier) => (
+                                <div key={pTier.id} className="p-2 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 truncate">
+                                      <span className="font-bold text-slate-900 truncate">{pTier.name}</span>
+                                      {pTier.popular && (
+                                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 shrink-0">
+                                          Popular
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="text-[10px] text-slate-500 font-mono">
+                                      {pTier.downloadSpeed} down &bull; {pTier.uploadSpeed} up
+                                    </div>
+                                  </div>
+                                  <div className="text-right shrink-0">
+                                    <div className="font-mono font-bold text-slate-900">${pTier.price}/mo</div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Equipment & Setup Details */}
+                          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 space-y-1 text-[11px] text-slate-600">
+                            <div className="flex items-center gap-2">
+                              <Wifi className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                              <span>{pick.plan.equipmentFee}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                              <span>Setup: {pick.plan.installationSla}</span>
+                            </div>
+                          </div>
+
+                          {/* FCC Facts Trigger */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFccModalPlan(pick.plan);
+                              setFccModalProvider(pick.provider);
+                            }}
+                            className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-[11px] font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors"
+                          >
+                            <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                            <span>Official FCC Broadband Facts</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                      <button
+                        type="button"
+                        onClick={() => togglePickExpansion(pick.id)}
+                        className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <span>{isPickExpanded ? 'Hide All Plans & Specs ▲' : `View All ${pick.providerPlans.length} Plans & Specs ▼`}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={focusAddressInput}
+                        className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                      >
+                        <span>Check Availability at My Address</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                      <a
+                        href={telHref}
+                        className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Order by Phone: {phoneNumber}</span>
+                      </a>
                     </div>
                   </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
-                    <button
-                      type="button"
-                      onClick={focusAddressInput}
-                      className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
-                    >
-                      <span>Check Availability at My Address</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <a
-                      href={telHref}
-                      className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
-                    >
-                      <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Order by Phone: {phoneNumber}</span>
-                    </a>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -1253,46 +1388,156 @@ export function AddressQualifier({
                     <th scope="col" className="py-3 px-4">Starting Price</th>
                     <th scope="col" className="py-3 px-4">Connection Type</th>
                     <th scope="col" className="py-3 px-4">Contract Terms</th>
-                    <th scope="col" className="py-3 px-4 text-right">Door-to-Door Service</th>
+                    <th scope="col" className="py-3 px-4 text-right">Plans & Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
-                  {cityComparisonTable.map((row) => (
-                    <tr key={row.id} className="hover:bg-blue-50/40 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-2.5">
-                          <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[90px]" />
-                          <div>
-                            <div className="font-bold text-slate-900">{row.name}</div>
-                            <div className="text-[10px] text-slate-400">{row.category || 'National Carrier'}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-4 font-mono font-bold text-blue-700">
-                        {row.maxSpeed}
-                      </td>
-                      <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
-                        ${row.startingPrice}<span className="text-[10px] font-normal text-slate-500">/mo</span>
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">
-                          {row.type}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4 text-slate-600">
-                        {row.contract}
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onClick={focusAddressInput}
-                          className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-xs font-bold transition-all shadow-xs"
+                  {cityComparisonTable.map((row) => {
+                    const isRowExpanded = expandedTableRowIds.has(row.id);
+                    return (
+                      <React.Fragment key={row.id}>
+                        <tr 
+                          onClick={() => toggleTableRow(row.id)}
+                          className="hover:bg-blue-50/40 cursor-pointer transition-colors"
                         >
-                          Check Address
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="py-3.5 px-4">
+                            <div className="flex items-center gap-2.5">
+                              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isRowExpanded ? 'rotate-180 text-blue-600' : 'text-slate-400'}`} />
+                              <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[90px]" />
+                              <div>
+                                <div className="font-bold text-slate-900">{row.name}</div>
+                                <div className="text-[10px] text-slate-400">{row.category || 'National Carrier'}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-4 font-mono font-bold text-blue-700">
+                            {row.maxSpeed}
+                          </td>
+                          <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
+                            ${row.startingPrice}<span className="text-[10px] font-normal text-slate-500">/mo</span>
+                          </td>
+                          <td className="py-3.5 px-4">
+                            <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">
+                              {row.type}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-4 text-slate-600">
+                            {row.contract}
+                          </td>
+                          <td className="py-3.5 px-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleTableRow(row.id);
+                                }}
+                                className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 border ${
+                                  isRowExpanded 
+                                    ? 'bg-blue-600 text-white border-blue-600 shadow-xs' 
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200/80'
+                                }`}
+                              >
+                                <span>{isRowExpanded ? 'Hide' : 'Plans'}</span>
+                                <ChevronDown className={`w-3 h-3 transition-transform ${isRowExpanded ? 'rotate-180' : ''}`} />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  focusAddressInput();
+                                }}
+                                className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-xs font-bold transition-all shadow-xs"
+                              >
+                                Qualify
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        {/* Expandable Accordion Sub-row */}
+                        {isRowExpanded && (
+                          <tr className="bg-slate-50/90 border-b border-slate-200 animate-fade-in">
+                            <td colSpan={6} className="p-4 sm:p-5">
+                              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                                  <div>
+                                    <div className="flex items-center gap-2">
+                                      <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[100px]" />
+                                      <h5 className="font-extrabold text-sm text-slate-900">
+                                        {row.name} Plans & Coverage in {cityName || 'Your Area'}
+                                      </h5>
+                                    </div>
+                                    <p className="text-xs text-slate-500 mt-0.5">
+                                      Featuring {row.allPlans.length} available service tiers with download speeds up to {row.maxSpeed}.
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center gap-2 shrink-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setFccModalPlan(row.samplePlan);
+                                        setFccModalProvider(row.rawProvider);
+                                      }}
+                                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors border border-slate-200/80"
+                                      title="View Official FCC Consumer Disclosure"
+                                    >
+                                      <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                                      <span>FCC Broadband Facts</span>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleTableRow(row.id)}
+                                      className="text-xs font-bold text-slate-500 hover:text-slate-800 px-2 py-1 rounded-lg bg-slate-100"
+                                    >
+                                      Hide ▲
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Available Tiers Grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                  {row.allPlans.map(p => (
+                                    <div key={p.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+                                      <div>
+                                        <div className="flex items-center justify-between gap-1">
+                                          <span className="font-extrabold text-xs text-slate-900">{p.name}</span>
+                                          {p.popular && (
+                                            <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
+                                              Popular
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div className="flex items-baseline gap-2 mt-1.5">
+                                          <span className="font-mono font-black text-sm text-blue-700">{p.downloadSpeed}</span>
+                                          <span className="text-[11px] text-slate-400">/ {p.uploadSpeed}</span>
+                                        </div>
+                                        <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">{p.contract}</p>
+                                      </div>
+
+                                      <div className="mt-3 pt-2.5 border-t border-slate-200/70 flex items-center justify-between">
+                                        <div>
+                                          <span className="font-mono font-black text-xs sm:text-sm text-slate-900">${p.price}</span>
+                                          <span className="text-[10px] text-slate-500">/mo</span>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          onClick={focusAddressInput}
+                                          className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold transition-all shadow-2xs"
+                                        >
+                                          Check Address
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
