@@ -21,7 +21,8 @@ import {
   ChevronUp,
   Sparkles,
   Award,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from 'lucide-react';
 import { SAMPLE_MARKETS } from '../data/sampleMarkets';
 import { PROVIDERS_CATALOG } from '../data/providersData';
@@ -30,6 +31,16 @@ import { FccBroadbandFactsModal } from './FccBroadbandFactsModal';
 import { TechSignalDiagnostics } from './TechSignalDiagnostics';
 import { CarrierLogo } from './CarrierLogos';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
+
+
+const getValidUrl = (url) => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return 'https://' + trimmed;
+};
 
 export function AddressQualifier({ 
   comparisonCart, 
@@ -739,6 +750,7 @@ export function AddressQualifier({
               const isAddedToCompare = comparisonCart.some(item => item.id === plan.id);
               const isStarlink = plan.providerId === 'starlink';
               const isExpanded = expandedPlanIds.has(plan.id);
+              const planProvider = catalog.find(p => p.id === plan.providerId);
               
               // Signature atmospheric glow
               const carrierAtmosphere = 
@@ -851,17 +863,41 @@ export function AddressQualifier({
                   </div>
 
                   {/* Actions: Compare & Call */}
-                  <div className="mt-4 pt-3 border-t border-slate-800 flex items-center gap-2">
+                  <div className="mt-4 pt-3 border-t border-slate-800 space-y-2">
+                    <div className="flex gap-2">
+                      <a
+                        href={telHref}
+                        onClick={(e) => e.stopPropagation()}
+                        className="min-h-[44px] flex-1 py-2 px-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20 transition-all text-center"
+                        title={`Call ${phoneNumber} to order`}
+                      >
+                        <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+                        <span>{planProvider?.enrollUrl ? 'Call Now' : `Call: ${phoneNumber}`}</span>
+                      </a>
+                      
+                      {planProvider?.enrollUrl && (
+                        <a
+                          href={getValidUrl(planProvider.enrollUrl)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="min-h-[44px] flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 font-black text-xs flex items-center justify-center gap-2 border border-slate-700 transition-all text-center"
+                        >
+                          <Globe className="w-3.5 h-3.5 shrink-0" />
+                          <span>Order Online</span>
+                        </a>
+                      )}
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => onToggleCartPlan(plan)}
-                      className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shrink-0 border ${
+                      className={`w-full min-h-[40px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 border ${
                         isAddedToCompare 
                           ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 ring-2 ring-cyan-400/30' 
                           : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border-slate-700'
                       }`}
                       title={isAddedToCompare ? 'Remove from comparison' : 'Compare with other plans'}
-                      aria-label="Add to comparison"
                     >
                       {isAddedToCompare ? (
                         <>
@@ -871,23 +907,10 @@ export function AddressQualifier({
                       ) : (
                         <>
                           <ArrowLeftRight className="w-3.5 h-3.5 text-cyan-400" />
-                          <span>Compare</span>
+                          <span>Compare this plan</span>
                         </>
                       )}
                     </button>
-
-                    <a
-                      href={telHref}
-                      onClick={(e) => e.stopPropagation()}
-                      className="min-h-[44px] flex-1 py-2 px-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20 transition-all text-center"
-                      title={`Call ${phoneNumber} to order ${plan.name}`}
-                    >
-                      <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-                      <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-1.5 truncate">
-                        <span className="font-black text-xs">Call to Order:</span>
-                        <span className="text-[11px] font-mono font-bold text-cyan-100">{phoneNumber}</span>
-                      </div>
-                    </a>
                   </div>
 
                   {/* Bottom Quick Collapse Option */}
@@ -1004,17 +1027,41 @@ export function AddressQualifier({
                   </div>
 
                   {/* Actions: Add to Compare & Direct Call Button */}
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
+                  <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                    <div className="flex gap-2">
+                      <a
+                        href={telHref}
+                        onClick={(e) => e.stopPropagation()}
+                        className="min-h-[44px] flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm shadow-emerald-600/20 transition-all text-center"
+                        title={`Call ${phoneNumber} to order`}
+                      >
+                        <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+                        <span>{planProvider?.enrollUrl ? 'Call Now' : `Call: ${phoneNumber}`}</span>
+                      </a>
+                      
+                      {planProvider?.enrollUrl && (
+                        <a
+                          href={getValidUrl(planProvider.enrollUrl)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="min-h-[44px] flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all text-center border border-slate-700"
+                        >
+                          <Globe className="w-3.5 h-3.5 shrink-0" />
+                          <span>Order Online</span>
+                        </a>
+                      )}
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => onToggleCartPlan(plan)}
-                      className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shrink-0 border ${
+                      className={`w-full min-h-[40px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 border ${
                         isAddedToCompare 
                           ? 'bg-amber-50 text-amber-900 border-amber-300 ring-2 ring-amber-200/60' 
                           : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200/80'
                       }`}
                       title={isAddedToCompare ? 'Remove from comparison' : 'Compare this plan side-by-side'}
-                      aria-label="Add to comparison"
                     >
                       {isAddedToCompare ? (
                         <>
@@ -1024,23 +1071,10 @@ export function AddressQualifier({
                       ) : (
                         <>
                           <ArrowLeftRight className="w-3.5 h-3.5 text-slate-500" />
-                          <span>Compare</span>
+                          <span>Compare this plan</span>
                         </>
                       )}
                     </button>
-
-                    <a
-                      href={telHref}
-                      onClick={(e) => e.stopPropagation()}
-                      className="min-h-[44px] flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm shadow-emerald-600/20 transition-all text-center"
-                      title={`Call ${phoneNumber} to order ${plan.name}`}
-                    >
-                      <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-                      <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-1.5 truncate">
-                        <span className="font-black text-xs">Call to Order:</span>
-                        <span className="text-[11px] font-mono font-bold text-emerald-100">{phoneNumber}</span>
-                      </div>
-                    </a>
                   </div>
 
                   {/* Bottom Quick Collapse Option */}
@@ -1362,6 +1396,17 @@ export function AddressQualifier({
                         <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Order by Phone: {phoneNumber}</span>
                       </a>
+                      {pick.provider?.enrollUrl && (
+                        <a
+                          href={getValidUrl(pick.provider.enrollUrl)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                        >
+                          <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                          <span>Order Online</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 );

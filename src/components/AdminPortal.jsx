@@ -23,7 +23,8 @@ import {
   Eye,
   EyeOff,
   Building2,
-  Star
+  Star,
+  Link as LinkIcon
 } from 'lucide-react';
 
 export function AdminPortal({ 
@@ -171,6 +172,19 @@ export function AdminPortal({
       contract: 'No Annual Contract'
     });
     showToast(`${newCarrier.name} successfully created and ready to publish!`);
+  };
+
+  // Update a field for a specific provider
+  const handleUpdateProviderField = (field, value) => {
+    setActiveCatalog(prev => {
+      return prev.map(provider => {
+        if (provider.id !== selectedProviderId) return provider;
+        return {
+          ...provider,
+          [field]: value
+        };
+      });
+    });
   };
 
   // Update a field for a specific plan
@@ -743,6 +757,32 @@ export function AdminPortal({
                 </div>
               </div>
             )}
+
+            {/* Carrier Settings (Enrollment URL) */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Globe className="w-4 h-4 text-indigo-600" />
+                <span>Online Enrollment Link</span>
+              </h3>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Direct Affiliate / Enrollment URL (Optional)</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <LinkIcon className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="url"
+                    value={selectedProvider.enrollUrl || ''}
+                    onChange={(e) => handleUpdateProviderField('enrollUrl', e.target.value)}
+                    placeholder="https://..."
+                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                  />
+                </div>
+                <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
+                  If provided, an "Order Online" button will appear next to the "Call to Order" button on this carrier's plans.
+                </p>
+              </div>
+            </div>
 
             {/* Plans Grid */}
             <div className="space-y-4">
