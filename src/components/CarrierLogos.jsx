@@ -108,7 +108,7 @@ export function CarrierLogo({ id, name, className = 'h-5 w-auto' }) {
           >
             {(name || id || 'C').charAt(0).toUpperCase()}
           </span>
-          <span className="font-extrabold text-sm text-slate-900 tracking-tight">
+          <span className="font-extrabold text-sm text-white tracking-tight">
             {name || id}
           </span>
         </div>

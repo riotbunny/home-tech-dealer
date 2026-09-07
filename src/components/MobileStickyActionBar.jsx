@@ -34,7 +34,7 @@ export function MobileStickyActionBar({
   if (isKeyboardOpen) return null;
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-3.5 py-2.5 shadow-2xl flex items-center justify-between gap-2.5 animate-fade-in">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800/90 px-3.5 py-2.5 shadow-2xl flex items-center justify-between gap-2.5 animate-fade-in">
       {/* 1-Tap Direct Call-to-Order Hotline */}
       <a
         href={telHref}
@@ -50,7 +50,7 @@ export function MobileStickyActionBar({
         <button
           type="button"
           onClick={onOpenCart}
-          className="min-h-[46px] px-3.5 py-2.5 rounded-xl bg-amber-500 active:bg-amber-600 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all shrink-0"
+          className="min-h-[46px] px-3.5 py-2.5 rounded-xl bg-amber-900/300 active:bg-amber-600 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all shrink-0"
           title="Open Comparison Cart"
         >
           <Layers className="w-4 h-4 shrink-0" />
@@ -60,7 +60,7 @@ export function MobileStickyActionBar({
         <button
           type="button"
           onClick={onOpenSpeedQuiz}
-          className="min-h-[46px] px-3 py-2.5 rounded-xl bg-blue-50 active:bg-blue-100 border border-blue-200 text-indigo-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shrink-0"
+          className="min-h-[46px] px-3 py-2.5 rounded-xl bg-indigo-900/30 active:bg-blue-100 border border-blue-200 text-indigo-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shrink-0"
           title="Take Speed Matcher Quiz"
         >
           <Zap className="w-4 h-4 text-amber-500 shrink-0" />

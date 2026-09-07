@@ -36,15 +36,15 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
       <div className="rounded-3xl bg-gradient-to-br from-blue-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-10 shadow-2xl border border-blue-500/20 relative overflow-hidden">
         
         {/* Subtle Background Glow */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -right-20 -top-20 w-80 h-80 bg-indigo-900/300/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-emerald-900/300/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Column: Interactive Inputs */}
           <div className="lg:col-span-7 space-y-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold mb-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-900/300/20 border border-blue-400/30 text-blue-300 text-xs font-semibold mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-blue-400" />
                 <span>Cable Switcher Calculator</span>
               </div>
@@ -82,7 +82,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
                 </label>
                 <span className="text-2xl font-black text-emerald-400 font-mono">
                   ${currentBill}
-                  <span className="text-xs font-normal text-slate-400">/mo</span>
+                  <span className="text-xs font-normal text-slate-500">/mo</span>
                 </span>
               </div>
               
@@ -95,7 +95,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
                 onChange={(e) => setCurrentBill(Number(e.target.value))}
                 className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
               />
-              <div className="flex justify-between text-[11px] text-slate-400">
+              <div className="flex justify-between text-[11px] text-slate-500">
                 <span>$50/mo</span>
                 <span>$85 (National Avg)</span>
                 <span>$160/mo</span>
@@ -105,7 +105,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
 
           {/* Right Column: Dynamic Savings Result Card */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl bg-white text-slate-900 p-6 sm:p-8 shadow-2xl border border-slate-100 flex flex-col justify-between space-y-6">
+            <div className="rounded-2xl bg-slate-900 text-white p-6 sm:p-8 shadow-2xl border border-slate-800/50 flex flex-col justify-between space-y-6">
               
               {/* Top Savings Callout */}
               <div>
@@ -116,7 +116,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
                   <span className="text-4xl sm:text-5xl font-black tracking-tight text-emerald-600 font-mono">
                     +${totalFirstYearValue.toLocaleString()}
                   </span>
-                  <span className="text-xs font-bold text-slate-600 uppercase">
+                  <span className="text-xs font-bold text-slate-300 uppercase">
                     Combined Value
                   </span>
                 </div>
@@ -126,19 +126,19 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
               </div>
 
               {/* Value Breakdown List */}
-              <div className="space-y-2.5 py-3 border-y border-slate-100 text-xs">
+              <div className="space-y-2.5 py-3 border-y border-slate-800/50 text-xs">
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-600 flex items-center gap-1.5 font-medium">
+                  <span className="text-slate-300 flex items-center gap-1.5 font-medium">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>Direct Monthly Bill Savings:</span>
                   </span>
-                  <span className="font-extrabold text-slate-900 font-mono">
+                  <span className="font-extrabold text-white font-mono">
                     ${annualCashSavings}/yr (${monthlySavings}/mo)
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-600 flex items-center gap-1.5 font-medium">
+                  <span className="text-slate-300 flex items-center gap-1.5 font-medium">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>$0 Wi-Fi 6 Router Rental:</span>
                   </span>
@@ -148,7 +148,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-600 flex items-center gap-1.5 font-medium">
+                  <span className="text-slate-300 flex items-center gap-1.5 font-medium">
                     <Gift className="w-4 h-4 text-indigo-600 shrink-0" />
                     <span>Promotional Reward Card:</span>
                   </span>

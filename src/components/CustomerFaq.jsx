@@ -33,15 +33,15 @@ export function CustomerFaq() {
 
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-      <div className="text-center pb-8 border-b border-slate-200">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
+      <div className="text-center pb-8 border-b border-slate-800">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-900/30 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
           <HelpCircle className="w-3.5 h-3.5" />
           <span>Frequently Asked Questions</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Everything You Need to Know About Finding Home Internet
         </h2>
-        <p className="mt-1 text-sm text-slate-600 max-w-xl mx-auto">
+        <p className="mt-1 text-sm text-slate-300 max-w-xl mx-auto">
           Clear, straightforward answers to help you choose the right speed and set up your connection.
         </p>
       </div>
@@ -53,7 +53,7 @@ export function CustomerFaq() {
             <div
               key={idx}
               className={`rounded-2xl border transition-all ${
-                isOpen ? 'bg-white border-blue-300 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300'
+                isOpen ? 'bg-slate-900 border-blue-300 shadow-sm' : 'bg-slate-900 border-slate-800 hover:border-slate-700'
               }`}
             >
               <button
@@ -61,16 +61,16 @@ export function CustomerFaq() {
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
                 className="w-full p-5 flex items-center justify-between text-left gap-4"
               >
-                <span className="text-sm sm:text-base font-bold text-slate-900">
+                <span className="text-sm sm:text-base font-bold text-white">
                   {faq.q}
                 </span>
-                <span className="p-1 rounded-lg bg-slate-100 text-slate-500 shrink-0">
+                <span className="p-1 rounded-lg bg-slate-800 text-slate-500 shrink-0">
                   {isOpen ? <ChevronUp className="w-4 h-4 text-indigo-600" /> : <ChevronDown className="w-4 h-4" />}
                 </span>
               </button>
 
               {isOpen && (
-                <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                <div className="px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/50 pt-3">
                   {faq.a}
                 </div>
               )}

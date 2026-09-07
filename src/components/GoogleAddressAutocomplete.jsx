@@ -264,8 +264,8 @@ export function GoogleAddressAutocomplete({
           }}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className={`w-full pl-12 pr-10 py-3.5 bg-slate-50/50 border border-slate-300 rounded-2xl text-slate-900 placeholder-slate-400 text-base sm:text-sm focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 font-medium transition-all ${
-            isFocused ? 'ring-2 ring-blue-500/25 border-blue-600 bg-white shadow-md' : ''
+          className={`w-full pl-12 pr-10 py-3.5 bg-slate-950/50 border border-slate-700 rounded-2xl text-white placeholder-slate-400 text-base sm:text-sm focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 font-medium transition-all ${
+            isFocused ? 'ring-2 ring-blue-500/25 border-blue-600 bg-slate-900 shadow-md' : ''
           } ${inputClassName}`}
         />
 
@@ -278,7 +278,7 @@ export function GoogleAddressAutocomplete({
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition-colors"
+              className="p-1 rounded-full text-slate-500 hover:text-slate-300 hover:bg-slate-800 transition-colors"
               title="Clear input"
             >
               <X className="w-4 h-4" />
@@ -289,7 +289,7 @@ export function GoogleAddressAutocomplete({
 
       {/* Google Places Dropdown Predictions with Dynamic Keyboard-Safe Max Height */}
       {isOpen && suggestions.length > 0 && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden animate-fade-in divide-y divide-slate-100">
+        <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden animate-fade-in divide-y divide-slate-100">
           <div 
             className="overflow-y-auto overscroll-contain transition-all"
             style={{ maxHeight: `${dropdownMaxHeight}px` }}
@@ -302,14 +302,14 @@ export function GoogleAddressAutocomplete({
                   type="button"
                   onClick={() => handleSelectSuggestion(item)}
                   className={`w-full text-left px-4 py-3 flex items-start gap-3 transition-colors ${
-                    isSelected ? 'bg-blue-50 text-blue-900' : 'hover:bg-slate-50/50 text-slate-800'
+                    isSelected ? 'bg-indigo-900/30 text-blue-900' : 'hover:bg-slate-950/50 text-slate-100'
                   }`}
                 >
                   <div className="w-8 h-8 rounded-xl bg-blue-100/70 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-bold text-slate-900 truncate">
+                    <div className="text-xs font-bold text-white truncate">
                       {item.mainText}
                     </div>
                     {item.secondaryText && (
@@ -324,12 +324,12 @@ export function GoogleAddressAutocomplete({
           </div>
 
           {/* Google Attribution Strip (ToS Compliance) */}
-          <div className="px-4 py-2 bg-slate-50/50 flex items-center justify-between text-[10px] text-slate-400">
+          <div className="px-4 py-2 bg-slate-950/50 flex items-center justify-between text-[10px] text-slate-500">
             <span className="flex items-center gap-1">
               <span>Suggestions powered by</span>
-              <span className="font-semibold text-slate-600">Google Places</span>
+              <span className="font-semibold text-slate-300">Google Places</span>
             </span>
-            <span className="text-[10px] text-slate-400">United States</span>
+            <span className="text-[10px] text-slate-500">United States</span>
           </div>
         </div>
       )}

@@ -34,12 +34,12 @@ export function TechSignalDiagnostics({ cityName, address }) {
               <span className="text-xs font-black uppercase tracking-wider text-white">
                 Live Infrastructure Telemetry
               </span>
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-900/300/15 text-emerald-400 border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                 Live Node
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 -mt-0.5">
+            <p className="text-[11px] text-slate-500 -mt-0.5">
               Active broadband nodes serving <strong className="text-white">{displayArea}</strong>
             </p>
           </div>
@@ -52,7 +52,7 @@ export function TechSignalDiagnostics({ cityName, address }) {
           <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex items-center gap-2.5">
             <Satellite className="w-4 h-4 text-cyan-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] uppercase font-semibold text-slate-400 truncate">
+              <div className="text-[10px] uppercase font-semibold text-slate-500 truncate">
                 Starlink LEO
               </div>
               <div className="text-xs font-black text-white truncate">
@@ -65,7 +65,7 @@ export function TechSignalDiagnostics({ cityName, address }) {
           <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex items-center gap-2.5">
             <Radio className="w-4 h-4 text-pink-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] uppercase font-semibold text-slate-400 truncate">
+              <div className="text-[10px] uppercase font-semibold text-slate-500 truncate">
                 5G Ultra Band
               </div>
               <div className="text-xs font-black text-white truncate">
@@ -78,7 +78,7 @@ export function TechSignalDiagnostics({ cityName, address }) {
           <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex items-center gap-2.5">
             <Zap className="w-4 h-4 text-amber-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] uppercase font-semibold text-slate-400 truncate">
+              <div className="text-[10px] uppercase font-semibold text-slate-500 truncate">
                 Fiber Latency
               </div>
               <div className="text-xs font-black text-emerald-400 truncate">
@@ -91,7 +91,7 @@ export function TechSignalDiagnostics({ cityName, address }) {
           <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex items-center gap-2.5">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] uppercase font-semibold text-slate-400 truncate">
+              <div className="text-[10px] uppercase font-semibold text-slate-500 truncate">
                 FCC 47 CFR § 8.1
               </div>
               <div className="text-xs font-black text-white truncate">

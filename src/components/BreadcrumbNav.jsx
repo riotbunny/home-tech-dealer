@@ -78,7 +78,7 @@ export function BreadcrumbNav({ routeData, onNavigate }) {
                     href="/"
                     onClick={(e) => handleLinkClick(e, '/')}
                     itemProp="item"
-                    className="flex items-center gap-1 text-slate-600 hover:text-indigo-600 transition-colors"
+                    className="flex items-center gap-1 text-slate-300 hover:text-indigo-600 transition-colors"
                   >
                     <Home className="w-3.5 h-3.5" />
                     <span itemProp="name" className="sr-only sm:not-sr-only">Home</span>
@@ -86,7 +86,7 @@ export function BreadcrumbNav({ routeData, onNavigate }) {
                 ) : isLast || crumb.active ? (
                   <span 
                     itemProp="name" 
-                    className="text-indigo-700 font-bold bg-blue-50/80 px-2 py-0.5 rounded-md border border-blue-100"
+                    className="text-indigo-700 font-bold bg-indigo-900/30/80 px-2 py-0.5 rounded-md border border-blue-100"
                     aria-current="page"
                   >
                     {crumb.label}
@@ -96,7 +96,7 @@ export function BreadcrumbNav({ routeData, onNavigate }) {
                     href={crumb.path}
                     onClick={(e) => handleLinkClick(e, crumb.path)}
                     itemProp="item"
-                    className="text-slate-600 hover:text-indigo-600 transition-colors"
+                    className="text-slate-300 hover:text-indigo-600 transition-colors"
                   >
                     <span itemProp="name">{crumb.label}</span>
                   </a>

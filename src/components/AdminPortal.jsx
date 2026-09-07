@@ -327,7 +327,7 @@ export function AdminPortal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-slate-100 animate-fade-in overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col bg-slate-800 animate-fade-in overflow-hidden">
       
       {/* Top Admin Header Bar */}
       <header className="bg-slate-900 text-white px-4 sm:px-6 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4 shadow-md shrink-0">
@@ -340,11 +340,11 @@ export function AdminPortal({
               <span className="font-extrabold text-base text-white tracking-tight">
                 Home Tech Dealer Inc. Admin
               </span>
-              <span className="text-[10px] uppercase font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] uppercase font-mono font-bold bg-emerald-900/300/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                 Authenticated
               </span>
             </div>
-            <p className="text-xs text-slate-400 -mt-0.5">
+            <p className="text-xs text-slate-500 -mt-0.5">
               Live Carrier Package &amp; Pricing Management
             </p>
           </div>
@@ -396,8 +396,8 @@ export function AdminPortal({
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         
         {/* Left Sidebar: Carriers List */}
-        <aside className="w-full md:w-72 bg-white border-r border-slate-200 flex flex-col shrink-0">
-          <div className="p-3 border-b border-slate-200 bg-slate-50/50 space-y-2">
+        <aside className="w-full md:w-72 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+          <div className="p-3 border-b border-slate-800 bg-slate-950/50 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
                 Carriers ({activeCatalog.length})
@@ -405,7 +405,7 @@ export function AdminPortal({
               <button
                 type="button"
                 onClick={() => setIsAddCarrierOpen(true)}
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-1 rounded-lg transition-colors"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-700 hover:text-blue-800 bg-indigo-900/30 hover:bg-blue-100 border border-blue-200 px-2 py-1 rounded-lg transition-colors"
                 title="Add a new custom carrier"
               >
                 <Plus className="w-3.5 h-3.5" />
@@ -413,13 +413,13 @@ export function AdminPortal({
               </button>
             </div>
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search carriers..."
-                className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-blue-600 placeholder-slate-400"
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-blue-600 placeholder-slate-400"
               />
             </div>
           </div>
@@ -436,10 +436,10 @@ export function AdminPortal({
                   onClick={() => setSelectedProviderId(provider.id)}
                   className={`w-full text-left p-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all ${
                     isSelected 
-                      ? 'bg-blue-50 text-blue-800 border border-blue-200 shadow-xs' 
+                      ? 'bg-indigo-900/30 text-blue-800 border border-blue-200 shadow-xs' 
                       : isPaused
-                        ? 'text-slate-400 bg-slate-50/50/50 hover:bg-slate-100/80 border border-transparent'
-                        : 'text-slate-700 hover:bg-slate-50/50 border border-transparent'
+                        ? 'text-slate-500 bg-slate-950/50/50 hover:bg-slate-800/80 border border-transparent'
+                        : 'text-slate-200 hover:bg-slate-950/50 border border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2 truncate">
@@ -447,7 +447,7 @@ export function AdminPortal({
                       className={`w-2.5 h-2.5 rounded-full shrink-0 ${isPaused ? 'opacity-40' : ''}`}
                       style={{ backgroundColor: provider.color || '#2563EB' }}
                     />
-                    <span className={`truncate ${isPaused ? 'line-through text-slate-400' : ''}`}>
+                    <span className={`truncate ${isPaused ? 'line-through text-slate-500' : ''}`}>
                       {provider.name}
                     </span>
                   </div>
@@ -460,7 +460,7 @@ export function AdminPortal({
                       </span>
                     )}
                     <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                      isSelected ? 'bg-blue-200/60 text-blue-900 font-bold' : 'bg-slate-100 text-slate-500'
+                      isSelected ? 'bg-blue-200/60 text-blue-900 font-bold' : 'bg-slate-800 text-slate-500'
                     }`}>
                       {provider.plans.length} plans
                     </span>
@@ -472,17 +472,17 @@ export function AdminPortal({
         </aside>
 
         {/* Right Main Editor: Plans for Selected Carrier */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50/50">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-950/50">
           <div className="max-w-5xl mx-auto space-y-6">
             
             {/* Global Sales Hotline Phone Number Card */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-slate-900 p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">
+                  <h3 className="text-sm font-bold text-white">
                     Global Sales Hotline &amp; Call-to-Order Number
                   </h3>
                   <p className="text-xs text-slate-500">
@@ -497,7 +497,7 @@ export function AdminPortal({
                   value={activePhone}
                   onChange={(e) => setActivePhone(e.target.value)}
                   placeholder="e.g. 1 (888) 482-6192"
-                  className="px-3.5 py-2 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 font-mono font-bold text-sm focus:outline-none focus:border-emerald-600 w-48 sm:w-56"
+                  className="px-3.5 py-2 bg-slate-950/50 border border-slate-700 rounded-xl text-white font-mono font-bold text-sm focus:outline-none focus:border-emerald-600 w-48 sm:w-56"
                 />
                 <button
                   type="button"
@@ -513,17 +513,17 @@ export function AdminPortal({
             </div>
 
             {/* Google Maps Platform API Key Card */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-blue-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-slate-900 p-4 sm:p-5 rounded-2xl border border-blue-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-100 text-indigo-700 flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-bold text-slate-900">
+                    <h3 className="text-sm font-bold text-white">
                       Google Maps Platform Address Autocomplete API Key
                     </h3>
-                    <span className="text-[10px] uppercase font-mono font-bold bg-blue-50 text-indigo-700 border border-blue-200 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] uppercase font-mono font-bold bg-indigo-900/30 text-indigo-700 border border-blue-200 px-2 py-0.5 rounded-full">
                       Active
                     </span>
                   </div>
@@ -539,7 +539,7 @@ export function AdminPortal({
                   value={activeGoogleKey}
                   onChange={(e) => setActiveGoogleKey(e.target.value)}
                   placeholder="AIzaSy..."
-                  className="px-3.5 py-2 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 font-mono font-medium text-xs focus:outline-none focus:border-blue-600 w-48 sm:w-64"
+                  className="px-3.5 py-2 bg-slate-950/50 border border-slate-700 rounded-xl text-white font-mono font-medium text-xs focus:outline-none focus:border-blue-600 w-48 sm:w-64"
                 />
                 <button
                   type="button"
@@ -555,17 +555,17 @@ export function AdminPortal({
             </div>
 
             {/* Base Location & Geolocation Fallback Card */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-indigo-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-slate-900 p-4 sm:p-5 rounded-2xl border border-indigo-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
                   <Globe className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-bold text-slate-900">
+                    <h3 className="text-sm font-bold text-white">
                       Fallback Base Metro &amp; Dynamic Geolocation
                     </h3>
-                    <span className="text-[10px] uppercase font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] uppercase font-mono font-bold bg-indigo-900/30 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full">
                       Automatic Geolocation Active
                     </span>
                   </div>
@@ -581,7 +581,7 @@ export function AdminPortal({
                   value={activeBaseCity}
                   onChange={(e) => setActiveBaseCity(e.target.value)}
                   placeholder="e.g. Austin or leave empty"
-                  className="px-3.5 py-2 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 font-medium text-xs focus:outline-none focus:border-indigo-600 w-36 sm:w-44"
+                  className="px-3.5 py-2 bg-slate-950/50 border border-slate-700 rounded-xl text-white font-medium text-xs focus:outline-none focus:border-indigo-600 w-36 sm:w-44"
                 />
                 <input
                   type="text"
@@ -589,7 +589,7 @@ export function AdminPortal({
                   onChange={(e) => setActiveBaseState(e.target.value)}
                   placeholder="TX"
                   maxLength={2}
-                  className="px-2.5 py-2 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 font-medium text-xs text-center uppercase focus:outline-none focus:border-indigo-600 w-14"
+                  className="px-2.5 py-2 bg-slate-950/50 border border-slate-700 rounded-xl text-white font-medium text-xs text-center uppercase focus:outline-none focus:border-indigo-600 w-14"
                 />
                 <button
                   type="button"
@@ -611,14 +611,14 @@ export function AdminPortal({
             </div>
 
             {/* Top Picks Configuration */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs mb-8">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xs mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
                     <Star className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Featured Top Picks</h3>
+                    <h3 className="text-sm font-bold text-white">Featured Top Picks</h3>
                     <p className="text-xs text-slate-500">Select which carriers should be featured on verified address searches.</p>
                   </div>
                 </div>
@@ -630,7 +630,7 @@ export function AdminPortal({
                       showToast('Top picks successfully updated!');
                     }
                   }}
-                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition-all shrink-0"
+                  className="px-4 py-2 rounded-xl bg-amber-900/300 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition-all shrink-0"
                 >
                   Save Top Picks
                 </button>
@@ -638,31 +638,31 @@ export function AdminPortal({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Top Fiber Pick</label>
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Top Fiber Pick</label>
                   <select 
                     value={activeTopPicks.fiber}
                     onChange={(e) => setActiveTopPicks({...activeTopPicks, fiber: e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 font-medium focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white font-medium focus:outline-none focus:border-amber-500"
                   >
                     {activeCatalog.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Top Cable Pick</label>
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Top Cable Pick</label>
                   <select 
                     value={activeTopPicks.cable}
                     onChange={(e) => setActiveTopPicks({...activeTopPicks, cable: e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 font-medium focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white font-medium focus:outline-none focus:border-amber-500"
                   >
                     {activeCatalog.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Top Value/5G Pick</label>
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Top Value/5G Pick</label>
                   <select 
                     value={activeTopPicks.value}
                     onChange={(e) => setActiveTopPicks({...activeTopPicks, value: e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 font-medium focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white font-medium focus:outline-none focus:border-amber-500"
                   >
                     {activeCatalog.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
@@ -671,17 +671,17 @@ export function AdminPortal({
             </div>
 
             {/* Selected Carrier Header */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span 
                     className="w-3.5 h-3.5 rounded-full" 
                     style={{ backgroundColor: selectedProvider.color || '#2563EB' }}
                   />
-                  <h2 className="text-xl font-extrabold text-slate-900">
+                  <h2 className="text-xl font-extrabold text-white">
                     {selectedProvider.name} Packages
                   </h2>
-                  <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium">
+                  <span className="text-xs bg-slate-800 text-slate-200 px-2 py-0.5 rounded font-medium">
                     {selectedProvider.type}
                   </span>
                   {selectedProvider.paused ? (
@@ -690,7 +690,7 @@ export function AdminPortal({
                       Paused (Hidden)
                     </span>
                   ) : (
-                    <span className="text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span className="text-xs font-bold bg-emerald-900/30 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
                       <Check className="w-3 h-3" />
                       Active (Live)
                     </span>
@@ -709,7 +709,7 @@ export function AdminPortal({
                   className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
                     selectedProvider.paused
                       ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-sm'
-                      : 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-300'
+                      : 'bg-amber-900/30 hover:bg-amber-100 text-amber-900 border-amber-300'
                   }`}
                   title={selectedProvider.paused ? 'Click to show this carrier on the website' : 'Click to hide this carrier from the website'}
                 >
@@ -740,7 +740,7 @@ export function AdminPortal({
                 <button
                   type="button"
                   onClick={() => handleDeleteCarrier(selectedProvider.id)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition-all"
+                  className="p-2 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 border border-slate-800 transition-all"
                   title="Remove this carrier from catalog"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -750,7 +750,7 @@ export function AdminPortal({
 
             {/* Carrier Paused Alert Notice */}
             {selectedProvider.paused && (
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-3 animate-fade-in shadow-xs">
+              <div className="p-4 rounded-2xl bg-amber-900/30 border border-amber-200 text-amber-900 text-xs flex items-center gap-3 animate-fade-in shadow-xs">
                 <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
                 <div>
                   <strong className="font-bold">Carrier Is Currently Paused:</strong> {selectedProvider.name} and all its plans are currently hidden from public customer search results, address qualifiers, and plan cards. Click <strong>"Resume Carrier"</strong> above anytime to restore it live across the website.
@@ -759,23 +759,23 @@ export function AdminPortal({
             )}
 
             {/* Carrier Settings (Enrollment URL) */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xs space-y-4">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <Globe className="w-4 h-4 text-indigo-600" />
                 <span>Online Enrollment Link</span>
               </h3>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Direct Affiliate / Enrollment URL (Optional)</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Direct Affiliate / Enrollment URL (Optional)</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <LinkIcon className="w-4 h-4 text-slate-400" />
+                    <LinkIcon className="w-4 h-4 text-slate-500" />
                   </div>
                   <input
                     type="url"
                     value={selectedProvider.enrollUrl || ''}
                     onChange={(e) => handleUpdateProviderField('enrollUrl', e.target.value)}
                     placeholder="https://..."
-                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                    className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-slate-500"
                   />
                 </div>
                 <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
@@ -789,26 +789,26 @@ export function AdminPortal({
               {selectedProvider.plans.map((plan, planIdx) => (
                 <div 
                   key={plan.id}
-                  className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4 hover:border-slate-300 transition-all"
+                  className="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xs space-y-4 hover:border-slate-700 transition-all"
                 >
                   {/* Top Bar: Plan Title & Quick Controls */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800/50">
                     <div className="flex items-center gap-3 flex-1 min-w-[200px]">
-                      <span className="text-xs font-mono font-bold text-slate-400 bg-slate-100 w-6 h-6 rounded-lg flex items-center justify-center">
+                      <span className="text-xs font-mono font-bold text-slate-500 bg-slate-800 w-6 h-6 rounded-lg flex items-center justify-center">
                         #{planIdx + 1}
                       </span>
                       <input
                         type="text"
                         value={plan.name}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'name', e.target.value)}
-                        className="text-base font-extrabold text-slate-900 border-b border-transparent hover:border-slate-300 focus:border-blue-600 focus:outline-none bg-transparent px-1 flex-1"
+                        className="text-base font-extrabold text-white border-b border-transparent hover:border-slate-700 focus:border-blue-600 focus:outline-none bg-transparent px-1 flex-1"
                         placeholder="Package Name"
                       />
                     </div>
 
                     <div className="flex items-center gap-3">
                       {/* Popular Toggle */}
-                      <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-200 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={!!plan.popular}
@@ -821,7 +821,7 @@ export function AdminPortal({
                       {/* Delete Plan Button */}
                       <button
                         onClick={() => handleDeletePlan(plan.id)}
-                        className="text-slate-400 hover:text-red-600 p-1 rounded-lg transition-colors"
+                        className="text-slate-500 hover:text-red-600 p-1 rounded-lg transition-colors"
                         title="Delete Plan"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -833,12 +833,12 @@ export function AdminPortal({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
                     
                     {/* Monthly Price Field */}
-                    <div className="p-3 rounded-xl bg-slate-50/50 border border-slate-200">
+                    <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800">
                       <label className="block text-slate-500 font-bold mb-1 uppercase text-[10px]">
                         Monthly Price ($)
                       </label>
                       <div className="flex items-center gap-1">
-                        <span className="font-extrabold text-lg text-slate-900">$</span>
+                        <span className="font-extrabold text-lg text-white">$</span>
                         <input
                           type="number"
                           step="1"
@@ -846,14 +846,14 @@ export function AdminPortal({
                           max="500"
                           value={plan.price}
                           onChange={(e) => handleUpdatePlanField(plan.id, 'price', Number(e.target.value))}
-                          className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-base font-extrabold text-slate-900 focus:outline-none focus:border-blue-600"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-base font-extrabold text-white focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-slate-500 text-xs">/mo</span>
                       </div>
                     </div>
 
                     {/* Download Speed */}
-                    <div className="p-3 rounded-xl bg-slate-50/50 border border-slate-200">
+                    <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800">
                       <label className="block text-slate-500 font-bold mb-1 uppercase text-[10px]">
                         Download Speed
                       </label>
@@ -861,13 +861,13 @@ export function AdminPortal({
                         type="text"
                         value={plan.downloadSpeed}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'downloadSpeed', e.target.value)}
-                        className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold text-indigo-700 text-xs focus:outline-none focus:border-blue-600"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 font-bold text-indigo-700 text-xs focus:outline-none focus:border-blue-600"
                         placeholder="e.g. 500 Mbps"
                       />
                     </div>
 
                     {/* Upload Speed */}
-                    <div className="p-3 rounded-xl bg-slate-50/50 border border-slate-200">
+                    <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800">
                       <label className="block text-slate-500 font-bold mb-1 uppercase text-[10px]">
                         Upload Speed
                       </label>
@@ -875,13 +875,13 @@ export function AdminPortal({
                         type="text"
                         value={plan.uploadSpeed}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'uploadSpeed', e.target.value)}
-                        className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold text-slate-800 text-xs focus:outline-none focus:border-blue-600"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 font-bold text-slate-100 text-xs focus:outline-none focus:border-blue-600"
                         placeholder="e.g. 500 Mbps"
                       />
                     </div>
 
                     {/* Contract Terms */}
-                    <div className="p-3 rounded-xl bg-slate-50/50 border border-slate-200">
+                    <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800">
                       <label className="block text-slate-500 font-bold mb-1 uppercase text-[10px]">
                         Contract Terms
                       </label>
@@ -889,7 +889,7 @@ export function AdminPortal({
                         type="text"
                         value={plan.contract}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'contract', e.target.value)}
-                        className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 text-xs focus:outline-none focus:border-blue-600"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-100 text-xs focus:outline-none focus:border-blue-600"
                         placeholder="e.g. No annual contract"
                       />
                     </div>
@@ -905,7 +905,7 @@ export function AdminPortal({
                         type="text"
                         value={plan.equipmentFee}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'equipmentFee', e.target.value)}
-                        className="w-full bg-slate-50/50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 text-xs focus:outline-none focus:border-blue-600"
+                        className="w-full bg-slate-950/50 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:outline-none focus:border-blue-600"
                         placeholder="e.g. Wi-Fi 6 Router Included"
                       />
                     </div>
@@ -918,16 +918,16 @@ export function AdminPortal({
                         type="text"
                         value={plan.installationSla}
                         onChange={(e) => handleUpdatePlanField(plan.id, 'installationSla', e.target.value)}
-                        className="w-full bg-slate-50/50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 text-xs focus:outline-none focus:border-blue-600"
+                        className="w-full bg-slate-950/50 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:outline-none focus:border-blue-600"
                         placeholder="e.g. 24-48 Hours"
                       />
                     </div>
                   </div>
 
                   {/* Perks / Reward Cards List */}
-                  <div className="pt-2 border-t border-slate-100">
+                  <div className="pt-2 border-t border-slate-800/50">
                     <div className="flex items-center justify-between mb-2">
-                      <label className="text-slate-600 font-bold text-xs flex items-center gap-1.5">
+                      <label className="text-slate-300 font-bold text-xs flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                         <span>Included Perks &amp; Mover Gift Cards:</span>
                       </label>
@@ -944,12 +944,12 @@ export function AdminPortal({
                       {plan.perks.map((perk, perkIdx) => (
                         <span 
                           key={perkIdx}
-                          className="inline-flex items-center gap-1.5 bg-slate-100 border border-slate-200 text-slate-800 text-xs px-2.5 py-1 rounded-lg"
+                          className="inline-flex items-center gap-1.5 bg-slate-800 border border-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-lg"
                         >
                           <span>{perk}</span>
                           <button
                             onClick={() => handleRemovePerk(plan.id, perkIdx)}
-                            className="text-slate-400 hover:text-red-600 ml-1"
+                            className="text-slate-500 hover:text-red-600 ml-1"
                             title="Remove Perk"
                           >
                             <X className="w-3 h-3" />
@@ -963,7 +963,7 @@ export function AdminPortal({
             </div>
 
             {/* Bottom Save Bar */}
-            <div className="p-4 bg-white rounded-2xl border border-slate-200 flex items-center justify-between">
+            <div className="p-4 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-between">
               <div className="text-xs text-slate-500">
                 Ready to publish your updates to the live site?
               </div>
@@ -982,18 +982,18 @@ export function AdminPortal({
       {/* Confirmation Dialog for Reset */}
       {showResetConfirm && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full border border-slate-200 shadow-2xl space-y-4 text-center">
+          <div className="bg-slate-900 rounded-3xl p-6 max-w-sm w-full border border-slate-800 shadow-2xl space-y-4 text-center">
             <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto">
               <RotateCcw className="w-6 h-6" />
             </div>
-            <h4 className="text-base font-bold text-slate-900">Reset All Packages to Defaults?</h4>
+            <h4 className="text-base font-bold text-white">Reset All Packages to Defaults?</h4>
             <p className="text-xs text-slate-500">
               This will erase all custom pricing and perk modifications across all 27 carriers and restore factory baseline values.
             </p>
             <div className="pt-2 flex items-center justify-center gap-3">
               <button
                 onClick={() => setShowResetConfirm(false)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200"
+                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-semibold hover:bg-slate-800"
               >
                 Cancel
               </button>
@@ -1011,7 +1011,7 @@ export function AdminPortal({
       {/* Add New Carrier Modal */}
       {isAddCarrierOpen && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-slate-900 rounded-3xl max-w-lg w-full border border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-blue-400" />
@@ -1020,7 +1020,7 @@ export function AdminPortal({
               <button
                 type="button"
                 onClick={() => setIsAddCarrierOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1 rounded-lg text-slate-500 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1029,7 +1029,7 @@ export function AdminPortal({
             <form onSubmit={handleCreateCarrier} className="p-6 overflow-y-auto space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">
+                  <label className="block text-slate-200 font-bold mb-1">
                     Carrier Short Name *
                   </label>
                   <input
@@ -1038,18 +1038,18 @@ export function AdminPortal({
                     value={newCarrierForm.name}
                     onChange={(e) => setNewCarrierForm({ ...newCarrierForm, name: e.target.value })}
                     placeholder="e.g. Google Fiber"
-                    className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 text-xs focus:outline-none focus:border-blue-600 font-semibold"
+                    className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-blue-600 font-semibold"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">
+                  <label className="block text-slate-200 font-bold mb-1">
                     Technology Type
                   </label>
                   <select
                     value={newCarrierForm.type}
                     onChange={(e) => setNewCarrierForm({ ...newCarrierForm, type: e.target.value })}
-                    className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 text-xs focus:outline-none focus:border-blue-600 font-semibold"
+                    className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-blue-600 font-semibold"
                   >
                     <option value="Fiber Optic">Fiber Optic</option>
                     <option value="5G Home Internet">5G Home Internet</option>
@@ -1060,7 +1060,7 @@ export function AdminPortal({
               </div>
 
               <div>
-                <label className="block text-slate-700 font-bold mb-1">
+                <label className="block text-slate-200 font-bold mb-1">
                   Official Full Name
                 </label>
                 <input
@@ -1068,13 +1068,13 @@ export function AdminPortal({
                   value={newCarrierForm.fullName}
                   onChange={(e) => setNewCarrierForm({ ...newCarrierForm, fullName: e.target.value })}
                   placeholder="e.g. Google Fiber Gigabit Optical Network"
-                  className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
+                  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">
+                  <label className="block text-slate-200 font-bold mb-1">
                     Carrier Brand Color
                   </label>
                   <div className="flex items-center gap-2">
@@ -1082,19 +1082,19 @@ export function AdminPortal({
                       type="color"
                       value={newCarrierForm.color}
                       onChange={(e) => setNewCarrierForm({ ...newCarrierForm, color: e.target.value })}
-                      className="w-8 h-8 rounded-lg border border-slate-300 cursor-pointer p-0.5 bg-white"
+                      className="w-8 h-8 rounded-lg border border-slate-700 cursor-pointer p-0.5 bg-slate-900"
                     />
                     <input
                       type="text"
                       value={newCarrierForm.color}
                       onChange={(e) => setNewCarrierForm({ ...newCarrierForm, color: e.target.value })}
-                      className="flex-1 bg-slate-50/50 border border-slate-300 rounded-xl px-3 py-1.5 text-slate-900 text-xs font-mono"
+                      className="flex-1 bg-slate-950/50 border border-slate-700 rounded-xl px-3 py-1.5 text-white text-xs font-mono"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">
+                  <label className="block text-slate-200 font-bold mb-1">
                     Highlight Badge
                   </label>
                   <input
@@ -1102,61 +1102,61 @@ export function AdminPortal({
                     value={newCarrierForm.badge}
                     onChange={(e) => setNewCarrierForm({ ...newCarrierForm, badge: e.target.value })}
                     placeholder="e.g. 100% Symmetrical Gigabit"
-                    className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
+                    className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
 
               {/* Initial Plan Setup */}
-              <div className="pt-3 border-t border-slate-200">
-                <h4 className="text-xs font-extrabold text-slate-900 mb-2 uppercase tracking-wide">
+              <div className="pt-3 border-t border-slate-800">
+                <h4 className="text-xs font-extrabold text-white mb-2 uppercase tracking-wide">
                   Initial Plan Details
                 </h4>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-slate-600 font-bold mb-1 text-[11px]">
+                    <label className="block text-slate-300 font-bold mb-1 text-[11px]">
                       Plan Name
                     </label>
                     <input
                       type="text"
                       value={newCarrierForm.planName}
                       onChange={(e) => setNewCarrierForm({ ...newCarrierForm, planName: e.target.value })}
-                      className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 text-xs font-semibold"
+                      className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-2.5 py-1.5 text-white text-xs font-semibold"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-slate-600 font-bold mb-1 text-[11px]">
+                    <label className="block text-slate-300 font-bold mb-1 text-[11px]">
                       Download Speed
                     </label>
                     <input
                       type="text"
                       value={newCarrierForm.downloadSpeed}
                       onChange={(e) => setNewCarrierForm({ ...newCarrierForm, downloadSpeed: e.target.value })}
-                      className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 text-xs font-bold text-indigo-700"
+                      className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-2.5 py-1.5 text-white text-xs font-bold text-indigo-700"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-slate-600 font-bold mb-1 text-[11px]">
+                    <label className="block text-slate-300 font-bold mb-1 text-[11px]">
                       Monthly Price ($)
                     </label>
                     <input
                       type="number"
                       value={newCarrierForm.price}
                       onChange={(e) => setNewCarrierForm({ ...newCarrierForm, price: e.target.value })}
-                      className="w-full bg-slate-50/50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 text-xs font-black text-emerald-700 font-mono"
+                      className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-2.5 py-1.5 text-white text-xs font-black text-emerald-700 font-mono"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsAddCarrierOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-800 text-slate-200 text-xs font-semibold transition-colors"
                 >
                   Cancel
                 </button>

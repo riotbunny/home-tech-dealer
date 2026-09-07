@@ -47,14 +47,14 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="text-center sm:text-left pb-6 border-b border-slate-800">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-900/300/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-2">
           <Calculator className="w-3.5 h-3.5" />
           <span>Financial Yield &amp; RGU Forecast Model</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Revenue Assurance &amp; Commission Distribution Forecaster
         </h2>
-        <p className="mt-1 text-sm text-slate-400 max-w-3xl">
+        <p className="mt-1 text-sm text-slate-500 max-w-3xl">
           Simulate the volume, carrier bounties, and master distributor overrides generated when OmniPulse channels high-intent mover traffic and 350 call center seats into unified telecom order management.
         </p>
       </div>
@@ -190,23 +190,23 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
           
           {/* Main Master Override Revenue Display */}
           <div className="glass-panel p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-br from-[#111827] via-[#1A1A2E] to-[#111827] shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-48 h-48 bg-amber-900/300/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <DollarSign className="w-4 h-4" />
                 <span>Master Wholesale Override</span>
               </span>
-              <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-mono text-slate-500 bg-slate-800 px-2 py-0.5 rounded">
                 Net Platform Override
               </span>
             </div>
 
             <div className="mt-4">
-              <div className="text-xs text-slate-400">Annual Master Wholesale Revenue</div>
+              <div className="text-xs text-slate-500">Annual Master Wholesale Revenue</div>
               <div className="text-3xl sm:text-4xl font-extrabold font-mono text-amber-400 mt-0.5">
                 ${Math.round(annualPartnerOverrideRevenue).toLocaleString()}
-                <span className="text-xs font-normal text-slate-400"> / year</span>
+                <span className="text-xs font-normal text-slate-500"> / year</span>
               </div>
               <div className="text-xs font-mono text-slate-300 mt-1">
                 (${Math.round(monthlyPartnerOverrideRevenue).toLocaleString()} / month recurring)
@@ -215,7 +215,7 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
 
             <div className="mt-5 pt-4 border-t border-slate-800 grid grid-cols-2 gap-4 text-xs">
               <div>
-                <div className="text-slate-400 text-[11px]">Monthly Installed RGUs</div>
+                <div className="text-slate-500 text-[11px]">Monthly Installed RGUs</div>
                 <div className="text-xl font-bold font-mono text-white mt-0.5">
                   {totalMonthlyRgus.toLocaleString()}
                 </div>
@@ -225,11 +225,11 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
               </div>
 
               <div>
-                <div className="text-slate-400 text-[11px]">Total Carrier GMV</div>
+                <div className="text-slate-500 text-[11px]">Total Carrier GMV</div>
                 <div className="text-xl font-bold font-mono text-emerald-400 mt-0.5">
                   ${Math.round(annualGrossBountyGmv / 1000000 * 10) / 10}M
                 </div>
-                <div className="text-[10px] text-slate-400 font-mono">
+                <div className="text-[10px] text-slate-500 font-mono">
                   Commission Volume Flow
                 </div>
               </div>
@@ -250,7 +250,7 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
             {/* Progress Bars */}
             <div className="space-y-2 text-xs">
               <div>
-                <div className="flex justify-between text-slate-400 mb-1">
+                <div className="flex justify-between text-slate-500 mb-1">
                   <span>Core Broadband / Fiber Orders ({qcrRate}% QCR):</span>
                   <span className="font-mono text-white">{monthlyOrders.toLocaleString()} RGUs</span>
                 </div>
@@ -263,7 +263,7 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
               </div>
 
               <div>
-                <div className="flex justify-between text-slate-400 mb-1">
+                <div className="flex justify-between text-slate-500 mb-1">
                   <span>Attached Video (DIRECTV / Stream) &amp; Mobile (+{triplePlayAttach}%):</span>
                   <span className="font-mono text-amber-400">+{additionalRgus.toLocaleString()} RGUs</span>
                 </div>
@@ -277,7 +277,7 @@ export function RevenueCalculator({ onOpenPartnerModal }) {
             </div>
 
             {/* Revenue Assurance Note */}
-            <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
+            <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-start gap-2">
               <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
               <span>
                 Fully reconciled through our automated <strong>Commission Management &amp; Revenue Assurance engine</strong>—sub-dealer payouts with zero administrative leakage.

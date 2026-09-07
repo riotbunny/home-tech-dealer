@@ -27,39 +27,39 @@ export function VerifiedSocialProof() {
   const currentOrder = liveOrders[pulseIndex];
 
   return (
-    <div className="border-y border-slate-200 bg-white/90 backdrop-blur-md py-3 px-4 sm:px-6">
+    <div className="border-y border-slate-800 bg-slate-900/90 backdrop-blur-md py-3 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         
         {/* Left: Trust Badges */}
-        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-slate-700">
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-slate-200">
           <div className="flex items-center gap-1.5 font-bold">
             <div className="flex text-amber-400">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="text-slate-900 font-black">4.9 / 5.0</span>
+            <span className="text-white font-black">4.9 / 5.0</span>
             <span className="text-slate-500 font-normal">(4,200+ Verified Reviews)</span>
           </div>
 
-          <div className="h-3 w-px bg-slate-200 hidden sm:block" />
+          <div className="h-3 w-px bg-slate-800 hidden sm:block" />
 
-          <div className="flex items-center gap-1.5 text-slate-600 font-semibold">
+          <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>Authorized Multi-Carrier Master Dealer</span>
           </div>
 
-          <div className="h-3 w-px bg-slate-200 hidden sm:block" />
+          <div className="h-3 w-px bg-slate-800 hidden sm:block" />
 
-          <div className="flex items-center gap-1.5 text-slate-600 font-semibold">
+          <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
             <Award className="w-4 h-4 text-indigo-600" />
             <span>FCC Consumer Truth-in-Broadband Compliant</span>
           </div>
         </div>
 
         {/* Right: Real-Time Verified Installation Ticker */}
-        <div className="flex items-center gap-2 text-slate-700 bg-slate-50/50 px-3 py-1 rounded-full border border-slate-200/80 shadow-2xs max-w-full overflow-hidden">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+        <div className="flex items-center gap-2 text-slate-200 bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800/80 shadow-2xs max-w-full overflow-hidden">
+          <span className="w-2 h-2 rounded-full bg-emerald-900/300 animate-pulse shrink-0" />
           <span className="text-[11px] font-medium truncate">
             <strong>Verified Order:</strong> {currentOrder.name} ({currentOrder.city}) activated <span className="font-bold text-indigo-700">{currentOrder.carrier}</span> &bull; <span className="text-slate-500">{currentOrder.time}</span>
           </span>

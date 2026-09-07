@@ -49,11 +49,11 @@ export function PartnershipPortal({ isOpen, onClose }) {
                 <h3 className="text-lg font-extrabold text-white">
                   Enterprise Distribution Partnership
                 </h3>
-                <span className="text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">
+                <span className="text-[10px] font-mono uppercase bg-emerald-900/300/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">
                   48-Hr SLA
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Initiate master distribution onboarding, request token sandbox keys, or schedule an executive review.
               </p>
             </div>
@@ -61,7 +61,7 @@ export function PartnershipPortal({ isOpen, onClose }) {
 
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+            className="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-slate-800 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
@@ -71,7 +71,7 @@ export function PartnershipPortal({ isOpen, onClose }) {
         <div className="p-6 overflow-y-auto max-h-[80vh]">
           {submitted ? (
             <div className="py-10 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto shadow-glow-cyan">
+              <div className="w-16 h-16 rounded-full bg-emerald-900/300/20 text-emerald-400 flex items-center justify-center mx-auto shadow-glow-cyan">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h4 className="text-xl font-extrabold text-white">Partner Handshake Request Dispatched!</h4>
@@ -107,15 +107,15 @@ export function PartnershipPortal({ isOpen, onClose }) {
                 <div className="grid grid-cols-3 gap-2 pt-1 text-[11px] font-mono text-center">
                   <div className="bg-slate-900/80 p-2 rounded border border-slate-800">
                     <div className="text-white font-bold">38.5K</div>
-                    <div className="text-[10px] text-slate-400">Monthly Quals</div>
+                    <div className="text-[10px] text-slate-500">Monthly Quals</div>
                   </div>
                   <div className="bg-slate-900/80 p-2 rounded border border-slate-800">
                     <div className="text-emerald-400 font-bold">41.8%</div>
-                    <div className="text-[10px] text-slate-400">Avg QCR Rate</div>
+                    <div className="text-[10px] text-slate-500">Avg QCR Rate</div>
                   </div>
                   <div className="bg-slate-900/80 p-2 rounded border border-slate-800">
                     <div className="text-amber-400 font-bold">$1.8M+</div>
-                    <div className="text-[10px] text-slate-400">Annual Commission GMV</div>
+                    <div className="text-[10px] text-slate-500">Annual Commission GMV</div>
                   </div>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export function PartnershipPortal({ isOpen, onClose }) {
                   <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white"
+                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-500 hover:text-white"
                   >
                     Cancel
                   </button>

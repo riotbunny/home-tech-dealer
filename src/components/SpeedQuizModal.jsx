@@ -74,16 +74,16 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fade-in">
-      <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <div className="bg-slate-950/50 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-blue-100 text-indigo-700 flex items-center justify-center">
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-slate-900">
+              <h3 className="text-base font-extrabold text-white">
                 Internet Speed Matcher
               </h3>
               <p className="text-xs text-slate-500">
@@ -94,7 +94,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60"
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-800/60"
           >
             <X className="w-5 h-5" />
           </button>
@@ -105,7 +105,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
           
           {/* Question 1 */}
           <div>
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide block mb-2">
+            <label className="text-xs font-bold text-slate-200 uppercase tracking-wide block mb-2">
               1. How many people use the internet in your home?
             </label>
             <div className="grid grid-cols-3 gap-3">
@@ -123,8 +123,8 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                   }}
                   className={`p-3 rounded-2xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all ${
                     householdSize === opt.id
-                      ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
+                      ? 'bg-indigo-900/30 border-blue-600 text-blue-800 shadow-xs'
+                      : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-950/50'
                   }`}
                 >
                   <opt.icon className="w-5 h-5 text-indigo-600" />
@@ -136,7 +136,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
 
           {/* Question 2 */}
           <div>
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide block mb-2">
+            <label className="text-xs font-bold text-slate-200 uppercase tracking-wide block mb-2">
               2. What do you do online? (Select all that apply)
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -154,8 +154,8 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                     onClick={() => toggleActivity(act.id)}
                     className={`p-3 rounded-2xl border text-xs font-semibold flex items-center justify-between transition-all text-left ${
                       isSelected
-                        ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
+                        ? 'bg-indigo-900/30 border-blue-600 text-blue-800 shadow-xs'
+                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-950/50'
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -171,7 +171,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
 
           {/* Question 3 */}
           <div>
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide block mb-2">
+            <label className="text-xs font-bold text-slate-200 uppercase tracking-wide block mb-2">
               3. Approximately how many connected devices in your home?
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -185,8 +185,8 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                   }}
                   className={`py-2 px-2 rounded-xl border text-xs font-semibold text-center transition-all ${
                     deviceCount === count
-                      ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
+                      ? 'bg-indigo-900/30 border-blue-600 text-blue-800 shadow-xs'
+                      : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-950/50'
                   }`}
                 >
                   <span>{count} Devices</span>
@@ -196,7 +196,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
           </div>
 
           {/* Recommendation Box */}
-          <div className="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2">
+          <div className="p-5 rounded-2xl bg-indigo-900/30/70 border border-blue-200 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold uppercase bg-blue-600 text-white px-2 py-0.5 rounded-full">
                 {recommendation.badge}
@@ -206,11 +206,11 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
               </span>
             </div>
 
-            <div className="text-xl font-extrabold text-slate-900">
+            <div className="text-xl font-extrabold text-white">
               {recommendation.label}
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               {recommendation.desc}
             </p>
 

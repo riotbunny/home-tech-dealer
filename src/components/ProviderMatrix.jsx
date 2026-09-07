@@ -52,22 +52,22 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
-      <div className="pb-6 border-b border-slate-200">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
+      <div className="pb-6 border-b border-slate-800">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-900/30 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
           <Layers className="w-3.5 h-3.5" />
           <span>Provider Directory</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Compare 27 Leading Internet &amp; TV Providers
             </h2>
-            <p className="mt-1 text-sm text-slate-600 max-w-3xl">
+            <p className="mt-1 text-sm text-slate-300 max-w-3xl">
               Browse top national and regional providers. Compare starting prices, maximum download speeds, and customer ratings.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3.5 py-2 rounded-xl shrink-0">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-900/30 border border-emerald-200 px-3.5 py-2 rounded-xl shrink-0">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span>27 Providers Covered Nationwide</span>
           </div>
@@ -75,7 +75,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xs">
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((cat) => (
             <button
@@ -84,7 +84,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 categoryFilter === cat.id
                   ? 'bg-blue-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  : 'bg-slate-800 text-slate-200 hover:bg-slate-800'
               }`}
             >
               {cat.label}
@@ -93,13 +93,13 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
         </div>
 
         <div className="relative w-full sm:w-64">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search providers..."
-            className="w-full pl-9 pr-3 py-1.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 text-xs placeholder-slate-400 focus:outline-none focus:border-blue-600"
+            className="w-full pl-9 pr-3 py-1.5 bg-slate-950/50 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-400 focus:outline-none focus:border-blue-600"
           />
         </div>
       </div>
@@ -112,7 +112,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
           return (
             <div
               key={provider.id}
-              className="bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between group"
+              className="bg-slate-900 p-5 rounded-2xl border border-slate-800 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between group"
             >
               <div>
                 {/* Header */}
@@ -122,11 +122,11 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
                       className="w-3.5 h-3.5 rounded-full" 
                       style={{ backgroundColor: provider.color || '#2563EB' }}
                     />
-                    <span className="font-bold text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">
+                    <span className="font-bold text-sm text-white group-hover:text-indigo-600 transition-colors">
                       {provider.name}
                     </span>
                   </div>
-                  <span className="text-[10px] font-semibold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] font-semibold bg-slate-800 text-slate-200 px-2 py-0.5 rounded-md">
                     {provider.type.split(' ')[0]}
                   </span>
                 </div>
@@ -135,15 +135,15 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
                   {provider.fullName}
                 </div>
 
-                <div className="inline-block text-[11px] font-semibold text-indigo-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-lg mb-3">
+                <div className="inline-block text-[11px] font-semibold text-indigo-700 bg-indigo-900/30 border border-blue-200 px-2 py-0.5 rounded-lg mb-3">
                   {provider.badge}
                 </div>
 
                 {/* Specs */}
-                <div className="space-y-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800/50">
                   <div className="flex justify-between items-center text-xs">
                     <span>Starting From:</span>
-                    <span className="text-slate-900 font-bold">${startingPrice}/mo</span>
+                    <span className="text-white font-bold">${startingPrice}/mo</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span>Max Download:</span>
@@ -164,14 +164,14 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
               </div>
 
               {/* Action Button */}
-              <div className="mt-5 pt-3 border-t border-slate-100">
+              <div className="mt-5 pt-3 border-t border-slate-800/50">
                 <button
                   onClick={() => {
                     onSelectProviderForFilter(provider.id);
                     const element = document.getElementById('plans-marketplace');
                     if (element) element.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full py-2 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                  className="w-full py-2 rounded-xl bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-200 text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                 >
                   <span>Check Availability</span>
                   <ArrowRight className="w-3.5 h-3.5" />

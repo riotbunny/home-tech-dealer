@@ -18,7 +18,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-xs animate-fade-in">
-      <div className="relative w-full max-w-xl bg-white border border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col my-auto max-h-[92vh]">
+      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col my-auto max-h-[92vh]">
         
         {/* Top Tool Bar */}
         <div className="px-5 py-3 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
@@ -51,7 +51,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
         <div className="p-4 sm:p-6 overflow-y-auto font-sans">
           
           {/* Authentic FCC Broadband Facts Card */}
-          <div className="border-[3px] border-black p-4 sm:p-5 text-slate-900 bg-white shadow-xs">
+          <div className="border-[3px] border-black p-4 sm:p-5 text-white bg-slate-900 shadow-xs">
             
             {/* Header Block */}
             <div className="border-b-[6px] border-black pb-2">
@@ -61,7 +61,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               <div className="text-base font-extrabold text-black mt-1">
                 {facts.providerName}
               </div>
-              <div className="text-sm font-semibold text-slate-700">
+              <div className="text-sm font-semibold text-slate-200">
                 {facts.serviceTierName} ({facts.technologyType})
               </div>
               <div className="text-[11px] text-slate-500 font-mono mt-0.5">
@@ -75,7 +75,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
                 <span className="text-sm font-bold uppercase tracking-wider block">
                   Monthly Price
                 </span>
-                <span className="text-xs text-slate-600 font-medium">
+                <span className="text-xs text-slate-300 font-medium">
                   {facts.contractTerm}
                 </span>
               </div>
@@ -103,24 +103,24 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               </div>
               <div className="text-xs space-y-1 divide-y divide-slate-200">
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700">Provider Equipment Fee:</span>
+                  <span className="text-slate-200">Provider Equipment Fee:</span>
                   <span className="font-bold">{facts.equipmentRentalFee}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700">One-Time Activation Fee:</span>
+                  <span className="text-slate-200">One-Time Activation Fee:</span>
                   <span className="font-bold text-emerald-700">{facts.activationFee}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700">Standard Professional Installation:</span>
+                  <span className="text-slate-200">Standard Professional Installation:</span>
                   <span className="font-bold text-emerald-700">{facts.standardInstallationFee}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700">Early Termination Fee:</span>
+                  <span className="text-slate-200">Early Termination Fee:</span>
                   <span className="font-bold">{facts.earlyTerminationFee}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700">Estimated Government Taxes &amp; Fees:</span>
-                  <span className="font-medium text-slate-600">{facts.governmentTaxesEstimated}</span>
+                  <span className="text-slate-200">Estimated Government Taxes &amp; Fees:</span>
+                  <span className="font-medium text-slate-300">{facts.governmentTaxesEstimated}</span>
                 </div>
               </div>
             </div>
@@ -130,11 +130,11 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               <div className="text-xs font-black uppercase tracking-wider mb-1">
                 Discounts &amp; Bundling Options
               </div>
-              <div className="flex items-start gap-1.5 text-slate-700">
+              <div className="flex items-start gap-1.5 text-slate-200">
                 <span className="font-bold">&bull;</span>
                 <span>{facts.autopayDiscount}</span>
               </div>
-              <div className="flex items-start gap-1.5 text-slate-700">
+              <div className="flex items-start gap-1.5 text-slate-200">
                 <span className="font-bold">&bull;</span>
                 <span>{facts.mobileBundleDiscountAvailable}</span>
               </div>
@@ -147,20 +147,20 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               </div>
               <div className="text-xs space-y-1 divide-y divide-slate-200">
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700 font-medium">Typical Download Speed:</span>
+                  <span className="text-slate-200 font-medium">Typical Download Speed:</span>
                   <span className="font-black text-indigo-700">{facts.typicalDownloadSpeed}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700 font-medium">Typical Upload Speed:</span>
-                  <span className="font-black text-slate-900">{facts.typicalUploadSpeed}</span>
+                  <span className="text-slate-200 font-medium">Typical Upload Speed:</span>
+                  <span className="font-black text-white">{facts.typicalUploadSpeed}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700 font-medium">Typical Latency (Round-Trip Delay):</span>
-                  <span className="font-bold text-slate-800">{facts.typicalLatencyMs}</span>
+                  <span className="text-slate-200 font-medium">Typical Latency (Round-Trip Delay):</span>
+                  <span className="font-bold text-slate-100">{facts.typicalLatencyMs}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-700 font-medium">Typical Packet Loss Rate:</span>
-                  <span className="font-bold text-slate-800">{facts.typicalPacketLoss}</span>
+                  <span className="text-slate-200 font-medium">Typical Packet Loss Rate:</span>
+                  <span className="font-bold text-slate-100">{facts.typicalPacketLoss}</span>
                 </div>
               </div>
             </div>
@@ -170,18 +170,18 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               <div className="text-xs font-black uppercase tracking-wider mb-1">
                 Data Included with Monthly Plan
               </div>
-              <div className="flex justify-between font-bold text-slate-900">
+              <div className="flex justify-between font-bold text-white">
                 <span>Monthly Data Cap:</span>
                 <span className="text-emerald-700">{facts.dataAllowance}</span>
               </div>
-              <div className="flex justify-between text-slate-600 mt-0.5">
+              <div className="flex justify-between text-slate-300 mt-0.5">
                 <span>Charges for Additional Data:</span>
                 <span>{facts.overageCharges}</span>
               </div>
             </div>
 
             {/* Network Management & Support */}
-            <div className="pt-2.5 space-y-1.5 text-[11px] text-slate-600">
+            <div className="pt-2.5 space-y-1.5 text-[11px] text-slate-300">
               <div className="flex items-center justify-between">
                 <span>Network Management Policy:</span>
                 <a
@@ -206,13 +206,13 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
-              <div className="flex items-center justify-between pt-1 border-t border-slate-200">
+              <div className="flex items-center justify-between pt-1 border-t border-slate-800">
                 <span>FCC Consumer Complaint Center:</span>
                 <a
                   href={facts.fccConsumerComplaintsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-slate-800 hover:underline"
+                  className="font-semibold text-slate-100 hover:underline"
                 >
                   consumercomplaints.fcc.gov
                 </a>
@@ -222,7 +222,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
           </div>
 
           {/* Direct Verification Link to Carrier's Official Filing */}
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 bg-slate-50/50 p-3.5 rounded-2xl border border-slate-200">
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 bg-slate-950/50 p-3.5 rounded-2xl border border-slate-800">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
               <span>Direct ISP Regulatory Disclosure:</span>
