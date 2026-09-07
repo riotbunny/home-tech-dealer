@@ -387,7 +387,7 @@ export function App() {
       apiKey={googleApiKey} 
       solutionChannel="gmp_git_agentskills_v1"
     >
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0">
       {/* Consumer Header */}
       <Header
         activeTab={activeTab}
@@ -502,7 +502,7 @@ export function App() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider bg-slate-900/20 text-white px-2.5 py-1 rounded-full">
+                  <span className="text-xs font-bold uppercase tracking-wider bg-white/20 text-white px-2.5 py-1 rounded-full">
                     Moving Soon?
                   </span>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-2.5">
@@ -515,14 +515,14 @@ export function App() {
                 <div className="flex flex-wrap items-center gap-3">
                   <a
                     href={`tel:${phoneNumber.replace(/\D/g, '')}`}
-                    className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center gap-2 shadow-sm shrink-0 transition-all"
+                    className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-sm shrink-0 transition-all"
                   >
                     <PhoneCall className="w-4 h-4 text-emerald-600" />
                     <span>Call {phoneNumber}</span>
                   </a>
                   <button
                     onClick={() => setActiveTab('mover')}
-                    className="px-5 py-3 rounded-2xl bg-blue-700/80 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 border border-slate-800/20 shrink-0 transition-all"
+                    className="px-5 py-3 rounded-2xl bg-blue-700/80 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 border border-white/20 shrink-0 transition-all"
                   >
                     <span>Moving Guide</span>
                     <ArrowRight className="w-4 h-4" />
@@ -571,7 +571,7 @@ export function App() {
       {comparisonCart.length > 0 && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-2xl bg-slate-900 text-white border border-slate-700 rounded-2xl p-3.5 shadow-2xl flex items-center justify-between gap-4 animate-slide-up">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-900/300 text-white flex items-center justify-center font-bold text-xs">
+            <div className="w-8 h-8 rounded-xl bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-xs">
               {comparisonCart.length}/3
             </div>
             <div>
@@ -579,7 +579,7 @@ export function App() {
                 <span>Comparison Cart</span>
                 <span className="text-xs text-amber-400 font-medium">({comparisonCart.map(p => p.providerName).join(', ')})</span>
               </div>
-              <div className="text-xs text-slate-500 hidden sm:block">
+              <div className="text-xs text-slate-400 hidden sm:block">
                 Compare speeds, prices, and perks side-by-side.
               </div>
             </div>
@@ -588,7 +588,7 @@ export function App() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsCartOpen(true)}
-              className="px-4 py-2 rounded-xl bg-amber-900/300 hover:bg-amber-400 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
             >
               <Layers className="w-3.5 h-3.5" />
               <span>Compare Side-by-Side</span>
@@ -596,7 +596,7 @@ export function App() {
             </button>
             <button
               onClick={handleClearCart}
-              className="p-2 text-slate-500 hover:text-red-400 transition-colors"
+              className="p-2 text-slate-400 hover:text-red-400 transition-colors"
               title="Clear comparison"
             >
               <X className="w-4 h-4" />

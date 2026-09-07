@@ -11,7 +11,7 @@ export function Footer({
 }) {
   const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
   return (
-    <footer className="border-t border-slate-800 bg-slate-900 text-slate-500 text-xs pt-12 pb-8">
+    <footer className="border-t border-slate-200 bg-slate-900 text-slate-400 text-xs pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-slate-800">
           
@@ -25,7 +25,7 @@ export function Footer({
                 Home Tech Dealer <span className="text-blue-400">Inc.</span>
               </span>
             </div>
-            <p className="text-slate-500 text-xs leading-relaxed max-w-sm">
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               America's simplest home broadband comparison marketplace. Comparing fiber, cable, satellite, and 5G internet across 27 national and regional providers.
             </p>
             <div className="pt-1 flex items-center gap-2 text-xs text-emerald-400">
@@ -79,7 +79,7 @@ export function Footer({
             <h4 className="text-white font-bold uppercase tracking-wider text-xs">
               Toll-Free Phone Order Desk
             </h4>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed">
               Prefer speaking with a human? Call our direct concierge line to check promotional gift cards, lock in your rate, and pick an installation date.
             </p>
             <div className="pt-1">
@@ -90,7 +90,7 @@ export function Footer({
                 <PhoneCall className="w-4 h-4" />
                 <span>Call: {phoneNumber}</span>
               </a>
-              <div className="text-xs text-slate-500 mt-1.5">
+              <div className="text-xs text-slate-400 mt-1.5">
                 Open 7 Days a Week &bull; Zero Hold Time
               </div>
             </div>
@@ -105,7 +105,7 @@ export function Footer({
               <Compass className="w-3.5 h-3.5 text-cyan-400" />
               <span>Browse 50 US States Internet Directories</span>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-10 gap-x-2 gap-y-1.5 text-[11px] text-slate-500">
+            <div className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-10 gap-x-2 gap-y-1.5 text-[11px] text-slate-400">
               {[
                 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
@@ -136,7 +136,7 @@ export function Footer({
               <Compass className="w-3.5 h-3.5 text-amber-400" />
               <span>Popular Provider Comparisons</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1.5 text-xs text-slate-500">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1.5 text-xs text-slate-400">
               {[
                 { name: 'Spectrum vs AT&T', path: '/compare/spectrum-vs-att' },
                 { name: 'AT&T vs Xfinity', path: '/compare/att-vs-comcast' },
@@ -180,7 +180,7 @@ export function Footer({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-x-4 gap-y-2 text-xs text-slate-500">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-x-4 gap-y-2 text-xs text-slate-400">
               {[
                 { name: 'Brownsville, TX 78522', path: '/internet/tx/brownsville/78522' },
                 { name: 'Austin, TX 78701', path: '/internet/tx/austin/78701' },
@@ -229,10 +229,10 @@ export function Footer({
           <p>
             Home Tech Dealer Inc. is an independent consumer comparison marketplace. Pricing, gift cards, and technician availability are subject to carrier confirmation at your specific address.
           </p>
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
             <div className="flex items-center gap-2.5">
               <span>© 2026 Home Tech Dealer Inc. All rights reserved.</span>
-              <span className="text-slate-300">&bull;</span>
+              <span className="text-slate-600">&bull;</span>
               <button
                 onClick={onOpenAdminLogin}
                 className="text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1 text-[11px]"
@@ -242,7 +242,7 @@ export function Footer({
                 <span>Admin Management</span>
               </button>
             </div>
-            <div className="text-xs text-slate-500">
+            <div className="text-xs text-slate-400">
               Toll-Free Support &amp; Orders: {phoneNumber}
             </div>
           </div>

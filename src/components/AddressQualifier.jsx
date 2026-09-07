@@ -414,13 +414,13 @@ export function AddressQualifier({
     <section id="plans-marketplace" className="pt-2 sm:pt-6 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
       
       {/* Search Header Bar (Clean & Compact) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 mb-0.5">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>{isQualified ? 'FCC Verified Service Availability' : 'FCC Speed Benchmarks & Local Carrier Matrix'}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {isQualified 
               ? `Plans Available at ${localAddressInput || currentAddress}` 
               : (cityName ? `Internet & TV Providers in ${formattedCityName}${state ? `, ${state}` : ''}` : 'Internet & TV Providers in Your Area')}
@@ -431,7 +431,7 @@ export function AddressQualifier({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={onOpenSpeedQuiz}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-950/50 text-slate-200 border border-slate-800 text-xs font-bold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50/50 text-slate-700 border border-slate-200 text-xs font-bold transition-all shadow-xs"
           >
             <Zap className="w-3.5 h-3.5 text-amber-500" />
             <span>Speed Quiz</span>
@@ -441,8 +441,8 @@ export function AddressQualifier({
             onClick={onOpenCart}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs ${
               comparisonCart.length > 0 
-                ? 'bg-amber-900/300 text-white border-amber-600 shadow-sm' 
-                : 'bg-slate-900 text-slate-200 border-slate-800 hover:bg-slate-950/50'
+                ? 'bg-amber-500 text-white border-amber-600 shadow-sm' 
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50/50'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -452,8 +452,8 @@ export function AddressQualifier({
       </div>
 
       {/* Address Search Bar (Always visible for fast qualification) */}
-      <div id="marketplace-address-input" className="mt-4 sm:mt-6 p-4 sm:p-5 rounded-3xl bg-slate-900 border border-slate-800 shadow-sm">
-        <div className="text-xs font-semibold text-slate-200 mb-2 flex items-center justify-between">
+      <div id="marketplace-address-input" className="mt-4 sm:mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
+        <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center justify-between">
           <span>Search Exact Street Address:</span>
           <span className="text-xs text-indigo-700 font-medium flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
@@ -519,7 +519,7 @@ export function AddressQualifier({
                   className={`shrink-0 px-3 py-1 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                     isCurrent
                       ? 'bg-blue-600 text-white font-bold shadow-xs'
-                      : 'bg-slate-800 hover:bg-slate-800 text-slate-200'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                   }`}
                 >
                   <span>{cityItem.city}, {cityItem.state}</span>
@@ -538,7 +538,7 @@ export function AddressQualifier({
       {isQualified ? (
         <>
           {/* Qualified Address Banner */}
-          <div className="mt-5 p-4 sm:p-5 rounded-3xl bg-emerald-900/300/10 backdrop-blur-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="mt-5 p-4 sm:p-5 rounded-3xl bg-emerald-500/10 backdrop-blur-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
                 <CheckCircle2 className="w-5 h-5" />
@@ -548,7 +548,7 @@ export function AddressQualifier({
                   <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white px-2.5 py-0.5 rounded-full">
                     Address Verified
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-white truncate">
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 truncate">
                     {localAddressInput || currentAddress}
                   </span>
                 </div>
@@ -567,7 +567,7 @@ export function AddressQualifier({
                 setLocalAddressInput('');
                 focusAddressInput();
               }}
-              className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shrink-0 shadow-2xs"
+              className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shrink-0 shadow-2xs"
             >
               <ArrowLeftRight className="w-3.5 h-3.5 text-indigo-600" />
               <span>Change Address / Browse City</span>
@@ -579,7 +579,7 @@ export function AddressQualifier({
         <button
           type="button"
           onClick={() => setIsMobileFiltersOpen(prev => !prev)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-800 text-slate-200 text-xs font-bold transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
         >
           <Filter className="w-3.5 h-3.5 text-indigo-600" />
           <span>{isMobileFiltersOpen ? 'Hide Filters ▲' : 'Filter Speeds & Pricing ▼'}</span>
@@ -591,7 +591,7 @@ export function AddressQualifier({
       </div>
 
       {/* Product Filtering Bar (Collapsible on mobile, always visible on tablet/desktop) */}
-      <div className={`${isMobileFiltersOpen ? 'flex' : 'hidden sm:flex'} mt-3 sm:mt-6 flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xs`}>
+      <div className={`${isMobileFiltersOpen ? 'flex' : 'hidden sm:flex'} mt-3 sm:mt-6 flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-xs`}>
         <div className="flex items-center gap-2.5 overflow-x-auto pb-1.5 scrollbar-none touch-pan-x w-full">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold shrink-0">
             <Filter className="w-3.5 h-3.5 text-indigo-600" />
@@ -599,7 +599,7 @@ export function AddressQualifier({
           </div>
 
           {/* Speed Filter */}
-          <div className="flex items-center rounded-xl bg-slate-800 p-0.5 border border-slate-800 text-xs shrink-0">
+          <div className="flex items-center rounded-xl bg-slate-100 p-0.5 border border-slate-200 text-xs shrink-0">
             {[
               { id: 'all', label: 'All Speeds' },
               { id: '300', label: '300 Mbps' },
@@ -610,7 +610,7 @@ export function AddressQualifier({
                 key={tab.id}
                 onClick={() => setSpeedFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg transition-all font-semibold ${
-                  speedFilter === tab.id ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                  speedFilter === tab.id ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {tab.label}
@@ -619,7 +619,7 @@ export function AddressQualifier({
           </div>
 
           {/* Connection Type Filter */}
-          <div className="flex items-center rounded-xl bg-slate-800 p-0.5 border border-slate-800 text-xs shrink-0">
+          <div className="flex items-center rounded-xl bg-slate-100 p-0.5 border border-slate-200 text-xs shrink-0">
             {[
               { id: 'all', label: 'All Types' },
               { id: 'Fiber', label: 'Fiber' },
@@ -630,7 +630,7 @@ export function AddressQualifier({
                 key={tab.id}
                 onClick={() => setTypeFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg transition-all font-semibold ${
-                  typeFilter === tab.id ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                  typeFilter === tab.id ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {tab.label}
@@ -640,10 +640,10 @@ export function AddressQualifier({
         </div>
 
         {/* Max Price Slider & Search */}
-        <div className="flex items-center gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-800/50 w-full lg:w-auto justify-between">
+        <div className="flex items-center gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 w-full lg:w-auto justify-between">
           <div className="flex items-center gap-2 text-xs shrink-0">
-            <span className="text-slate-300 font-medium">Budget:</span>
-            <span className="font-bold text-white">${maxPrice}/mo</span>
+            <span className="text-slate-600 font-medium">Budget:</span>
+            <span className="font-bold text-slate-900">${maxPrice}/mo</span>
             <input
               type="range"
               min="40"
@@ -661,9 +661,9 @@ export function AddressQualifier({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search perks..."
-              className="w-full pl-7 pr-3 py-1.5 bg-slate-950/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 text-base sm:text-xs focus:outline-none focus:border-indigo-600"
+              className="w-full pl-7 pr-3 py-1.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-base sm:text-xs focus:outline-none focus:border-indigo-600"
             />
-            <Search className="w-3 h-3 text-slate-500 absolute left-2.5 top-2.5" />
+            <Search className="w-3 h-3 text-slate-400 absolute left-2.5 top-2.5" />
           </div>
         </div>
       </div>
@@ -672,17 +672,17 @@ export function AddressQualifier({
       <div id="carrier-results-grid" className="mt-4 scroll-mt-24">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-4">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="text-xs text-slate-300 font-medium">
-              Showing <strong className="text-white">{filteredPlans.length}</strong> available plans
+            <div className="text-xs text-slate-600 font-medium">
+              Showing <strong className="text-slate-900">{filteredPlans.length}</strong> available plans
             </div>
 
             {/* Expand / Collapse All Controls */}
-            <div className="flex items-center gap-1 bg-slate-800 p-0.5 rounded-xl text-xs font-bold border border-slate-800">
+            <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-xl text-xs font-bold border border-slate-200">
               <button
                 type="button"
                 onClick={handleExpandAll}
                 className={`px-3 py-1 rounded-lg transition-all font-bold ${
-                  expandedPlanIds.size > 0 ? 'bg-slate-900 text-indigo-700 shadow-2xs' : 'text-slate-300 hover:text-white'
+                  expandedPlanIds.size > 0 ? 'bg-white text-indigo-700 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Expand All
@@ -692,7 +692,7 @@ export function AddressQualifier({
                 type="button"
                 onClick={handleCollapseAll}
                 className={`px-3 py-1 rounded-lg transition-all font-bold ${
-                  expandedPlanIds.size === 0 ? 'bg-slate-900 text-white shadow-2xs' : 'text-slate-300 hover:text-white'
+                  expandedPlanIds.size === 0 ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Collapse All
@@ -712,25 +712,25 @@ export function AddressQualifier({
         {isSearching ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-start">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="animate-pulse bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border border-slate-800 shadow-sm flex items-center justify-between">
+              <div key={i} className="animate-pulse bg-white/60 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border border-white shadow-sm flex items-center justify-between">
                 <div className="flex flex-col xs:flex-row xs:items-center gap-3 sm:gap-4 w-full">
-                  <div className="w-20 h-6 bg-slate-800/70 rounded-md shrink-0"></div>
+                  <div className="w-20 h-6 bg-slate-200/70 rounded-md shrink-0"></div>
                   <div className="flex flex-col gap-2 w-full">
-                    <div className="w-32 h-4 bg-slate-800/70 rounded"></div>
-                    <div className="w-16 h-3 bg-slate-800/70 rounded"></div>
+                    <div className="w-32 h-4 bg-slate-200/70 rounded"></div>
+                    <div className="w-16 h-3 bg-slate-100/70 rounded"></div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 shrink-0 pl-4">
-                  <div className="w-14 h-6 bg-slate-800/70 rounded hidden xs:block"></div>
-                  <div className="w-8 h-8 rounded-full bg-slate-800/80 shrink-0"></div>
+                  <div className="w-14 h-6 bg-slate-200/70 rounded hidden xs:block"></div>
+                  <div className="w-8 h-8 rounded-full bg-slate-100/80 shrink-0"></div>
                 </div>
               </div>
             ))}
           </div>
         ) : filteredPlans.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl bg-slate-900 border border-slate-800 text-slate-500 shadow-xs">
-            <Filter className="w-8 h-8 text-slate-500 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-100">No plans matched your filter criteria.</p>
+          <div className="p-12 text-center rounded-3xl bg-white border border-slate-200 text-slate-500 shadow-xs">
+            <Filter className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-slate-800">No plans matched your filter criteria.</p>
             <p className="text-xs text-slate-500 mt-1">Try broadening your price limit or selecting "All Speeds".</p>
             <button
               onClick={() => {
@@ -739,7 +739,7 @@ export function AddressQualifier({
                 setMaxPrice(120);
                 setSearchQuery('');
               }}
-              className="mt-3 px-4 py-2 rounded-xl bg-indigo-900/30 text-indigo-700 text-xs font-bold hover:bg-blue-100"
+              className="mt-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 text-xs font-bold hover:bg-blue-100"
             >
               Reset Filters
             </button>
@@ -783,7 +783,7 @@ export function AddressQualifier({
                       <button
                         type="button"
                         onClick={() => toggleCardExpansion(plan.id)}
-                        className="text-xs font-bold text-slate-500 hover:text-white flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+                        className="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
                         title="Collapse card"
                       >
                         <span>Hide</span>
@@ -806,12 +806,12 @@ export function AddressQualifier({
                     {/* Speed Specification */}
                     <div className="mt-4 p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-around text-center">
                       <div>
-                        <div className="text-[10px] text-slate-500 font-semibold uppercase">Download</div>
+                        <div className="text-[10px] text-slate-400 font-semibold uppercase">Download</div>
                         <div className="text-lg font-black text-cyan-300 font-mono">{plan.downloadSpeed}</div>
                       </div>
                       <div className="h-6 w-px bg-slate-700"></div>
                       <div>
-                        <div className="text-[10px] text-slate-500 font-semibold uppercase">Upload</div>
+                        <div className="text-[10px] text-slate-400 font-semibold uppercase">Upload</div>
                         <div className="text-lg font-black text-slate-200 font-mono">{plan.uploadSpeed}</div>
                       </div>
                     </div>
@@ -819,7 +819,7 @@ export function AddressQualifier({
                     {/* Pricing & Terms */}
                     <div className="mt-4 flex items-baseline gap-1">
                       <span className="text-3xl font-black text-white font-mono">${plan.price}</span>
-                      <span className="text-xs text-slate-500 font-medium">/{plan.period}</span>
+                      <span className="text-xs text-slate-400 font-medium">/{plan.period}</span>
                       <span className="ml-auto text-xs text-cyan-300 font-semibold">
                         {plan.contract}
                       </span>
@@ -917,7 +917,7 @@ export function AddressQualifier({
                   <button
                     type="button"
                     onClick={() => toggleCardExpansion(plan.id)}
-                    className="w-full mt-3 text-center text-[11px] text-slate-500 hover:text-slate-200 font-semibold flex items-center justify-center gap-1 transition-colors"
+                    className="w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-200 font-semibold flex items-center justify-center gap-1 transition-colors"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
                     <span>Hide Details</span>
@@ -929,10 +929,10 @@ export function AddressQualifier({
                 <div
                   key={plan.id}
                   style={{ borderTop: `4px solid ${plan.providerColor || '#2563EB'}` }}
-                  className={`flex bg-slate-900/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border transition-all duration-300 flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] ${carrierAtmosphere} ${
+                  className={`flex bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border transition-all duration-300 flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] ${carrierAtmosphere} ${
                     isAddedToCompare 
                       ? 'border-amber-500 shadow-md ring-2 ring-amber-100' 
-                      : 'border-slate-800/90'
+                      : 'border-slate-200/90'
                   }`}
                 >
                   <div>
@@ -940,14 +940,14 @@ export function AddressQualifier({
                     <div className="flex items-center justify-between gap-2 mb-3.5">
                       <div className="flex items-center gap-2">
                         <CarrierLogo id={plan.providerId} name={plan.providerName} className="h-5 w-auto max-w-[130px]" />
-                        <span className="text-[11px] font-semibold bg-slate-800/90 text-slate-200 px-2.5 py-0.5 rounded-full border border-slate-800/60">
+                        <span className="text-[11px] font-semibold bg-slate-100/90 text-slate-700 px-2.5 py-0.5 rounded-full border border-slate-200/60">
                           {plan.providerType}
                         </span>
                       </div>
                       <button
                         type="button"
                         onClick={() => toggleCardExpansion(plan.id)}
-                        className="text-xs font-bold text-slate-500 hover:text-slate-100 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-800 border border-slate-800 transition-colors"
+                        className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
                         title="Collapse card"
                       >
                         <span>Hide</span>
@@ -957,32 +957,32 @@ export function AddressQualifier({
 
                     {/* Plan Name & Popular Badge */}
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-lg font-black text-white tracking-tight leading-snug">
+                      <h3 className="text-lg font-black text-slate-900 tracking-tight leading-snug">
                         {plan.name}
                       </h3>
                       {plan.popular && (
-                        <span className="shrink-0 text-[10px] font-extrabold tracking-wide px-2 py-0.5 rounded-full bg-indigo-900/30 text-indigo-700 border border-blue-200">
+                        <span className="shrink-0 text-[10px] font-extrabold tracking-wide px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-blue-200">
                           Popular
                         </span>
                       )}
                     </div>
 
                     {/* Speed Specification */}
-                    <div className="mt-4 p-3.5 rounded-2xl bg-slate-950/50/90 border border-slate-800/50 flex items-center justify-around text-center">
+                    <div className="mt-4 p-3.5 rounded-2xl bg-slate-50/50/90 border border-slate-100 flex items-center justify-around text-center">
                       <div>
                         <div className="text-[10px] text-slate-500 font-semibold uppercase">Download</div>
                         <div className="text-lg font-black text-indigo-700 font-mono">{plan.downloadSpeed}</div>
                       </div>
-                      <div className="h-6 w-px bg-slate-800"></div>
+                      <div className="h-6 w-px bg-slate-200"></div>
                       <div>
                         <div className="text-[10px] text-slate-500 font-semibold uppercase">Upload</div>
-                        <div className="text-lg font-black text-slate-100 font-mono">{plan.uploadSpeed}</div>
+                        <div className="text-lg font-black text-slate-800 font-mono">{plan.uploadSpeed}</div>
                       </div>
                     </div>
 
                     {/* Pricing & Terms */}
                     <div className="mt-4 flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-white font-mono">${plan.price}</span>
+                      <span className="text-3xl font-black text-slate-900 font-mono">${plan.price}</span>
                       <span className="text-xs text-slate-500 font-medium">/{plan.period}</span>
                       <span className="ml-auto text-xs text-emerald-700 font-bold">
                         {plan.contract}
@@ -990,7 +990,7 @@ export function AddressQualifier({
                     </div>
 
                     {/* Equipment & Details */}
-                    <div className="mt-3 space-y-1.5 text-xs text-slate-300">
+                    <div className="mt-3 space-y-1.5 text-xs text-slate-600">
                       <div className="flex items-center gap-2">
                         <Wifi className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                         <span>{plan.equipmentFee}</span>
@@ -1002,9 +1002,9 @@ export function AddressQualifier({
                     </div>
 
                     {/* Perks List */}
-                    <div className="mt-4 pt-3 border-t border-slate-800/50 space-y-2">
+                    <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                       {plan.perks.map((perk, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                        <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
                           <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{perk}</span>
                         </div>
@@ -1018,7 +1018,7 @@ export function AddressQualifier({
                         setFccModalPlan(plan);
                         setFccModalProvider(serviceableProviders.find(p => p.id === plan.providerId));
                       }}
-                      className="w-full mt-3.5 py-2 px-3 rounded-xl bg-slate-950/50 hover:bg-slate-800 border border-slate-800/80 text-[11px] font-bold text-slate-200 flex items-center justify-center gap-1.5 transition-colors group shadow-2xs"
+                      className="w-full mt-3.5 py-2 px-3 rounded-xl bg-slate-50/50 hover:bg-slate-100 border border-slate-200/80 text-[11px] font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors group shadow-2xs"
                       title="View Official Federal Communications Commission Consumer Disclosure"
                     >
                       <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 group-hover:scale-110 transition-transform" />
@@ -1027,7 +1027,7 @@ export function AddressQualifier({
                   </div>
 
                   {/* Actions: Add to Compare & Direct Call Button */}
-                  <div className="mt-4 pt-3 border-t border-slate-800/50 space-y-2">
+                  <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                     <div className="flex gap-2">
                       <a
                         href={telHref}
@@ -1058,8 +1058,8 @@ export function AddressQualifier({
                       onClick={() => onToggleCartPlan(plan)}
                       className={`w-full min-h-[40px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 border ${
                         isAddedToCompare 
-                          ? 'bg-amber-900/30 text-amber-900 border-amber-300 ring-2 ring-amber-200/60' 
-                          : 'bg-slate-800 text-slate-200 hover:bg-slate-800 border-slate-800/80'
+                          ? 'bg-amber-50 text-amber-900 border-amber-300 ring-2 ring-amber-200/60' 
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200/80'
                       }`}
                       title={isAddedToCompare ? 'Remove from comparison' : 'Compare this plan side-by-side'}
                     >
@@ -1081,7 +1081,7 @@ export function AddressQualifier({
                   <button
                     type="button"
                     onClick={() => toggleCardExpansion(plan.id)}
-                    className="w-full mt-3 text-center text-[11px] text-slate-500 hover:text-slate-300 font-semibold flex items-center justify-center gap-1 transition-colors"
+                    className="w-full mt-3 text-center text-[11px] text-slate-400 hover:text-slate-600 font-semibold flex items-center justify-center gap-1 transition-colors"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
                     <span>Hide Details</span>
@@ -1119,7 +1119,7 @@ export function AddressQualifier({
                           <div className="text-right">
                             <div className="flex items-baseline justify-end gap-0.5">
                               <span className="text-lg sm:text-2xl font-black text-white font-mono">${plan.price}</span>
-                              <span className="text-[10px] text-slate-500">/{plan.period}</span>
+                              <span className="text-[10px] text-slate-400">/{plan.period}</span>
                             </div>
                           </div>
 
@@ -1129,7 +1129,7 @@ export function AddressQualifier({
                               e.stopPropagation();
                               toggleCardExpansion(plan.id);
                             }}
-                            className="w-8 h-8 rounded-full bg-slate-800 text-slate-500 group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-all flex items-center justify-center shrink-0"
+                            className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-all flex items-center justify-center shrink-0"
                             title="Expand plan details"
                           >
                             <ChevronDown className="w-4 h-4" />
@@ -1154,15 +1154,15 @@ export function AddressQualifier({
                     key={plan.id}
                     style={{ borderTop: `4px solid ${plan.providerColor || '#2563EB'}` }}
                     onClick={() => toggleCardExpansion(plan.id)}
-                    className={`cursor-pointer bg-slate-900/95 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border transition-all duration-300 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-300 group ${carrierAtmosphere} ${
-                      isAddedToCompare ? 'border-amber-500 ring-2 ring-amber-100' : 'border-slate-800/90'
+                    className={`cursor-pointer bg-white/95 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border transition-all duration-300 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-300 group ${carrierAtmosphere} ${
+                      isAddedToCompare ? 'border-amber-500 ring-2 ring-amber-100' : 'border-slate-200/90'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex flex-col xs:flex-row xs:items-center gap-3 sm:gap-4 min-w-0">
                         <CarrierLogo id={plan.providerId} name={plan.providerName} className="h-5 sm:h-6 w-auto max-w-[100px] shrink-0" />
                         <div className="min-w-0">
-                          <h4 className="font-extrabold text-sm text-white truncate">
+                          <h4 className="font-extrabold text-sm text-slate-900 truncate">
                             {plan.name}
                           </h4>
                           <div className="text-[11px] font-mono font-bold text-indigo-700 mt-0.5">
@@ -1174,7 +1174,7 @@ export function AddressQualifier({
                       <div className="flex items-center gap-3 sm:gap-4 shrink-0">
                         <div className="text-right">
                           <div className="flex items-baseline justify-end gap-0.5">
-                            <span className="text-lg sm:text-2xl font-black text-white font-mono">${plan.price}</span>
+                            <span className="text-lg sm:text-2xl font-black text-slate-900 font-mono">${plan.price}</span>
                             <span className="text-[10px] text-slate-500 font-medium">/{plan.period}</span>
                           </div>
                         </div>
@@ -1186,7 +1186,7 @@ export function AddressQualifier({
                             e.stopPropagation();
                             toggleCardExpansion(plan.id);
                           }}
-                          className="w-8 h-8 rounded-full bg-slate-800 text-slate-500 group-hover:bg-indigo-900/30 group-hover:text-indigo-600 transition-all flex items-center justify-center shrink-0"
+                          className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all flex items-center justify-center shrink-0"
                           title="Expand plan details"
                         >
                           <ChevronDown className="w-4 h-4" />
@@ -1210,11 +1210,11 @@ export function AddressQualifier({
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
-                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-900/30 px-2.5 py-1 rounded-full border border-blue-200">
+                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-blue-200">
                   <Sparkles className="w-3 h-3 text-indigo-600" />
                   <span>Curated Local Top Picks</span>
                 </span>
-                <h3 className="text-lg sm:text-2xl font-black text-white mt-1 tracking-tight">
+                <h3 className="text-lg sm:text-2xl font-black text-slate-900 mt-1 tracking-tight">
                   Top Rated Internet Providers in {cityName ? `${formattedCityName}${state ? `, ${state}` : ''}` : 'Your Area'}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -1222,12 +1222,12 @@ export function AddressQualifier({
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 bg-slate-800 p-0.5 rounded-xl text-xs font-bold border border-slate-800">
+                <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-xl text-xs font-bold border border-slate-200">
                   <button
                     type="button"
                     onClick={handleExpandAllPicks}
                     className={`px-2.5 py-1 rounded-lg transition-all font-bold ${
-                      expandedPickIds.size > 0 ? 'bg-slate-900 text-indigo-700 shadow-2xs' : 'text-slate-300 hover:text-white'
+                      expandedPickIds.size > 0 ? 'bg-white text-indigo-700 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     Expand All
@@ -1237,7 +1237,7 @@ export function AddressQualifier({
                     type="button"
                     onClick={handleCollapseAllPicks}
                     className={`px-2.5 py-1 rounded-lg transition-all font-bold ${
-                      expandedPickIds.size === 0 ? 'bg-slate-900 text-white shadow-2xs' : 'text-slate-300 hover:text-white'
+                      expandedPickIds.size === 0 ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     Collapse All
@@ -1246,7 +1246,7 @@ export function AddressQualifier({
                 <button
                   type="button"
                   onClick={focusAddressInput}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-900/30 hover:bg-blue-100 px-3.5 py-2 rounded-xl transition-all shrink-0 border border-blue-100"
+                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-blue-100 px-3.5 py-2 rounded-xl transition-all shrink-0 border border-blue-100"
                 >
                   <span>Check Exact Address</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -1260,14 +1260,14 @@ export function AddressQualifier({
                 return (
                   <div 
                     key={pick.id}
-                    className={`bg-slate-900/70 backdrop-blur-2xl border border-slate-800 rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-black/40 hover:shadow-2xl hover:shadow-black/60 transition-all flex flex-col justify-between ${pick.borderColor} group relative`}
+                    className={`bg-white/70 backdrop-blur-2xl border border-white/60 rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-indigo-900/5 hover:shadow-2xl hover:shadow-indigo-900/15 transition-all flex flex-col justify-between ${pick.borderColor} group relative`}
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <span className={`text-[10px] font-extrabold tracking-wide uppercase px-2.5 py-1 rounded-full ${pick.badgeColor}`}>
                           {pick.badge}
                         </span>
-                        <span className="text-[11px] font-semibold text-slate-500">
+                        <span className="text-[11px] font-semibold text-slate-400">
                           {pick.category}
                         </span>
                       </div>
@@ -1275,39 +1275,39 @@ export function AddressQualifier({
                       <div className="flex items-center justify-between gap-3 my-2.5">
                         <div className="flex items-center gap-2.5">
                           <CarrierLogo id={pick.provider.id} name={pick.provider.name} className="h-6 w-auto max-w-[130px]" />
-                          <div className="text-xs font-extrabold text-slate-100">
+                          <div className="text-xs font-extrabold text-slate-800">
                             {pick.provider.name}
                           </div>
                         </div>
                         <button
                           type="button"
                           onClick={() => togglePickExpansion(pick.id)}
-                          className="text-xs font-bold text-indigo-600 hover:text-blue-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-indigo-900/30 hover:bg-blue-100 transition-colors"
+                          className="text-xs font-bold text-indigo-600 hover:text-blue-800 flex items-center gap-1 py-1 px-2.5 rounded-lg bg-indigo-50 hover:bg-blue-100 transition-colors"
                         >
                           <span>{isPickExpanded ? 'Hide' : 'Details'}</span>
                           <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPickExpanded ? 'rotate-180' : ''}`} />
                         </button>
                       </div>
 
-                      <h4 className="text-sm font-bold text-white mt-1">
+                      <h4 className="text-sm font-bold text-slate-900 mt-1">
                         {pick.plan.name}
                       </h4>
 
-                      <div className="my-3.5 p-3 rounded-[1.25rem] bg-slate-900/50 backdrop-blur-md border border-slate-800 shadow-inner flex items-center justify-between text-center">
+                      <div className="my-3.5 p-3 rounded-[1.25rem] bg-white/50 backdrop-blur-md border border-white/80 shadow-inner flex items-center justify-between text-center">
                         <div className="flex-1">
-                          <div className="text-[10px] uppercase font-bold text-slate-500">Max Speeds</div>
+                          <div className="text-[10px] uppercase font-bold text-slate-400">Max Speeds</div>
                           <div className="text-base font-black text-indigo-700 font-mono">{pick.plan.downloadSpeed}</div>
                         </div>
-                        <div className="h-6 w-px bg-slate-800" />
+                        <div className="h-6 w-px bg-slate-200" />
                         <div className="flex-1">
-                          <div className="text-[10px] uppercase font-bold text-slate-500">Starting At</div>
-                          <div className="text-base font-black text-white font-mono">${pick.plan.price}<span className="text-[11px] font-normal text-slate-500">/mo</span></div>
+                          <div className="text-[10px] uppercase font-bold text-slate-400">Starting At</div>
+                          <div className="text-base font-black text-slate-900 font-mono">${pick.plan.price}<span className="text-[11px] font-normal text-slate-500">/mo</span></div>
                         </div>
                       </div>
 
                       <div className="space-y-1.5 my-3">
                         {pick.plan.perks.slice(0, 3).map((perk, pIdx) => (
-                          <div key={pIdx} className="flex items-start gap-2 text-xs text-slate-300">
+                          <div key={pIdx} className="flex items-start gap-2 text-xs text-slate-600">
                             <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                             <span className="line-clamp-1">{perk}</span>
                           </div>
@@ -1316,17 +1316,17 @@ export function AddressQualifier({
 
                       {/* Expand Details Drawer */}
                       {isPickExpanded && (
-                        <div className="mt-4 pt-3.5 border-t border-slate-800/80 space-y-3 animate-fade-in text-xs">
+                        <div className="mt-4 pt-3.5 border-t border-slate-200/80 space-y-3 animate-fade-in text-xs">
                           <div>
                             <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                               Available Plans from {pick.provider.name}
                             </div>
                             <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                               {pick.providerPlans.map((pTier) => (
-                                <div key={pTier.id} className="p-2 rounded-xl bg-slate-950/50 border border-slate-800/70 flex items-center justify-between gap-2">
+                                <div key={pTier.id} className="p-2 rounded-xl bg-slate-50/50 border border-slate-200/70 flex items-center justify-between gap-2">
                                   <div className="min-w-0">
                                     <div className="flex items-center gap-1.5 truncate">
-                                      <span className="font-bold text-white truncate">{pTier.name}</span>
+                                      <span className="font-bold text-slate-900 truncate">{pTier.name}</span>
                                       {pTier.popular && (
                                         <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-indigo-700 shrink-0">
                                           Popular
@@ -1338,7 +1338,7 @@ export function AddressQualifier({
                                     </div>
                                   </div>
                                   <div className="text-right shrink-0">
-                                    <div className="font-mono font-bold text-white">${pTier.price}/mo</div>
+                                    <div className="font-mono font-bold text-slate-900">${pTier.price}/mo</div>
                                   </div>
                                 </div>
                               ))}
@@ -1346,7 +1346,7 @@ export function AddressQualifier({
                           </div>
 
                           {/* Equipment & Setup Details */}
-                          <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800/70 space-y-1 text-[11px] text-slate-300">
+                          <div className="p-2.5 rounded-xl bg-slate-50/50 border border-slate-200/70 space-y-1 text-[11px] text-slate-600">
                             <div className="flex items-center gap-2">
                               <Wifi className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                               <span>{pick.plan.equipmentFee}</span>
@@ -1364,7 +1364,7 @@ export function AddressQualifier({
                               setFccModalPlan(pick.plan);
                               setFccModalProvider(pick.provider);
                             }}
-                            className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-800 border border-slate-800 text-[11px] font-bold text-slate-200 flex items-center justify-center gap-1.5 transition-colors"
+                            className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-[11px] font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors"
                           >
                             <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
                             <span>Official FCC Broadband Facts</span>
@@ -1373,11 +1373,11 @@ export function AddressQualifier({
                       )}
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-800/50 space-y-2">
+                    <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                       <button
                         type="button"
                         onClick={() => togglePickExpansion(pick.id)}
-                        className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-800 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                        className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
                       >
                         <span>{isPickExpanded ? 'Hide All Plans & Specs ▲' : `View All ${pick.providerPlans.length} Plans & Specs ▼`}</span>
                       </button>
@@ -1391,7 +1391,7 @@ export function AddressQualifier({
                       </button>
                       <a
                         href={telHref}
-                        className="w-full py-2 px-3 rounded-xl bg-slate-950/50 hover:bg-slate-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                        className="w-full py-2 px-3 rounded-xl bg-slate-50/50 hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                       >
                         <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Order by Phone: {phoneNumber}</span>
@@ -1415,14 +1415,14 @@ export function AddressQualifier({
           </div>
 
           {/* City Broadband Comparison Table (Critical for pSEO & Crawlers) */}
-          <div className="rounded-3xl bg-slate-900 border border-slate-800/90 shadow-sm overflow-hidden p-5 sm:p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800/50">
+          <div className="rounded-3xl bg-white border border-slate-200/90 shadow-sm overflow-hidden p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-600">
                   <Layers className="w-3.5 h-3.5" />
                   <span>Crawlable Market Matrix</span>
                 </div>
-                <h3 className="text-lg sm:text-xl font-black text-white mt-0.5">
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-0.5">
                   Internet Providers in {cityName ? `${formattedCityName}${state ? `, ${state}` : ''}` : 'Your Area'} at a Glance
                 </h3>
               </div>
@@ -1435,7 +1435,7 @@ export function AddressQualifier({
             <div className="overflow-x-auto -mx-5 sm:mx-0">
               <table className="w-full text-left border-collapse min-w-[640px]">
                 <thead>
-                  <tr className="border-b border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-950/50/70">
+                  <tr className="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/50/70">
                     <th scope="col" className="py-3 px-4">Provider</th>
                     <th scope="col" className="py-3 px-4">Max Speed</th>
                     <th scope="col" className="py-3 px-4">Starting Price</th>
@@ -1444,37 +1444,37 @@ export function AddressQualifier({
                     <th scope="col" className="py-3 px-4 text-right">Plans & Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-xs text-slate-200">
+                <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
                   {cityComparisonTable.map((row) => {
                     const isRowExpanded = expandedTableRowIds.has(row.id);
                     return (
                       <React.Fragment key={row.id}>
                         <tr 
                           onClick={() => toggleTableRow(row.id)}
-                          className="hover:bg-indigo-900/30/40 cursor-pointer transition-colors"
+                          className="hover:bg-blue-50/40 cursor-pointer transition-colors"
                         >
                           <td className="py-3.5 px-4">
                             <div className="flex items-center gap-2.5">
-                              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isRowExpanded ? 'rotate-180 text-indigo-600' : 'text-slate-500'}`} />
+                              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isRowExpanded ? 'rotate-180 text-indigo-600' : 'text-slate-400'}`} />
                               <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[90px]" />
                               <div>
-                                <div className="font-bold text-white">{row.name}</div>
-                                <div className="text-[10px] text-slate-500">{row.category || 'National Carrier'}</div>
+                                <div className="font-bold text-slate-900">{row.name}</div>
+                                <div className="text-[10px] text-slate-400">{row.category || 'National Carrier'}</div>
                               </div>
                             </div>
                           </td>
                           <td className="py-3.5 px-4 font-mono font-bold text-indigo-700">
                             {row.maxSpeed}
                           </td>
-                          <td className="py-3.5 px-4 font-mono font-bold text-white">
+                          <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
                             ${row.startingPrice}<span className="text-[10px] font-normal text-slate-500">/mo</span>
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 text-[11px] font-medium">
+                            <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">
                               {row.type}
                             </span>
                           </td>
-                          <td className="py-3.5 px-4 text-slate-300">
+                          <td className="py-3.5 px-4 text-slate-600">
                             {row.contract}
                           </td>
                           <td className="py-3.5 px-4 text-right">
@@ -1488,7 +1488,7 @@ export function AddressQualifier({
                                 className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 border ${
                                   isRowExpanded 
                                     ? 'bg-blue-600 text-white border-indigo-600 shadow-xs' 
-                                    : 'bg-slate-800 hover:bg-slate-800 text-slate-200 border-slate-800/80'
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200/80'
                                 }`}
                               >
                                 <span>{isRowExpanded ? 'Hide' : 'Plans'}</span>
@@ -1500,7 +1500,7 @@ export function AddressQualifier({
                                   e.stopPropagation();
                                   focusAddressInput();
                                 }}
-                                className="px-3 py-1.5 rounded-xl bg-indigo-900/30 hover:bg-blue-600 hover:text-white text-indigo-700 text-xs font-bold transition-all shadow-xs"
+                                className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-blue-600 hover:text-white text-indigo-700 text-xs font-bold transition-all shadow-xs"
                               >
                                 Qualify
                               </button>
@@ -1510,14 +1510,14 @@ export function AddressQualifier({
 
                         {/* Expandable Accordion Sub-row */}
                         {isRowExpanded && (
-                          <tr className="bg-slate-950/50/90 border-b border-slate-800 animate-fade-in">
+                          <tr className="bg-slate-50/50/90 border-b border-slate-200 animate-fade-in">
                             <td colSpan={6} className="p-4 sm:p-5">
-                              <div className="bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-800 shadow-xs space-y-4">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800/50">
+                              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
                                   <div>
                                     <div className="flex items-center gap-2">
                                       <CarrierLogo id={row.id} name={row.name} className="h-5 w-auto max-w-[100px]" />
-                                      <h5 className="font-extrabold text-sm text-white">
+                                      <h5 className="font-extrabold text-sm text-slate-900">
                                         {row.name} Plans & Coverage in {cityName || 'Your Area'}
                                       </h5>
                                     </div>
@@ -1532,7 +1532,7 @@ export function AddressQualifier({
                                         setFccModalPlan(row.samplePlan);
                                         setFccModalProvider(row.rawProvider);
                                       }}
-                                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-800 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-colors border border-slate-800/80"
+                                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors border border-slate-200/80"
                                       title="View Official FCC Consumer Disclosure"
                                     >
                                       <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
@@ -1541,7 +1541,7 @@ export function AddressQualifier({
                                     <button
                                       type="button"
                                       onClick={() => toggleTableRow(row.id)}
-                                      className="text-xs font-bold text-slate-500 hover:text-slate-100 px-2 py-1 rounded-lg bg-slate-800"
+                                      className="text-xs font-bold text-slate-500 hover:text-slate-800 px-2 py-1 rounded-lg bg-slate-100"
                                     >
                                       Hide ▲
                                     </button>
@@ -1551,10 +1551,10 @@ export function AddressQualifier({
                                 {/* Available Tiers Grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                   {row.allPlans.map(p => (
-                                    <div key={p.id} className="p-3.5 rounded-2xl bg-slate-950/50 border border-slate-800/80 flex flex-col justify-between">
+                                    <div key={p.id} className="p-3.5 rounded-2xl bg-slate-50/50 border border-slate-200/80 flex flex-col justify-between">
                                       <div>
                                         <div className="flex items-center justify-between gap-1">
-                                          <span className="font-extrabold text-xs text-white">{p.name}</span>
+                                          <span className="font-extrabold text-xs text-slate-900">{p.name}</span>
                                           {p.popular && (
                                             <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-blue-100 text-indigo-700">
                                               Popular
@@ -1563,14 +1563,14 @@ export function AddressQualifier({
                                         </div>
                                         <div className="flex items-baseline gap-2 mt-1.5">
                                           <span className="font-mono font-black text-sm text-indigo-700">{p.downloadSpeed}</span>
-                                          <span className="text-[11px] text-slate-500">/ {p.uploadSpeed}</span>
+                                          <span className="text-[11px] text-slate-400">/ {p.uploadSpeed}</span>
                                         </div>
                                         <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">{p.contract}</p>
                                       </div>
 
-                                      <div className="mt-3 pt-2.5 border-t border-slate-800/70 flex items-center justify-between">
+                                      <div className="mt-3 pt-2.5 border-t border-slate-200/70 flex items-center justify-between">
                                         <div>
-                                          <span className="font-mono font-black text-xs sm:text-sm text-white">${p.price}</span>
+                                          <span className="font-mono font-black text-xs sm:text-sm text-slate-900">${p.price}</span>
                                           <span className="text-[10px] text-slate-500">/mo</span>
                                         </div>
                                         <button
@@ -1599,7 +1599,7 @@ export function AddressQualifier({
           {/* High-Converting Address Qualification Gate Banner */}
           <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
             <div className="relative z-10 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/10 text-blue-200 text-xs font-bold mb-3 border border-slate-800/10">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold mb-3 border border-white/10">
                 <MapPin className="w-3.5 h-3.5 text-blue-400" />
                 <span>Exact Address Qualification</span>
               </div>
@@ -1614,14 +1614,14 @@ export function AddressQualifier({
                 <button
                   type="button"
                   onClick={focusAddressInput}
-                  className="px-5 py-3 rounded-2xl bg-indigo-900/300 hover:bg-blue-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all active:scale-95"
+                  className="px-5 py-3 rounded-2xl bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all active:scale-95"
                 >
                   <Search className="w-4 h-4" />
                   <span>Enter Address to Unlock Plans</span>
                 </button>
                 <a
                   href={telHref}
-                  className="px-5 py-3 rounded-2xl bg-slate-900/15 hover:bg-slate-900/20 text-white font-bold text-xs flex items-center gap-2 border border-slate-800/20 transition-all"
+                  className="px-5 py-3 rounded-2xl bg-white/15 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-2 border border-white/20 transition-all"
                 >
                   <PhoneCall className="w-4 h-4 text-emerald-400" />
                   <span>Call {phoneNumber}</span>
