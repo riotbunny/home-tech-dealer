@@ -57,7 +57,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
                   Official Carrier Checkout
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-400">
                 Official promotional pricing with no markups. Direct technician scheduling.
               </p>
             </div>
@@ -65,7 +65,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-slate-800"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
           >
             <X className="w-5 h-5" />
           </button>
@@ -78,19 +78,19 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
               <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-mono">1</span>
               <span>Account Details</span>
             </div>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
             <div className={`flex items-center gap-1.5 ${step >= 2 ? 'text-cyan-400 font-bold' : 'text-slate-500'}`}>
               <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-mono">2</span>
               <span>Add-ons &amp; Upgrades</span>
             </div>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
             <div className={`flex items-center gap-1.5 ${step >= 3 ? 'text-cyan-400 font-bold' : 'text-slate-500'}`}>
               <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-mono">3</span>
               <span>Install Schedule</span>
             </div>
           </div>
 
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-slate-400 font-mono">
             Address: <strong className="text-slate-200">{currentAddress || 'Your Service Address'}</strong>
           </span>
         </div>
@@ -106,7 +106,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
               <div className="space-y-4 text-xs">
                 <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                   <div className="font-bold text-white text-sm">Customer &amp; Service Location Verification</div>
-                  <p className="text-slate-500 text-[11px]">
+                  <p className="text-slate-400 text-[11px]">
                     Customer details pre-filled from CRM lead token handshake. Soft credit qualification ready.
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
               <div className="space-y-4 text-xs">
                 <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                   <div className="font-bold text-white text-sm">Select Add-ons &amp; Product Upgrades</div>
-                  <p className="text-slate-500 text-[11px]">
+                  <p className="text-slate-400 text-[11px]">
                     Prices refresh dynamically in the uniform order cart on the right.
                   </p>
                 </div>
@@ -174,7 +174,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
                       <span className="font-bold text-white">Whole-Home Wi-Fi 6 Mesh Extender</span>
                       <span className="font-mono text-cyan-400 font-bold">+$10.00 / mo</span>
                     </div>
-                    <p className="text-slate-500 text-[11px] mt-0.5">
+                    <p className="text-slate-400 text-[11px] mt-0.5">
                       Eliminates dead zones up to 4,500 sq ft with intelligent roaming.
                     </p>
                   </div>
@@ -195,7 +195,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
                       <span className="font-bold text-white">Advanced Cybersecurity &amp; Identity Guard</span>
                       <span className="font-mono text-cyan-400 font-bold">+$5.00 / mo</span>
                     </div>
-                    <p className="text-slate-500 text-[11px] mt-0.5">
+                    <p className="text-slate-400 text-[11px] mt-0.5">
                       Network-level malicious site blocking and identity theft insurance.
                     </p>
                   </div>
@@ -215,11 +215,11 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-white flex items-center gap-1.5">
                         <span>Attach DIRECTV Entertainment Stream</span>
-                        <span className="text-[9px] bg-amber-900/300 text-black px-1.5 py-0.2 rounded font-mono font-bold">+1 RGU</span>
+                        <span className="text-[9px] bg-amber-500 text-black px-1.5 py-0.2 rounded font-mono font-bold">+1 RGU</span>
                       </span>
                       <span className="font-mono text-amber-400 font-bold">+$69.99 / mo</span>
                     </div>
-                    <p className="text-slate-500 text-[11px] mt-0.5">
+                    <p className="text-slate-400 text-[11px] mt-0.5">
                       75+ top live channels + unlimited cloud DVR. Billed uniformly without contracts.
                     </p>
                   </div>
@@ -232,7 +232,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
               <div className="space-y-4 text-xs">
                 <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                   <div className="font-bold text-white text-sm">Choose Installation Date &amp; Time</div>
-                  <p className="text-slate-500 text-[11px]">
+                  <p className="text-slate-400 text-[11px]">
                     Direct API dispatch into provider technician scheduling calendar.
                   </p>
                 </div>
@@ -262,7 +262,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1 text-[11px] text-slate-300">
-                  <div className="text-slate-500 font-semibold">Technician Dispatch Instructions:</div>
+                  <div className="text-slate-400 font-semibold">Technician Dispatch Instructions:</div>
                   <p>Standard professional fiber install. Customer will receive SMS updates 30 minutes prior to technician arrival.</p>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
             {/* Step 4: Confirmed Success State */}
             {step === 4 && (
               <div className="py-8 text-center space-y-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-900/300/20 text-emerald-400 flex items-center justify-center mx-auto shadow-glow-cyan">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto shadow-glow-cyan">
                   <Check className="w-7 h-7" />
                 </div>
                 <h4 className="text-lg font-extrabold text-white">Installation &amp; Service Reserved!</h4>
@@ -337,7 +337,7 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
 
             <div className="space-y-3 text-xs">
               <div>
-                <div className="text-[11px] text-slate-500">Selected Product:</div>
+                <div className="text-[11px] text-slate-400">Selected Product:</div>
                 <div className="font-extrabold text-white text-sm">{selectedPlan.name}</div>
                 <div className="text-[11px] text-cyan-400 font-mono">
                   {selectedPlan.downloadSpeed} / {selectedPlan.uploadSpeed}
@@ -381,18 +381,18 @@ export function BuyflowModal({ isOpen, onClose, selectedPlan, currentAddress }) 
               {/* Dynamic Grand Total */}
               <div className="pt-3 border-t border-slate-800 flex items-baseline justify-between">
                 <div>
-                  <div className="text-xs text-slate-500 font-semibold">Total Monthly Due:</div>
+                  <div className="text-xs text-slate-400 font-semibold">Total Monthly Due:</div>
                   <div className="text-[10px] text-slate-500">Plus applicable state taxes</div>
                 </div>
                 <div className="text-2xl font-mono font-extrabold text-cyan-400">
                   ${totalPrice.toFixed(2)}
-                  <span className="text-xs font-normal text-slate-500">/mo</span>
+                  <span className="text-xs font-normal text-slate-400">/mo</span>
                 </div>
               </div>
             </div>
 
             {/* Feature Callout Note */}
-            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-[11px] text-slate-500 space-y-1">
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 space-y-1">
               <span className="text-slate-300 font-semibold block">Home Tech Dealer Inc. Direct Carrier Guarantee:</span>
               <p>
                 No hidden markups or intermediary charges. All equipment warranties, promotional rate locks, and installation appointments are honored directly by the carrier.

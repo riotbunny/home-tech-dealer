@@ -59,22 +59,22 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
   }, [selectedPreset]);
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-[2rem] bg-slate-900/70 backdrop-blur-2xl border border-slate-800 p-6 sm:p-8 shadow-2xl shadow-indigo-900/10 text-slate-100 relative overflow-hidden transition-all hover:shadow-black/60">
+    <div className="w-full max-w-xl mx-auto rounded-[2rem] bg-white/70 backdrop-blur-2xl border border-white/60 p-6 sm:p-8 shadow-2xl shadow-indigo-900/10 text-slate-800 relative overflow-hidden transition-all hover:shadow-indigo-900/15">
       
       {/* Background Soft Glow */}
       <div className="absolute -right-20 -top-20 w-60 h-60 bg-blue-100 rounded-full blur-[80px] pointer-events-none opacity-50" />
-      <div className="absolute -left-20 -bottom-20 w-60 h-60 bg-emerald-900/30 rounded-full blur-[80px] pointer-events-none opacity-50" />
+      <div className="absolute -left-20 -bottom-20 w-60 h-60 bg-emerald-50 rounded-full blur-[80px] pointer-events-none opacity-50" />
 
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between border-b border-slate-800/60 pb-4 mb-2 relative">
+      <div className="flex items-center justify-between border-b border-slate-200/60 pb-4 mb-2 relative">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-900/300 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
           <span className="text-xs font-bold tracking-widest text-slate-500 uppercase font-sans">
             Live Speed Simulator
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs font-sans font-semibold text-slate-500 bg-slate-800/50 px-2.5 py-1 rounded-md border border-slate-800/50">
+        <div className="flex items-center gap-1.5 text-xs font-sans font-semibold text-slate-500 bg-slate-100/50 px-2.5 py-1 rounded-md border border-slate-200/50">
           <Zap className="w-3.5 h-3.5 text-amber-500" />
           <span>Connection: <strong className="text-emerald-600">Fast</strong></span>
         </div>
@@ -127,7 +127,7 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
           />
 
           {/* Needle Hub Pivot Center */}
-          <div className="absolute left-[112px] top-[112px] w-8 h-8 rounded-full bg-slate-900 border-[3px] border-indigo-100 shadow-md flex items-center justify-center">
+          <div className="absolute left-[112px] top-[112px] w-8 h-8 rounded-full bg-white border-[3px] border-indigo-100 shadow-md flex items-center justify-center">
             <div className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
           </div>
         </div>
@@ -135,7 +135,7 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
         {/* Speed Value Readout */}
         <div className="text-center mt-2">
           <div className="flex items-baseline justify-center gap-1.5">
-            <span className="text-6xl font-black tracking-tighter text-white font-sans">
+            <span className="text-6xl font-black tracking-tighter text-slate-900 font-sans">
               {displayedSpeed}
             </span>
             <span className="text-lg font-bold text-slate-500 tracking-tight">
@@ -143,7 +143,7 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
             </span>
           </div>
 
-          <div className="text-xs font-bold text-slate-300 mt-2 uppercase tracking-wide">
+          <div className="text-xs font-bold text-slate-600 mt-2 uppercase tracking-wide">
             {activePresetData.tier} &bull; <span className="text-indigo-600">{activePresetData.tech}</span>
           </div>
           <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1.5 leading-relaxed font-medium">
@@ -154,7 +154,7 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
       </div>
 
       {/* Preset Speed Selector Tabs */}
-      <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-800/50 p-2 rounded-[1.25rem] border border-slate-800/50 backdrop-blur-sm">
+      <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-100/50 p-2 rounded-[1.25rem] border border-slate-200/50 backdrop-blur-sm">
         {presets.map((p) => {
           const isActive = p.id === selectedPreset;
           return (
@@ -166,12 +166,12 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
               }}
               className={`py-2 px-2.5 rounded-[1rem] text-center text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-slate-900 text-indigo-700 border-none shadow-[0_4px_12px_rgba(0,0,0,0.05)] ring-1 ring-slate-200'
-                  : 'bg-transparent text-slate-500 hover:text-slate-100 hover:bg-slate-800/50'
+                  ? 'bg-white text-indigo-700 border-none shadow-[0_4px_12px_rgba(0,0,0,0.05)] ring-1 ring-slate-200'
+                  : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
               }`}
             >
               <div className="truncate">{p.label}</div>
-              <div className={`text-[10px] font-medium truncate mt-0.5 ${isActive ? 'text-slate-500' : 'text-slate-500'}`}>
+              <div className={`text-[10px] font-medium truncate mt-0.5 ${isActive ? 'text-slate-500' : 'text-slate-400'}`}>
                 {p.tier}
               </div>
             </button>

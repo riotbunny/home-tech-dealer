@@ -63,7 +63,7 @@ export function StateHubView({
       {/* State Hero Header */}
       <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-800">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-900/300/20 border border-blue-400/30 text-blue-300 text-xs font-bold mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold mb-4">
             <Compass className="w-3.5 h-3.5 text-blue-400" />
             <span>Statewide Broadband Directory &bull; {stateCode}</span>
           </div>
@@ -82,12 +82,12 @@ export function StateHubView({
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href={telHref}
-              className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-indigo-900/300 text-white font-extrabold text-sm flex items-center gap-2.5 shadow-lg shadow-blue-600/30 transition-all"
+              className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm flex items-center gap-2.5 shadow-lg shadow-blue-600/30 transition-all"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Call Statewide Desk: {phoneNumber}</span>
             </a>
-            <div className="text-xs text-slate-500 flex items-center gap-2">
+            <div className="text-xs text-slate-400 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>100% Free Service &bull; Zero Hold Times</span>
             </div>
@@ -96,25 +96,25 @@ export function StateHubView({
 
         {/* State Metrics Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 pt-8 border-t border-slate-800/80">
-          <div className="p-4 rounded-2xl bg-slate-900/5 border border-slate-800/10">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Fiber Coverage</div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Fiber Coverage</div>
             <div className="text-2xl font-black text-emerald-400 mt-1">{fiberCoverage}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">Metro &amp; suburban footprint</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Metro &amp; suburban footprint</div>
           </div>
-          <div className="p-4 rounded-2xl bg-slate-900/5 border border-slate-800/10">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Max Speeds</div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Max Speeds</div>
             <div className="text-2xl font-black text-cyan-400 mt-1">{maxSpeed}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">Gigabit infrastructure</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Gigabit infrastructure</div>
           </div>
-          <div className="p-4 rounded-2xl bg-slate-900/5 border border-slate-800/10">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Starting Price</div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Starting Price</div>
             <div className="text-2xl font-black text-amber-400 mt-1">{startingPrice}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">Wi-Fi router included</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Wi-Fi router included</div>
           </div>
-          <div className="p-4 rounded-2xl bg-slate-900/5 border border-slate-800/10">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Carriers Evaluated</div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Carriers Evaluated</div>
             <div className="text-2xl font-black text-blue-400 mt-1">27 Providers</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">FCC BDC verified data</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">FCC BDC verified data</div>
           </div>
         </div>
       </div>
@@ -123,10 +123,10 @@ export function StateHubView({
       <div>
         <div className="flex items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               Leading Internet Providers in {stateName}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Top-ranked fiber, cable, and 5G providers serving residential households in {stateName}.
             </p>
           </div>
@@ -136,7 +136,7 @@ export function StateHubView({
           {stateProviders.map(provider => (
             <div 
               key={provider.id}
-              className="bg-slate-900 p-6 rounded-3xl border border-slate-800/90 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
+              className="bg-white p-6 rounded-3xl border border-slate-200/90 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -145,23 +145,23 @@ export function StateHubView({
                       className="w-3.5 h-3.5 rounded-full" 
                       style={{ backgroundColor: provider.color || '#2563EB' }}
                     />
-                    <span className="font-extrabold text-base text-white">
+                    <span className="font-extrabold text-base text-slate-900">
                       {provider.name}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-200 px-2.5 py-1 rounded-md">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">
                     {provider.type}
                   </span>
                 </div>
 
-                <div className="text-xs text-indigo-700 font-semibold bg-indigo-900/30 px-2.5 py-1 rounded-lg inline-block mb-4">
+                <div className="text-xs text-indigo-700 font-semibold bg-blue-50 px-2.5 py-1 rounded-lg inline-block mb-4">
                   {provider.badge}
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300 border-t border-slate-800/50 pt-3">
+                <div className="space-y-2 text-xs text-slate-600 border-t border-slate-100 pt-3">
                   <div className="flex justify-between">
                     <span>Starting Rate:</span>
-                    <span className="font-black text-white">${provider.plans[0]?.price || 49.99}/mo</span>
+                    <span className="font-black text-slate-900">${provider.plans[0]?.price || 49.99}/mo</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Download Speeds:</span>
@@ -174,7 +174,7 @@ export function StateHubView({
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-800/50 flex items-center gap-2">
+              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2">
                 <a
                   href={telHref}
                   className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-xs"
@@ -189,14 +189,14 @@ export function StateHubView({
       </div>
 
       {/* Crawlable Cities Directory in State */}
-      <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xs">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs">
         <div className="flex items-center gap-2.5 mb-2">
           <Building2 className="w-5 h-5 text-indigo-600" />
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             Browse {stateName} Cities &amp; Metros
           </h2>
         </div>
-        <p className="text-xs sm:text-sm text-slate-300 mb-6 max-w-2xl">
+        <p className="text-xs sm:text-sm text-slate-600 mb-6 max-w-2xl">
           Select your city below to see exact street address availability, fiber coverage maps, and locked promotional rates.
         </p>
 
@@ -222,13 +222,13 @@ export function StateHubView({
                       onSelectCity(path);
                     }
                   }}
-                  className="p-3.5 rounded-2xl border border-slate-800 hover:border-blue-400 hover:bg-indigo-900/30/50 hover:shadow-xs transition-all group flex items-center justify-between text-left"
+                  className="p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 hover:shadow-xs transition-all group flex items-center justify-between text-left"
                 >
                   <div className="min-w-0">
-                    <div className="font-bold text-xs text-white group-hover:text-indigo-600 transition-colors truncate">
+                    <div className="font-bold text-xs text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
                       {city.city}
                     </div>
-                    <div className="text-[11px] text-slate-500 mt-0.5">
+                    <div className="text-[11px] text-slate-400 mt-0.5">
                       Up to {city.speed || '1000 Mbps'}
                     </div>
                   </div>
@@ -241,10 +241,10 @@ export function StateHubView({
       </div>
 
       {/* State FAQs Accordion */}
-      <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xs">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs">
         <div className="flex items-center gap-2 mb-6">
           <HelpCircle className="w-5 h-5 text-indigo-600" />
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {stateName} Home Broadband FAQ
           </h2>
         </div>
@@ -256,7 +256,7 @@ export function StateHubView({
               <div 
                 key={idx}
                 className={`rounded-2xl border transition-all ${
-                  isOpen ? 'bg-indigo-900/30/30 border-blue-200' : 'bg-slate-900 border-slate-800/90 hover:border-slate-700'
+                  isOpen ? 'bg-blue-50/30 border-blue-200' : 'bg-white border-slate-200/90 hover:border-slate-300'
                 }`}
               >
                 <button
@@ -264,16 +264,16 @@ export function StateHubView({
                   onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                   className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-3"
                 >
-                  <span className="text-sm font-bold text-white leading-snug">
+                  <span className="text-sm font-bold text-slate-900 leading-snug">
                     {faq.q}
                   </span>
-                  <span className={`p-1 rounded-lg shrink-0 ${isOpen ? 'bg-blue-100 text-indigo-700' : 'bg-slate-800 text-slate-500'}`}>
+                  <span className={`p-1 rounded-lg shrink-0 ${isOpen ? 'bg-blue-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
                     {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </span>
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/50 pt-3">
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
                     {faq.a}
                   </div>
                 )}

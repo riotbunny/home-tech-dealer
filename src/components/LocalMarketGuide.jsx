@@ -59,21 +59,21 @@ export function LocalMarketGuide({
   ];
 
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/90 mt-8">
+    <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200/90 mt-8">
       
       {/* Top Header Badge & Title */}
       <div className="text-center max-w-3xl mx-auto mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-900/30 border border-blue-200 text-indigo-700 text-xs font-bold mb-3">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-bold mb-3">
           <Compass className="w-3.5 h-3.5 text-indigo-600" />
           <span>Local Broadband Market Intelligence</span>
         </div>
         
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
           Broadband &amp; TV Overview for{' '}
           <span className="text-indigo-600">{locationTitle}</span>
         </h2>
         
-        <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
+        <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
           Independent coverage data, carrier availability benchmarks, and verified consumer tips for choosing the right internet connection in {locationTitle}.
         </p>
       </div>
@@ -82,22 +82,22 @@ export function LocalMarketGuide({
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
         
         {/* Metric 1: Max Speeds */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800/90 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Max Speeds</span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-900/30 text-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-50 text-indigo-600 flex items-center justify-center">
               <Zap className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-white">{topSpeed}</div>
+          <div className="text-xl sm:text-2xl font-black text-slate-900">{topSpeed}</div>
           <p className="text-xs text-slate-500 mt-0.5">Gigabit-capable infrastructure</p>
         </div>
 
         {/* Metric 2: Fiber Coverage */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800/90 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Fiber Coverage</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-900/30 text-emerald-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <Wifi className="w-4 h-4" />
             </div>
           </div>
@@ -106,14 +106,14 @@ export function LocalMarketGuide({
         </div>
 
         {/* Metric 3: Starting Rates */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800/90 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Plans Starting At</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-900/30 text-amber-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-white">$49.99<span className="text-xs font-normal text-slate-500">/mo</span></div>
+          <div className="text-xl sm:text-2xl font-black text-slate-900">$49.99<span className="text-xs font-normal text-slate-500">/mo</span></div>
           <p className="text-xs text-slate-500 mt-0.5">Wi-Fi equipment included</p>
         </div>
 
@@ -121,7 +121,7 @@ export function LocalMarketGuide({
         <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-md">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-200">Phone Hotline</span>
-            <div className="w-8 h-8 rounded-xl bg-slate-900/15 text-white flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-white/15 text-white flex items-center justify-center">
               <PhoneCall className="w-4 h-4" />
             </div>
           </div>
@@ -138,8 +138,8 @@ export function LocalMarketGuide({
         
         {/* Left Column: Authoritative Local Overview Guide (6 cols) */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="p-6 sm:p-7 rounded-3xl bg-slate-900 border border-slate-800/90 shadow-xs space-y-4 text-sm text-slate-300 leading-relaxed">
-            <div className="flex items-center gap-2 text-white font-extrabold text-lg border-b border-slate-800/50 pb-3">
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4 text-sm text-slate-600 leading-relaxed">
+            <div className="flex items-center gap-2 text-slate-900 font-extrabold text-lg border-b border-slate-100 pb-3">
               <Building2 className="w-5 h-5 text-indigo-600 shrink-0" />
               <span>Internet Connectivity Landscape in {locationTitle}</span>
             </div>
@@ -157,7 +157,7 @@ export function LocalMarketGuide({
             </p>
 
             {/* Quick Action CTA Banner */}
-            <div className="mt-5 p-4 rounded-2xl bg-indigo-900/30/80 border border-blue-100 text-xs text-blue-900 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="mt-5 p-4 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div>
                 <span className="font-bold block">Need help comparing plans for your home?</span>
                 <span className="text-indigo-700 text-[11px]">Our authorized specialists compare all 27 carriers for free.</span>
@@ -177,7 +177,7 @@ export function LocalMarketGuide({
         <div className="lg:col-span-6 space-y-3">
           <div className="flex items-center gap-2 mb-2 px-1">
             <HelpCircle className="w-4 h-4 text-indigo-600" />
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-100">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-800">
               Frequently Asked Questions for {locationTitle}
             </span>
           </div>
@@ -190,8 +190,8 @@ export function LocalMarketGuide({
                   key={idx}
                   className={`rounded-2xl border transition-all ${
                     isOpen 
-                      ? 'bg-slate-900 border-blue-300 shadow-sm' 
-                      : 'bg-slate-900 border-slate-800/90 hover:border-slate-700'
+                      ? 'bg-white border-blue-300 shadow-sm' 
+                      : 'bg-white border-slate-200/90 hover:border-slate-300'
                   }`}
                 >
                   <button
@@ -199,18 +199,18 @@ export function LocalMarketGuide({
                     onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                     className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-3"
                   >
-                    <span className="text-sm font-bold text-white leading-snug">
+                    <span className="text-sm font-bold text-slate-900 leading-snug">
                       {faq.q}
                     </span>
                     <span className={`p-1 rounded-lg shrink-0 transition-colors ${
-                      isOpen ? 'bg-indigo-900/30 text-indigo-600' : 'bg-slate-800 text-slate-500'
+                      isOpen ? 'bg-blue-50 text-indigo-600' : 'bg-slate-100 text-slate-500'
                     }`}>
                       {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </span>
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/50 pt-3">
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
                       {faq.a}
                     </div>
                   )}
@@ -228,11 +228,11 @@ export function LocalMarketGuide({
       </div>
 
       {/* Neighboring Markets & Regional Crawl Mesh */}
-      <div className="mt-12 pt-8 border-t border-slate-800">
+      <div className="mt-12 pt-8 border-t border-slate-200">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <Compass className="w-4 h-4 text-indigo-600" />
-            <h3 className="font-extrabold text-sm text-white">
+            <h3 className="font-extrabold text-sm text-slate-900">
               Broadband Availability in Nearby {displayState} Communities
             </h3>
           </div>
@@ -261,7 +261,7 @@ export function LocalMarketGuide({
               <a
                 key={c.city}
                 href={path}
-                className="p-3 rounded-xl bg-slate-950/50 border border-slate-800 hover:border-blue-400 hover:bg-indigo-900/30/50 transition-all text-xs font-bold text-slate-200 hover:text-indigo-700 truncate"
+                className="p-3 rounded-xl bg-slate-50/50 border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition-all text-xs font-bold text-slate-700 hover:text-indigo-700 truncate"
               >
                 {c.city}, {c.state}
               </a>
