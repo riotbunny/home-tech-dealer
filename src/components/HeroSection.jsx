@@ -14,6 +14,7 @@ import {
 import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
 import { LiveSpeedometerHero } from './LiveSpeedometerHero';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
+import { triggerHaptic } from '../utils/haptics';
 
 export function HeroSection({ 
   onSelectNearbyCity, 
@@ -31,6 +32,7 @@ export function HeroSection({
   const handleHeroSubmit = (e) => {
     e.preventDefault();
     if (!addressInput.trim()) return;
+    triggerHaptic('heavy');
     if (onSearchAddress) {
       onSearchAddress(addressInput);
     }
@@ -41,6 +43,7 @@ export function HeroSection({
   };
 
   const handleQuickCity = (cityItem) => {
+    triggerHaptic('light');
     setAddressInput(`${cityItem.city}, ${cityItem.state}`);
     if (onSelectNearbyCity) {
       onSelectNearbyCity(cityItem);
@@ -188,9 +191,10 @@ export function HeroSection({
 
         {/* Bottom Trust Badges (Hidden on mobile phones to prioritize carrier results) */}
         <div className="hidden sm:grid mt-16 pt-8 grid-cols-2 sm:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          <div className="flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm border border-emerald-100">
-              <PhoneCall className="w-5 h-5" />
+          <div className="flex flex-col items-center text-center gap-3 group">
+            <div className="relative w-14 h-14 rounded-[1.25rem] bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30 overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/40 rounded-[1.25rem]"></div>
+              <PhoneCall className="w-6 h-6 text-white relative z-10 stroke-[2.5]" />
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{phoneNumber}</h4>
@@ -198,9 +202,10 @@ export function HeroSection({
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-indigo-600 flex items-center justify-center shrink-0 shadow-sm border border-blue-100">
-              <CheckCircle2 className="w-5 h-5" />
+          <div className="flex flex-col items-center text-center gap-3 group">
+            <div className="relative w-14 h-14 rounded-[1.25rem] bg-gradient-to-tr from-indigo-500 to-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30 overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/40 rounded-[1.25rem]"></div>
+              <CheckCircle2 className="w-6 h-6 text-white relative z-10 stroke-[2.5]" />
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">100% Free Service</h4>
@@ -208,9 +213,10 @@ export function HeroSection({
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm border border-amber-100">
-              <Gift className="w-5 h-5" />
+          <div className="flex flex-col items-center text-center gap-3 group">
+            <div className="relative w-14 h-14 rounded-[1.25rem] bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/30 overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/40 rounded-[1.25rem]"></div>
+              <Gift className="w-6 h-6 text-white relative z-10 stroke-[2.5]" />
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">Mover Reward Cards</h4>
@@ -218,9 +224,10 @@ export function HeroSection({
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm border border-purple-100">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="flex flex-col items-center text-center gap-3 group">
+            <div className="relative w-14 h-14 rounded-[1.25rem] bg-gradient-to-tr from-purple-500 to-pink-400 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/30 overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/40 rounded-[1.25rem]"></div>
+              <ShieldCheck className="w-6 h-6 text-white relative z-10 stroke-[2.5]" />
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">Official Carrier Rates</h4>

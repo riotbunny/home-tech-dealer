@@ -10,6 +10,8 @@ import {
   Wifi, 
   Zap
 } from 'lucide-react';
+import { triggerHaptic } from '../utils/haptics';
+
 
 export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
   const [householdSize, setHouseholdSize] = useState('3-4');
@@ -19,6 +21,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
   if (!isOpen) return null;
 
   const toggleActivity = (id) => {
+    triggerHaptic('light');
     setActivities(prev => 
       prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
     );
@@ -114,7 +117,10 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                 <button
                   key={opt.id}
                   type="button"
-                  onClick={() => setHouseholdSize(opt.id)}
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setHouseholdSize(opt.id);
+                  }}
                   className={`p-3 rounded-2xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all ${
                     householdSize === opt.id
                       ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
@@ -173,7 +179,10 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                 <button
                   key={count}
                   type="button"
-                  onClick={() => setDeviceCount(count)}
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setDeviceCount(count);
+                  }}
                   className={`py-2 px-2 rounded-xl border text-xs font-semibold text-center transition-all ${
                     deviceCount === count
                       ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
@@ -209,6 +218,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
               <button
                 type="button"
                 onClick={() => {
+                  triggerHaptic('heavy');
                   onApplySpeedFilter(recommendation.tier);
                   onClose();
                 }}

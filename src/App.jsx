@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { triggerHaptic } from './utils/haptics';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { AddressQualifier } from './components/AddressQualifier';
@@ -287,8 +288,10 @@ export function App() {
     setComparisonCart(prev => {
       const exists = prev.some(item => item.id === plan.id);
       if (exists) {
+        triggerHaptic('medium');
         return prev.filter(item => item.id !== plan.id);
       } else {
+        triggerHaptic('success');
         if (prev.length >= 3) {
           return [...prev.slice(1), plan];
         }

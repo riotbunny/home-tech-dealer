@@ -698,7 +698,25 @@ export function AddressQualifier({
           </a>
         </div>
 
-        {filteredPlans.length === 0 ? (
+        {isSearching ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-start">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="animate-pulse bg-white/60 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border border-white shadow-sm flex items-center justify-between">
+                <div className="flex flex-col xs:flex-row xs:items-center gap-3 sm:gap-4 w-full">
+                  <div className="w-20 h-6 bg-slate-200/70 rounded-md shrink-0"></div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <div className="w-32 h-4 bg-slate-200/70 rounded"></div>
+                    <div className="w-16 h-3 bg-slate-100/70 rounded"></div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 shrink-0 pl-4">
+                  <div className="w-14 h-6 bg-slate-200/70 rounded hidden xs:block"></div>
+                  <div className="w-8 h-8 rounded-full bg-slate-100/80 shrink-0"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredPlans.length === 0 ? (
           <div className="p-12 text-center rounded-3xl bg-white border border-slate-200 text-slate-500 shadow-xs">
             <Filter className="w-8 h-8 text-slate-400 mx-auto mb-2" />
             <p className="text-sm font-semibold text-slate-800">No plans matched your filter criteria.</p>
