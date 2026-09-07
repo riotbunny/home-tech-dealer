@@ -53,7 +53,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="pb-6 border-b border-slate-200">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
           <Layers className="w-3.5 h-3.5" />
           <span>Provider Directory</span>
         </div>
@@ -99,7 +99,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search providers..."
-            className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 text-xs placeholder-slate-400 focus:outline-none focus:border-blue-600"
+            className="w-full pl-9 pr-3 py-1.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 text-xs placeholder-slate-400 focus:outline-none focus:border-blue-600"
           />
         </div>
       </div>
@@ -122,7 +122,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
                       className="w-3.5 h-3.5 rounded-full" 
                       style={{ backgroundColor: provider.color || '#2563EB' }}
                     />
-                    <span className="font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors">
+                    <span className="font-bold text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">
                       {provider.name}
                     </span>
                   </div>
@@ -135,7 +135,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
                   {provider.fullName}
                 </div>
 
-                <div className="inline-block text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-lg mb-3">
+                <div className="inline-block text-[11px] font-semibold text-indigo-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-lg mb-3">
                   {provider.badge}
                 </div>
 
@@ -147,7 +147,7 @@ export function ProviderMatrix({ onSelectProviderForFilter, catalog }) {
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span>Max Download:</span>
-                    <span className="text-blue-700 font-bold">{maxSpeed}</span>
+                    <span className="text-indigo-700 font-bold">{maxSpeed}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span>Installation:</span>

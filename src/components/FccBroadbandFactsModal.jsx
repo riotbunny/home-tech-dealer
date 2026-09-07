@@ -148,7 +148,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
               <div className="text-xs space-y-1 divide-y divide-slate-200">
                 <div className="flex justify-between py-1">
                   <span className="text-slate-700 font-medium">Typical Download Speed:</span>
-                  <span className="font-black text-blue-700">{facts.typicalDownloadSpeed}</span>
+                  <span className="font-black text-indigo-700">{facts.typicalDownloadSpeed}</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-700 font-medium">Typical Upload Speed:</span>
@@ -188,7 +188,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
                   href={facts.networkManagementUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-blue-700 hover:underline flex items-center gap-1"
+                  className="font-bold text-indigo-700 hover:underline flex items-center gap-1"
                 >
                   <span>View Policy</span>
                   <ExternalLink className="w-3 h-3" />
@@ -200,7 +200,7 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
                   href={facts.privacyPolicyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-blue-700 hover:underline flex items-center gap-1"
+                  className="font-bold text-indigo-700 hover:underline flex items-center gap-1"
                 >
                   <span>View Policy</span>
                   <ExternalLink className="w-3 h-3" />
@@ -222,16 +222,16 @@ export function FccBroadbandFactsModal({ isOpen, onClose, plan, provider, cityNa
           </div>
 
           {/* Direct Verification Link to Carrier's Official Filing */}
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 bg-slate-50/50 p-3.5 rounded-2xl border border-slate-200">
             <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-blue-600 shrink-0" />
+              <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
               <span>Direct ISP Regulatory Disclosure:</span>
             </div>
             <a
               href={facts.carrierFccDisclosurePortal}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-bold text-blue-700 hover:text-blue-800"
+              className="inline-flex items-center gap-1 font-bold text-indigo-700 hover:text-blue-800"
             >
               <span>{facts.providerName} Official FCC Portal</span>
               <ExternalLink className="w-3.5 h-3.5" />

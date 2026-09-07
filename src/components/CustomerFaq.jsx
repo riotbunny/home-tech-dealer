@@ -34,7 +34,7 @@ export function CustomerFaq() {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <div className="text-center pb-8 border-b border-slate-200">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-semibold mb-2">
           <HelpCircle className="w-3.5 h-3.5" />
           <span>Frequently Asked Questions</span>
         </div>
@@ -65,7 +65,7 @@ export function CustomerFaq() {
                   {faq.q}
                 </span>
                 <span className="p-1 rounded-lg bg-slate-100 text-slate-500 shrink-0">
-                  {isOpen ? <ChevronUp className="w-4 h-4 text-blue-600" /> : <ChevronDown className="w-4 h-4" />}
+                  {isOpen ? <ChevronUp className="w-4 h-4 text-indigo-600" /> : <ChevronDown className="w-4 h-4" />}
                 </span>
               </button>
 

@@ -17,7 +17,7 @@ export function CarrierHubView({ carrierId, cityName, stateName, phoneNumber, on
         </p>
         <a
           href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-colors shadow-lg shadow-blue-500/30"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold rounded-2xl transition-colors shadow-lg shadow-blue-500/30"
         >
           <PhoneCall className="w-5 h-5" />
           <span>Call to Order: {phoneNumber}</span>

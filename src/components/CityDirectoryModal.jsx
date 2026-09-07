@@ -56,7 +56,7 @@ export function CityDirectoryModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50/80">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20">
               <Compass className="w-5 h-5" />
@@ -89,7 +89,7 @@ export function CityDirectoryModal({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by city (e.g. Austin, Miami, Chicago, Seattle) or state..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-slate-50/50 border border-slate-200 text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
             />
           </div>
 
@@ -134,7 +134,7 @@ export function CityDirectoryModal({
               <div key={state.code} className="pt-5 first:pt-0">
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                    <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-indigo-700 border border-blue-200">
                       {state.code}
                     </span>
                     <h3 className="font-extrabold text-sm text-slate-900">
@@ -166,12 +166,12 @@ export function CityDirectoryModal({
                         className={`group p-3 rounded-xl border text-left transition-all flex items-center justify-between gap-2 ${
                           isCurrent
                             ? 'bg-blue-50/80 border-blue-300 ring-2 ring-blue-200'
-                            : 'bg-white hover:bg-slate-50 border-slate-200/80 hover:border-blue-300 hover:shadow-xs'
+                            : 'bg-white hover:bg-slate-50/50 border-slate-200/80 hover:border-blue-300 hover:shadow-xs'
                         }`}
                       >
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <MapPin className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-600'}`} />
+                            <MapPin className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-indigo-600' : 'text-slate-400 group-hover:text-indigo-600'}`} />
                             <span className={`font-bold text-xs truncate ${isCurrent ? 'text-blue-900 font-extrabold' : 'text-slate-800'}`}>
                               {city.city}, {city.state}
                             </span>
@@ -182,9 +182,9 @@ export function CityDirectoryModal({
                         </div>
 
                         {isCurrent ? (
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
                         ) : (
-                          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all shrink-0" />
                         )}
                       </a>
                     );
@@ -196,7 +196,7 @@ export function CityDirectoryModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <div className="p-4 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <div>
             100% Nationwide Coverage &bull; Top 4 Guaranteed Carriers in All 50 States
           </div>

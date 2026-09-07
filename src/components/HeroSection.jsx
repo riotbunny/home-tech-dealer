@@ -52,67 +52,82 @@ export function HeroSection({
   };
 
   const hasValidCity = Boolean(cityName && cityName.trim() && cityName.toLowerCase() !== 'your area' && cityName.toLowerCase() !== 'your local');
+  
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+  
+  const formattedCityName = hasValidCity ? toTitleCase(cityName) : '';
   const locationLabel = hasValidCity 
-    ? (state ? `${cityName}, ${state}` : `${cityName} Area`)
+    ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} Area`)
     : 'Your Area';
 
   return (
-    <section className="relative overflow-hidden pt-7 sm:pt-12 pb-10 sm:pb-16 bg-gradient-to-b from-blue-50/70 via-slate-50/50 to-white border-b border-slate-200/80">
+    <section className="relative overflow-hidden pt-10 sm:pt-16 pb-12 sm:pb-24">
+      {/* Abstract Glowing Background Mesh */}
+      <div className="absolute top-0 left-0 right-0 h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
+        <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px]"></div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* 2-Column Luxury Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
           {/* Left Column: Headline, Trust, and Search Console (7 cols) */}
           <div className="lg:col-span-7">
             
             {/* Top Trust Pills */}
-            <div className="flex flex-col xs:flex-row sm:flex-row items-center justify-center sm:justify-start gap-2.5 sm:gap-3 mb-5">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/80 text-blue-800 text-xs font-semibold text-center">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                <span>Compare 27 Top Home Internet &amp; TV Providers</span>
+            <div className="flex flex-col xs:flex-row sm:flex-row items-center justify-center sm:justify-start gap-3 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-indigo-900 text-xs font-bold tracking-wide uppercase">
+                <Sparkles className="w-4 h-4 text-indigo-500 shrink-0" />
+                <span>Compare 27 Top Providers</span>
               </div>
 
               <a
                 href={telHref}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 active:bg-emerald-100 text-xs font-bold transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-700 hover:text-emerald-800 text-xs font-bold transition-all shadow-sm"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Order by Phone: {phoneNumber}</span>
+                <PhoneCall className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Order: {phoneNumber}</span>
               </a>
             </div>
 
             {/* Headline & Subtitle */}
-            <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18] sm:leading-[1.14]">
-                Find the Best Internet &amp; TV Deals in{' '}
-                <span className="text-blue-600">{locationLabel}.</span>
+            <div className="text-center sm:text-left mb-8 sm:mb-10">
+              <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-extrabold text-slate-900 tracking-tighter leading-[1.1] mb-5">
+                Find the Best <br className="hidden sm:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500">
+                  Internet & TV
+                </span>
+                {' '}in {locationLabel}.
               </h1>
 
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl font-normal">
+              <p className="text-base sm:text-lg text-slate-600/90 leading-relaxed max-w-lg font-medium">
                 See every fiber, cable, 5G, and satellite plan available in{' '}
-                <strong className="text-slate-800 font-semibold">{hasValidCity ? (state ? `${cityName}, ${state}` : `${cityName} area`) : 'your area'}</strong>. 
-                Compare download speeds, monthly pricing, and exclusive mover gift cards—with free setup assistance.
+                <strong className="text-slate-900 font-bold">{hasValidCity ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} area`) : 'your area'}</strong>. 
+                Compare speeds, exclusive pricing, and secure your mover reward cards.
               </p>
             </div>
 
-            {/* Big Search Box */}
-            <div className="mt-6 sm:mt-8 p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 shadow-xl shadow-slate-200/60">
-              <div className="text-xs font-semibold text-slate-700 mb-2 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+            {/* Big Search Box (Glassmorphic) */}
+            <div className="p-4 sm:p-6 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-2xl shadow-indigo-900/10 transition-all hover:shadow-indigo-900/15">
+              <div className="text-sm font-bold text-slate-800 mb-3 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span>
-                  Enter your street address or zip code {hasValidCity ? `in ${cityName}:` : 'in your area:'}
+                  Enter your address in {hasValidCity ? formattedCityName : 'your area'}:
                 </span>
                 <button
                   onClick={onOpenSpeedQuiz}
-                  className="text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1 text-xs py-0.5"
+                  className="text-indigo-600 hover:text-indigo-700 font-bold flex items-center gap-1.5 text-xs bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
                 >
                   <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>Not sure what speed you need? Take Quiz</span>
+                  <span>Take the Speed Quiz</span>
                 </button>
               </div>
 
               {/* Search Form */}
-              <form onSubmit={handleHeroSubmit} className="relative flex flex-col sm:flex-row items-center gap-2">
+              <form onSubmit={handleHeroSubmit} className="relative flex flex-col sm:flex-row items-center gap-3">
                 <div className="relative w-full">
                   <GoogleAddressAutocomplete
                     value={addressInput}
@@ -125,13 +140,13 @@ export function HeroSection({
                       const element = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
                       if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }}
-                    placeholder={hasValidCity ? `Search any street address in ${cityName}${zip ? ` ${zip}` : ''}...` : 'Search any street address or zip code in your area...'}
+                    placeholder={hasValidCity ? `Search any street in ${cityName}...` : 'Search any street address...'}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all transform active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-[1.25rem] bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 active:scale-95 shrink-0"
                 >
                   <span>Find Plans</span>
                   <ArrowRight className="w-4 h-4" />
@@ -140,23 +155,18 @@ export function HeroSection({
 
               {/* Dynamic Nearby Radius Cities */}
               {nearbyCities && nearbyCities.length > 0 && (
-                <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-                  <span className="text-xs font-semibold text-slate-500 shrink-0 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                    <span>Nearby Cities:</span>
+                <div className="mt-5 pt-4 border-t border-slate-200/60 flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none text-xs">
+                  <span className="text-xs font-bold text-slate-400 shrink-0 flex items-center gap-1.5 tracking-wider uppercase">
+                    <MapPin className="w-3.5 h-3.5 text-indigo-500" />
+                    <span>Nearby:</span>
                   </span>
                   {nearbyCities.map((cityItem, idx) => (
                     <button
                       key={idx}
                       onClick={() => handleQuickCity(cityItem)}
-                      className="shrink-0 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 font-medium text-xs transition-colors flex items-center gap-1.5"
+                      className="shrink-0 px-3 py-1.5 rounded-full bg-slate-100/80 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1.5 border border-slate-200/50"
                     >
                       <span>{cityItem.city}, {cityItem.state}</span>
-                      {typeof cityItem.distance === 'number' && (
-                        <span className="text-[10px] text-slate-500">
-                          {cityItem.distance === 0 ? '(Current)' : `(~${cityItem.distance} mi)`}
-                        </span>
-                      )}
                     </button>
                   ))}
                 </div>
@@ -166,7 +176,8 @@ export function HeroSection({
           </div>
 
           {/* Right Column: Live Speedometer Showstopper Visualizer (Desktop Only) */}
-          <div className="hidden lg:flex lg:col-span-5 justify-center w-full">
+          <div className="hidden lg:flex lg:col-span-5 justify-center w-full relative">
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-transparent rounded-full blur-[80px] -z-10 opacity-70"></div>
             <LiveSpeedometerHero onSelectSpeedTier={(speedTier) => {
               const element = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
               if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -176,44 +187,44 @@ export function HeroSection({
         </div>
 
         {/* Bottom Trust Badges (Hidden on mobile phones to prioritize carrier results) */}
-        <div className="hidden sm:grid mt-10 pt-8 border-t border-slate-200/80 grid-cols-2 sm:grid-cols-4 gap-6 max-w-5xl">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+        <div className="hidden sm:grid mt-16 pt-8 grid-cols-2 sm:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div className="flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm border border-emerald-100">
               <PhoneCall className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900">{phoneNumber}</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Direct phone setup with zero hold time.</p>
+              <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{phoneNumber}</h4>
+              <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Direct phone setup with zero hold time.</p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
+          <div className="flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-indigo-600 flex items-center justify-center shrink-0 shadow-sm border border-blue-100">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900">100% Free Comparison</h4>
-              <p className="text-xs text-slate-500 mt-0.5">No markups, extra fees, or hidden costs.</p>
+              <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">100% Free Service</h4>
+              <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">No markups, extra fees, or hidden costs.</p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+          <div className="flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm border border-amber-100">
               <Gift className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900">Mover Reward Cards</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Up to $200 Visa cards with select plans.</p>
+              <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">Mover Reward Cards</h4>
+              <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Up to $200 Visa cards with select plans.</p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+          <div className="flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm border border-purple-100">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900">Official Carrier Rates</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Guaranteed direct introductory pricing.</p>
+              <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">Official Carrier Rates</h4>
+              <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Guaranteed direct introductory pricing.</p>
             </div>
           </div>
         </div>

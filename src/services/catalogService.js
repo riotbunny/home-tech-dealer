@@ -13,6 +13,34 @@ const LEGACY_PHONE_KEY = 'homepulse_hotline_phone_v1';
 const LEGACY_GOOGLE_KEY = 'homepulse_google_api_key_v1';
 const LEGACY_LOC_KEY = 'homepulse_default_location_v1';
 
+
+const TOP_PICKS_KEY = 'hometechdealer_top_picks_v1';
+
+export const DEFAULT_TOP_PICKS = {
+  fiber: 'att',
+  cable: 'spectrum',
+  value: 'tmobile'
+};
+
+export function getStoredTopPicks() {
+  try {
+    const saved = localStorage.getItem(TOP_PICKS_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch (err) {}
+  return DEFAULT_TOP_PICKS;
+}
+
+export function saveStoredTopPicks(picksObj) {
+  try {
+    localStorage.setItem(TOP_PICKS_KEY, JSON.stringify(picksObj));
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 export const DEFAULT_PHONE_NUMBER = '1 (888) 482-6192';
 export const DEFAULT_GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAFI7nr1gt8WkTJZ-MX6SE-j-pVfllTm60';
 

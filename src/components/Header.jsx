@@ -43,89 +43,51 @@ export function Header({
     : 'Your Area';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md shadow-xs">
-      {/* Top Customer Announcement Strip with Live City Name & 50 States Trigger */}
-      <div className="bg-slate-900 text-slate-300 px-3 sm:px-4 py-2 text-xs">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs truncate">
-            <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="font-medium text-slate-200 truncate">
-              Deals in <strong className="text-white underline decoration-blue-400 underline-offset-2">{displayArea}</strong>
-            </span>
-            {onOpenCityDirectory && (
-              <button
-                type="button"
-                onClick={onOpenCityDirectory}
-                className="ml-1 text-[10px] font-bold text-cyan-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded-full border border-slate-700 transition-colors shrink-0"
-                title="Browse broadband deals across all 50 US states"
+    <div className="w-full pt-4 px-4 sticky top-0 z-50">
+      <header className="max-w-7xl mx-auto rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white/50 shadow-xl shadow-indigo-900/5 transition-all">
+        
+        {/* Main Nav */}
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            
+            {/* Logo & City Pill */}
+            <div className="flex items-center gap-4">
+              <div 
+                className="flex items-center gap-2 cursor-pointer group" 
+                onClick={() => setActiveTab('qualifier')}
               >
-                Browse 50 States
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+                  <Wifi className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <span className="font-extrabold text-lg sm:text-xl tracking-tighter text-slate-900">
+                    Home Tech Dealer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Inc.</span>
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 block -mt-1 tracking-wider uppercase">
+                    Broadband & TV Comparison
+                  </span>
+                </div>
+              </div>
+
+              {/* Automatically Detected City Pill */}
+              <button
+                onClick={() => {
+                  if (onOpenCityDirectory) {
+                    onOpenCityDirectory();
+                  } else {
+                    setActiveTab('qualifier');
+                    const el = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50/50/50 hover:bg-white border border-slate-200/50 text-slate-700 hover:text-indigo-600 text-xs font-semibold shadow-sm transition-all hover:shadow-md hover:shadow-indigo-500/10"
+                title="Click to change city or browse all 50 states"
+              >
+                <MapPin className="w-3.5 h-3.5 text-indigo-500" />
+                <span>{displayArea}</span>
+                <span className="text-[10px] text-indigo-500/70 font-bold ml-0.5">CHANGE</span>
               </button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2.5 sm:gap-4 text-xs shrink-0">
-            <button
-              onClick={onOpenSpeedQuiz}
-              className="hidden sm:flex text-cyan-400 hover:text-cyan-300 font-medium items-center gap-1 transition-colors text-xs"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <span>Speed Quiz</span>
-            </button>
-            <span className="hidden sm:inline text-slate-600">|</span>
-            <a
-              href={telHref}
-              className="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5 transition-colors text-[11px] sm:text-xs"
-            >
-              <PhoneCall className="w-3.5 h-3.5" />
-              <span>{phoneNumber}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Nav */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          
-          {/* Logo & City Pill */}
-          <div className="flex items-center gap-4">
-            <div 
-              className="flex items-center gap-2.5 cursor-pointer" 
-              onClick={() => setActiveTab('qualifier')}
-            >
-              <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                <Wifi className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-extrabold text-xl tracking-tight text-slate-900">
-                  Home Tech Dealer <span className="text-blue-600">Inc.</span>
-                </span>
-                <span className="text-[10px] font-semibold text-slate-500 block -mt-1">
-                  Broadband &amp; TV Comparison
-                </span>
-              </div>
             </div>
-
-            {/* Automatically Detected City Pill */}
-            <button
-              onClick={() => {
-                if (onOpenCityDirectory) {
-                  onOpenCityDirectory();
-                } else {
-                  setActiveTab('qualifier');
-                  const el = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 text-xs font-semibold transition-colors"
-              title="Click to change city or browse all 50 states"
-            >
-              <MapPin className="w-3.5 h-3.5 text-blue-600" />
-              <span>{displayArea}</span>
-              <span className="text-[10px] text-blue-600 font-normal underline decoration-dotted ml-0.5">Change</span>
-            </button>
-          </div>
 
           {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -138,11 +100,11 @@ export function Header({
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700 font-bold'
+                      ? 'bg-blue-50 text-indigo-700 font-bold'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`} />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800">
@@ -162,7 +124,7 @@ export function Header({
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all ${
                 comparisonCartCount > 0 
                   ? 'bg-amber-500 text-white border-amber-600 shadow-sm' 
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50/50'
               }`}
             >
               <Layers className="w-4 h-4" />
@@ -220,7 +182,7 @@ export function Header({
         <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-2 shadow-lg">
           {detectedLocation && (
             <div className="px-3 py-2 bg-blue-50 rounded-xl text-xs font-semibold text-blue-800 flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-blue-600" />
+              <MapPin className="w-3.5 h-3.5 text-indigo-600" />
               <span>{detectedLocation.label}</span>
             </div>
           )}
@@ -233,7 +195,7 @@ export function Header({
               className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-blue-50 text-blue-800 hover:bg-blue-100 transition-colors"
             >
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-600" />
+                <MapPin className="w-4 h-4 text-indigo-600" />
                 <span>Change City / Browse 50 States</span>
               </div>
               <span className="text-[10px] bg-blue-600 text-white font-mono px-1.5 py-0.5 rounded">
@@ -253,8 +215,8 @@ export function Header({
                 }}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                   isActive 
-                    ? 'bg-blue-50 text-blue-600' 
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-blue-50 text-indigo-600' 
+                    : 'text-slate-700 hover:bg-slate-50/50'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -280,6 +242,7 @@ export function Header({
           </div>
         </div>
       )}
-    </header>
+      </header>
+    </div>
   );
 }

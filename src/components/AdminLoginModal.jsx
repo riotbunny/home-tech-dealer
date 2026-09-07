@@ -66,7 +66,7 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="e.g. Admin"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 font-medium"
+              className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 font-medium"
             />
           </div>
 
@@ -80,12 +80,12 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password..."
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 font-medium"
+              className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 font-medium"
             />
           </div>
 
           <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 flex items-start gap-2.5 text-[11px] text-blue-900">
-            <KeyRound className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+            <KeyRound className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
             <span>
               Authorized administrator access only. Any changes saved will immediately update pricing across the consumer website.
             </span>
@@ -102,7 +102,7 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
 
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-2 shadow-sm transition-all transform active:scale-95"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold flex items-center gap-2 shadow-sm transition-all transform active:scale-95"
             >
               <span>Authenticate</span>
               <ArrowRight className="w-4 h-4" />

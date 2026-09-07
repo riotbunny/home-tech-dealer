@@ -60,7 +60,7 @@ export function MobileStickyActionBar({
         <button
           type="button"
           onClick={onOpenSpeedQuiz}
-          className="min-h-[46px] px-3 py-2.5 rounded-xl bg-blue-50 active:bg-blue-100 border border-blue-200 text-blue-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shrink-0"
+          className="min-h-[46px] px-3 py-2.5 rounded-xl bg-blue-50 active:bg-blue-100 border border-blue-200 text-indigo-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shrink-0"
           title="Take Speed Matcher Quiz"
         >
           <Zap className="w-4 h-4 text-amber-500 shrink-0" />

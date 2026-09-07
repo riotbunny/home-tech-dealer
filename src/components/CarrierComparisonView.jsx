@@ -39,7 +39,7 @@ export function CarrierComparisonView({
       
       {/* Head-to-Head Hero Header */}
       <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-indigo-700 text-xs font-bold mb-4">
           <Trophy className="w-3.5 h-3.5 text-amber-500" />
           <span>2026 Head-to-Head Carrier Faceoff</span>
         </div>
@@ -57,7 +57,7 @@ export function CarrierComparisonView({
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <a
             href={telHref}
-            className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm flex items-center gap-2 shadow-lg shadow-blue-600/25 transition-all"
+            className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-extrabold text-sm flex items-center gap-2 shadow-lg shadow-blue-600/25 transition-all"
           >
             <PhoneCall className="w-4 h-4" />
             <span>Check Both at Your Address: {phoneNumber}</span>
@@ -76,7 +76,7 @@ export function CarrierComparisonView({
                 <span className="w-4 h-4 rounded-full" style={{ backgroundColor: provA?.color || '#2563EB' }} />
                 <h2 className="text-2xl font-black text-slate-900">{provA?.name}</h2>
               </div>
-              <span className="text-xs font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100">
+              <span className="text-xs font-bold bg-blue-50 text-indigo-700 px-3 py-1 rounded-full border border-blue-100">
                 {provA?.type}
               </span>
             </div>
@@ -90,7 +90,7 @@ export function CarrierComparisonView({
               </div>
               <div className="flex justify-between items-center pt-2">
                 <span className="text-slate-500">Maximum Speeds</span>
-                <span className="font-extrabold text-blue-700">{maxSpeedA}</span>
+                <span className="font-extrabold text-indigo-700">{maxSpeedA}</span>
               </div>
               <div className="flex justify-between items-center pt-2">
                 <span className="text-slate-500">Contracts</span>
@@ -133,7 +133,7 @@ export function CarrierComparisonView({
                 <span className="w-4 h-4 rounded-full" style={{ backgroundColor: provB?.color || '#00A8E0' }} />
                 <h2 className="text-2xl font-black text-slate-900">{provB?.name}</h2>
               </div>
-              <span className="text-xs font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100">
+              <span className="text-xs font-bold bg-blue-50 text-indigo-700 px-3 py-1 rounded-full border border-blue-100">
                 {provB?.type}
               </span>
             </div>
@@ -147,7 +147,7 @@ export function CarrierComparisonView({
               </div>
               <div className="flex justify-between items-center pt-2">
                 <span className="text-slate-500">Maximum Speeds</span>
-                <span className="font-extrabold text-blue-700">{maxSpeedB}</span>
+                <span className="font-extrabold text-indigo-700">{maxSpeedB}</span>
               </div>
               <div className="flex justify-between items-center pt-2">
                 <span className="text-slate-500">Contracts</span>
@@ -212,7 +212,7 @@ export function CarrierComparisonView({
       {/* Other Popular Head-to-Head Comparisons (Crawl Mesh) */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200">
         <h3 className="text-lg font-black text-slate-900 mb-2 flex items-center gap-2">
-          <Layers className="w-4 h-4 text-blue-600" />
+          <Layers className="w-4 h-4 text-indigo-600" />
           <span>More High-Traffic Provider Comparisons</span>
         </h3>
         <p className="text-xs text-slate-500 mb-6">
@@ -235,14 +235,14 @@ export function CarrierComparisonView({
                 className="p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition-all flex items-center justify-between group"
               >
                 <div>
-                  <div className="font-bold text-xs text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <div className="font-bold text-xs text-slate-900 group-hover:text-indigo-600 transition-colors">
                     {comp.nameA} vs {comp.nameB}
                   </div>
                   <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
                     {comp.tag}
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all" />
               </a>
             );
           })}

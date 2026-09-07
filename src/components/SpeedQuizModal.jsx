@@ -74,9 +74,9 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
       <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-blue-100 text-indigo-700 flex items-center justify-center">
               <Zap className="w-5 h-5" />
             </div>
             <div>
@@ -118,10 +118,10 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                   className={`p-3 rounded-2xl border text-xs font-semibold flex flex-col items-center gap-2 transition-all ${
                     householdSize === opt.id
                       ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
                   }`}
                 >
-                  <opt.icon className="w-5 h-5 text-blue-600" />
+                  <opt.icon className="w-5 h-5 text-indigo-600" />
                   <span>{opt.label}</span>
                 </button>
               ))}
@@ -149,14 +149,14 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                     className={`p-3 rounded-2xl border text-xs font-semibold flex items-center justify-between transition-all text-left ${
                       isSelected
                         ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <act.icon className="w-4 h-4 text-blue-600 shrink-0" />
+                      <act.icon className="w-4 h-4 text-indigo-600 shrink-0" />
                       <span>{act.label}</span>
                     </div>
-                    {isSelected && <Check className="w-4 h-4 text-blue-600 shrink-0" />}
+                    {isSelected && <Check className="w-4 h-4 text-indigo-600 shrink-0" />}
                   </button>
                 );
               })}
@@ -177,7 +177,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                   className={`py-2 px-2 rounded-xl border text-xs font-semibold text-center transition-all ${
                     deviceCount === count
                       ? 'bg-blue-50 border-blue-600 text-blue-800 shadow-xs'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50/50'
                   }`}
                 >
                   <span>{count} Devices</span>
@@ -192,7 +192,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
               <span className="text-[10px] font-bold uppercase bg-blue-600 text-white px-2 py-0.5 rounded-full">
                 {recommendation.badge}
               </span>
-              <span className="text-xs font-bold text-blue-700">
+              <span className="text-xs font-bold text-indigo-700">
                 Recommended Speed
               </span>
             </div>
@@ -212,7 +212,7 @@ export function SpeedQuizModal({ isOpen, onClose, onApplySpeedFilter }) {
                   onApplySpeedFilter(recommendation.tier);
                   onClose();
                 }}
-                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
               >
                 <span>View {recommendation.label} Plans at My Address</span>
                 <ArrowRight className="w-4 h-4" />

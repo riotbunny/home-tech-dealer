@@ -149,10 +149,10 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
 
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 flex items-center gap-1.5 font-medium">
-                    <Gift className="w-4 h-4 text-blue-600 shrink-0" />
+                    <Gift className="w-4 h-4 text-indigo-600 shrink-0" />
                     <span>Promotional Reward Card:</span>
                   </span>
-                  <span className="font-extrabold text-blue-700 font-mono">
+                  <span className="font-extrabold text-indigo-700 font-mono">
                     +${averageGiftCard} Visa Card
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export function SwitcherSavingsCalculator({ phoneNumber = DEFAULT_PHONE_NUMBER, 
                   <button
                     type="button"
                     onClick={onScrollToMarketplace}
-                    className="w-full py-2 text-center text-xs text-blue-600 hover:text-blue-800 font-bold transition-colors"
+                    className="w-full py-2 text-center text-xs text-indigo-600 hover:text-blue-800 font-bold transition-colors"
                   >
                     Or compare all plans at your address &darr;
                   </button>

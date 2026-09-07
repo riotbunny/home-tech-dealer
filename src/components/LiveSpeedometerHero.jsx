@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Gauge, Zap, Activity, Satellite, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
-/**
- * LiveSpeedometerHero
- * The showstopper visual anchor for the Hero section.
- * Interactive dark-glass HUD featuring an animated radial speed gauge,
- * live latency feedback, and instant speed tier selector.
- */
 export function LiveSpeedometerHero({ onSelectSpeedTier }) {
   const [selectedPreset, setSelectedPreset] = useState('300');
   const [displayedSpeed, setDisplayedSpeed] = useState(300);
-  const [displayedPing, setDisplayedPing] = useState(18);
 
   const presets = [
     {
@@ -18,36 +11,32 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
       label: '300 Mbps',
       tier: 'Streaming & 4K',
       speed: 300,
-      ping: 22,
-      desc: 'Ideal for 3–5 devices, Netflix 4K, and fast downloads.',
-      tech: '5G Home & Fiber'
+      desc: 'Great for 3-5 devices, streaming Netflix, and fast downloads.',
+      tech: '5G & Basic Fiber'
     },
     {
       id: '500',
       label: '500 Mbps',
-      tier: 'Pro Work & Gaming',
+      tier: 'Work & Gaming',
       speed: 500,
-      ping: 15,
-      desc: 'Zero-lag Zoom calls, cloud backup, and multi-streamers.',
-      tech: 'Ultra Fiber & 5G Plus'
+      desc: 'Smooth video calls, cloud backup, and multiple people online.',
+      tech: 'Fast Fiber & 5G'
     },
     {
       id: '1000',
-      label: '1 Gig (1000M)',
-      tier: 'Optical Gigabit',
+      label: '1000 Mbps',
+      tier: 'Gigabit Internet',
       speed: 1000,
-      ping: 11,
-      desc: 'Symmetrical gigabit power for large homes & power users.',
-      tech: 'Pure Symmetrical Fiber'
+      desc: 'Maximum speed for large homes and heavy internet users.',
+      tech: 'High-Speed Fiber'
     },
     {
       id: 'starlink',
-      label: 'Starlink LEO',
-      tier: 'SpaceX Satellite',
+      label: 'Satellite',
+      tier: 'Remote Areas',
       speed: 180,
-      ping: 32,
-      desc: 'High-speed broadband anywhere with an open sky view.',
-      tech: 'Low-Earth Orbit'
+      desc: 'High-speed internet anywhere with a clear view of the sky.',
+      tech: 'Satellite Internet'
     }
   ];
 
@@ -66,45 +55,43 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
   // Smooth number interpolation when switching presets
   useEffect(() => {
     const targetSpeed = activePresetData.speed;
-    const targetPing = activePresetData.ping;
     setDisplayedSpeed(targetSpeed);
-    setDisplayedPing(targetPing);
   }, [selectedPreset]);
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-3xl bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 border border-slate-800 p-5 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.35)] text-white relative overflow-hidden">
+    <div className="w-full max-w-xl mx-auto rounded-[2rem] bg-white/70 backdrop-blur-2xl border border-white/60 p-6 sm:p-8 shadow-2xl shadow-indigo-900/10 text-slate-800 relative overflow-hidden transition-all hover:shadow-indigo-900/15">
       
-      {/* Background Radial Glow */}
-      <div className="absolute -right-20 -top-20 w-60 h-60 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -left-20 -bottom-20 w-60 h-60 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+      {/* Background Soft Glow */}
+      <div className="absolute -right-20 -top-20 w-60 h-60 bg-blue-100 rounded-full blur-[80px] pointer-events-none opacity-50" />
+      <div className="absolute -left-20 -bottom-20 w-60 h-60 bg-emerald-50 rounded-full blur-[80px] pointer-events-none opacity-50" />
 
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3.5 mb-5">
+      <div className="flex items-center justify-between border-b border-slate-200/60 pb-4 mb-2 relative">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-          <span className="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">
-            Broadband Telemetry HUD
+          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+          <span className="text-xs font-bold tracking-widest text-slate-500 uppercase font-sans">
+            Live Speed Simulator
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
-          <Activity className="w-3.5 h-3.5 text-blue-400" />
-          <span>Ping: <strong className="text-emerald-400">{displayedPing} ms</strong></span>
+        <div className="flex items-center gap-1.5 text-xs font-sans font-semibold text-slate-500 bg-slate-100/50 px-2.5 py-1 rounded-md border border-slate-200/50">
+          <Zap className="w-3.5 h-3.5 text-amber-500" />
+          <span>Connection: <strong className="text-emerald-600">Fast</strong></span>
         </div>
       </div>
 
       {/* Centerpiece: Radial Speedometer Dial */}
-      <div className="relative flex flex-col items-center justify-center my-2">
+      <div className="relative flex flex-col items-center justify-center my-4">
         
-        {/* SVG Dial Arc */}
-        <div className="relative w-64 h-36 flex items-center justify-center overflow-hidden">
-          <svg className="w-64 h-64 -rotate-90 transform" viewBox="0 0 200 200">
+        {/* SVG Dial Arc Container */}
+        <div className="relative w-64 h-[180px] mx-auto overflow-hidden">
+          <svg className="w-64 h-64 -rotate-90 transform drop-shadow-md absolute top-0 left-0" viewBox="0 0 200 200">
             {/* Background Track */}
             <circle
               cx="100"
               cy="100"
               r="80"
-              stroke="#1E293B"
+              stroke="#F1F5F9"
               strokeWidth="14"
               fill="none"
               strokeDasharray="360"
@@ -122,44 +109,44 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
               strokeDasharray="360"
               strokeDashoffset={360 - (displayedSpeed / 1000) * 250}
               strokeLinecap="round"
-              className="transition-all duration-700 ease-out"
+              className="transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
             />
             <defs>
               <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#10B981" />
-                <stop offset="50%" stopColor="#06B6D4" />
-                <stop offset="100%" stopColor="#6366F1" />
+                <stop offset="0%" stopColor="#3B82F6" />
+                <stop offset="50%" stopColor="#6366F1" />
+                <stop offset="100%" stopColor="#8B5CF6" />
               </linearGradient>
             </defs>
           </svg>
 
           {/* Needle Indicator */}
           <div 
-            className="absolute bottom-4 w-1.5 h-24 bg-gradient-to-t from-white via-cyan-300 to-transparent origin-bottom rounded-full transition-transform duration-700 ease-out shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+            className="absolute left-[125px] top-[128px] w-1.5 h-24 -mt-24 bg-gradient-to-t from-slate-300 via-indigo-500 to-indigo-600 origin-bottom rounded-full transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_0_12px_rgba(99,102,241,0.4)]"
             style={{ transform: `rotate(${needleAngle}deg)` }}
           />
 
           {/* Needle Hub Pivot Center */}
-          <div className="absolute bottom-2 w-7 h-7 rounded-full bg-slate-900 border-2 border-cyan-400 shadow-md flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-cyan-300" />
+          <div className="absolute left-[112px] top-[112px] w-8 h-8 rounded-full bg-white border-[3px] border-indigo-100 shadow-md flex items-center justify-center">
+            <div className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
           </div>
         </div>
 
         {/* Speed Value Readout */}
         <div className="text-center mt-2">
           <div className="flex items-baseline justify-center gap-1.5">
-            <span className="text-5xl font-black tracking-tight text-white font-mono">
+            <span className="text-6xl font-black tracking-tighter text-slate-900 font-sans">
               {displayedSpeed}
             </span>
-            <span className="text-lg font-bold text-cyan-400">
+            <span className="text-lg font-bold text-slate-500 tracking-tight">
               Mbps
             </span>
           </div>
 
-          <div className="text-xs font-semibold text-slate-300 mt-0.5">
-            {activePresetData.tier} &bull; <span className="text-emerald-400">{activePresetData.tech}</span>
+          <div className="text-xs font-bold text-slate-600 mt-2 uppercase tracking-wide">
+            {activePresetData.tier} &bull; <span className="text-indigo-600">{activePresetData.tech}</span>
           </div>
-          <p className="text-[11px] text-slate-400 max-w-xs mx-auto mt-1 leading-snug">
+          <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1.5 leading-relaxed font-medium">
             {activePresetData.desc}
           </p>
         </div>
@@ -167,7 +154,7 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
       </div>
 
       {/* Preset Speed Selector Tabs */}
-      <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-100/50 p-2 rounded-[1.25rem] border border-slate-200/50 backdrop-blur-sm">
         {presets.map((p) => {
           const isActive = p.id === selectedPreset;
           return (
@@ -177,15 +164,15 @@ export function LiveSpeedometerHero({ onSelectSpeedTier }) {
                 setSelectedPreset(p.id);
                 if (onSelectSpeedTier) onSelectSpeedTier(p.id);
               }}
-              className={`py-2 px-2.5 rounded-xl text-center text-xs font-bold transition-all border ${
+              className={`py-2 px-2.5 rounded-[1rem] text-center text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-blue-600 text-white border-blue-400 shadow-[0_0_15px_rgba(37,99,235,0.4)]'
-                  : 'bg-slate-900/90 text-slate-400 hover:text-white hover:bg-slate-800 border-slate-800'
+                  ? 'bg-white text-indigo-700 border-none shadow-[0_4px_12px_rgba(0,0,0,0.05)] ring-1 ring-slate-200'
+                  : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
               }`}
             >
               <div className="truncate">{p.label}</div>
-              <div className={`text-[10px] font-normal truncate ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
-                {p.id === 'starlink' ? 'SpaceX LEO' : p.tier.split(' ')[0]}
+              <div className={`text-[10px] font-medium truncate mt-0.5 ${isActive ? 'text-slate-500' : 'text-slate-400'}`}>
+                {p.tier}
               </div>
             </button>
           );

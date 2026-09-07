@@ -36,6 +36,8 @@ import {
   saveStoredGoogleApiKey,
   getStoredDefaultLocation,
   saveStoredDefaultLocation,
+  getStoredTopPicks,
+  saveStoredTopPicks,
   DEFAULT_PHONE_NUMBER
 } from './services/catalogService';
 import { APIProvider } from '@vis.gl/react-google-maps';
@@ -45,6 +47,7 @@ export function App() {
   const initialLoc = getStoredDefaultLocation();
   const [activeTab, setActiveTab] = useState('qualifier');
   const [catalog, setCatalog] = useState(getStoredCatalog);
+  const [topPicks, setTopPicks] = useState(getStoredTopPicks);
   const [phoneNumber, setPhoneNumber] = useState(getStoredPhoneNumber);
   const [googleApiKey, setGoogleApiKey] = useState(getStoredGoogleApiKey);
   const [defaultLocation, setDefaultLocation] = useState(initialLoc);
@@ -476,6 +479,7 @@ export function App() {
               nearbyCities={nearbyCities}
               speedFilterOverride={speedFilterOverride}
               techFilter={currentCityData?.techFilter}
+              topPicks={topPicks}
               catalog={catalog}
               cityName={cityName}
               state={selectedMarket?.state || currentCityData?.state || ''}
@@ -649,6 +653,11 @@ export function App() {
         onSaveGoogleApiKey={handleSaveGoogleApiKey}
         defaultLocation={defaultLocation}
         onSaveDefaultLocation={handleSaveDefaultLocation}
+        topPicks={topPicks}
+        onSaveTopPicks={(newPicks) => {
+          saveStoredTopPicks(newPicks);
+          setTopPicks(newPicks);
+        }}
       />
 
       {/* Consumer Footer with discreet admin shortcut & crawlable pSEO links */}

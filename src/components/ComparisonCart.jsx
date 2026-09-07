@@ -47,7 +47,7 @@ export function ComparisonCart({
       <div className="relative w-full max-w-5xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         
         {/* Top Header */}
-        <div className="p-6 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div className="p-6 bg-slate-50/50 border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
               <Layers className="w-5 h-5" />
@@ -103,7 +103,7 @@ export function ComparisonCart({
               </p>
               <button
                 onClick={onClose}
-                className="mt-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs"
+                className="mt-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold text-xs"
               >
                 Browse Plans
               </button>
@@ -115,7 +115,7 @@ export function ComparisonCart({
                 {cartPlans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col justify-between"
+                    className="rounded-2xl border border-slate-200 bg-slate-50/50/50 p-5 flex flex-col justify-between"
                   >
                     <div>
                       {/* Provider Header */}
@@ -152,7 +152,7 @@ export function ComparisonCart({
                       <div className="mt-4 space-y-2 text-xs text-slate-700">
                         <div className="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between">
                           <span className="text-slate-500">Download Speed:</span>
-                          <span className="font-bold text-blue-700">{plan.downloadSpeed}</span>
+                          <span className="font-bold text-indigo-700">{plan.downloadSpeed}</span>
                         </div>
                         <div className="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between">
                           <span className="text-slate-500">Upload Speed:</span>
@@ -198,7 +198,7 @@ export function ComparisonCart({
 
                 {/* Empty Slot Placeholder if < 3 */}
                 {cartPlans.length < 3 && (
-                  <div className="rounded-2xl border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center text-slate-400 bg-slate-50/40">
+                  <div className="rounded-2xl border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center text-slate-400 bg-slate-50/50/40">
                     <Layers className="w-8 h-8 mb-2 opacity-40 text-slate-400" />
                     <div className="text-xs font-bold text-slate-600">Slot {cartPlans.length + 1} Open</div>
                     <p className="text-xs text-slate-500 mt-1 max-w-[200px]">
@@ -219,10 +219,10 @@ export function ComparisonCart({
 
         {/* Modal Bottom Actions */}
         {cartPlans.length > 0 && (
-          <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
             <div className="text-xs text-slate-700 flex items-center gap-2">
               <PhoneCall className="w-4 h-4 text-emerald-600" />
-              <span>Call <strong className="text-slate-900">{phoneNumber}</strong> with Promo Code <strong className="text-blue-700 font-mono">PROMO-FREE-INSTALL</strong> for Free Setup</span>
+              <span>Call <strong className="text-slate-900">{phoneNumber}</strong> with Promo Code <strong className="text-indigo-700 font-mono">PROMO-FREE-INSTALL</strong> for Free Setup</span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -292,7 +292,7 @@ export function ComparisonCart({
                     placeholder="e.g. Alex Morgan"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
@@ -304,7 +304,7 @@ export function ComparisonCart({
                     placeholder="youremail@example.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
@@ -314,7 +314,7 @@ export function ComparisonCart({
                     rows={2}
                     value={agentNotes}
                     onChange={(e) => setAgentNotes(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
@@ -328,7 +328,7 @@ export function ComparisonCart({
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold"
                   >
                     Send to My Inbox
                   </button>
