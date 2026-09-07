@@ -2,6 +2,11 @@ import { useEffect } from 'react';
 
 export function AntiSnoop() {
   useEffect(() => {
+    // DO NOT run AntiSnoop in local development so you can still use F12
+    if (import.meta.env.DEV) {
+      return;
+    }
+
     // Prevent Right Click
     const handleContextMenu = (e) => {
       e.preventDefault();

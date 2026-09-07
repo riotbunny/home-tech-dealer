@@ -388,7 +388,7 @@ export function App() {
       apiKey={googleApiKey} 
       solutionChannel="gmp_git_agentskills_v1"
     >
-      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0 select-none">
+      <div className={`min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0 ${import.meta.env.PROD ? 'select-none' : ''}`}>
       <AntiSnoop />
       {/* Consumer Header */}
       <Header
