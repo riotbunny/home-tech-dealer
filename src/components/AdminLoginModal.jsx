@@ -75,12 +75,13 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
               Admin Password
             </label>
             <input
-              type="password"
+              type="text"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password..."
               className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 font-medium"
+              style={{ WebkitTextSecurity: 'disc' }}
             />
           </div>
 

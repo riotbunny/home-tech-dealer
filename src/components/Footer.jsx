@@ -231,16 +231,7 @@ export function Footer({
           </p>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
             <div className="flex items-center gap-2.5">
-              <span>© 2026 Home Tech Dealer Inc. All rights reserved.</span>
-              <span className="text-slate-600">&bull;</span>
-              <button
-                onClick={onOpenAdminLogin}
-                className="text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1 text-[11px]"
-                title="Carrier Pricing & Package Admin"
-              >
-                <Lock className="w-3 h-3 text-slate-500" />
-                <span>Admin Management</span>
-              </button>
+              <span>&copy; 2026 Home Tech Dealer Inc. All rights reserved.</span>
             </div>
             <div className="text-xs text-slate-400">
               Toll-Free Support &amp; Orders: {phoneNumber}

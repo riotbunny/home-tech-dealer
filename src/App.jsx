@@ -116,6 +116,18 @@ export function App() {
 
   const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved);
 
+  // Secret Admin Portal Trigger (Ctrl+Shift+X)
+  useEffect(() => {
+    const handleSecretKey = (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'x' || e.key === 'X')) {
+        e.preventDefault();
+        setIsAdminLoginOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleSecretKey);
+    return () => window.removeEventListener('keydown', handleSecretKey);
+  }, []);
+
   // Dynamic Phone Routing (Prepared for future Call Tracking/Ringba/Retreaver)
   const routedPhoneNumber = useMemo(() => {
     // If you ever want to track which pages generate the most revenue,
