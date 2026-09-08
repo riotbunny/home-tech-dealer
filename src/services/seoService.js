@@ -115,16 +115,45 @@ export function updateCitySEO(cityData, phoneNumber = '1 (888) 555-5555') {
     breadcrumbElements.push({ '@type': 'ListItem', position: 3, name: zip ? `${cityName}, ${state} ${zip}` : `${cityName}, ${state}`, item: canonicalUrl });
   }
 
+  const locationContext = routeType === 'state' ? stateName : (zip ? `${cityName}, ${state} ${zip}` : `${cityName}, ${state}`);
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
       {
+        '@type': 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        url: canonicalUrl,
+        name: pageTitle,
+        description: description,
+        speakable: {
+          '@type': 'SpeakableSpecification',
+          cssSelector: ["#aeo-speakable-content", ".aeo-summary"]
+        }
+      },
+      {
+        '@type': 'Service',
+        '@id': `${canonicalUrl}#service`,
+        name: `Broadband & TV Comparison in ${locationContext}`,
+        serviceType: 'Internet Service Provider Comparison',
+        provider: {
+          '@type': 'Organization',
+          name: 'Home Tech Dealer Inc.',
+          url: origin,
+          telephone: phoneNumber
+        },
+        areaServed: {
+          '@type': routeType === 'state' ? 'State' : 'City',
+          name: locationContext
+        }
+      },
+      {
         '@type': 'LocalBusiness',
         '@id': `${canonicalUrl}#localbusiness`,
-        name: `Home Tech Dealer Inc. - ${cityName}, ${state} ${zip}`,
+        name: `Home Tech Dealer Inc. - ${locationContext}`,
         url: canonicalUrl,
         telephone: phoneNumber,
-        priceRange: '$49.99 - $120.00',
+        priceRange: '$$',
         image: `${origin}/favicon.ico`,
         description: description,
         address: {
@@ -133,10 +162,6 @@ export function updateCitySEO(cityData, phoneNumber = '1 (888) 555-5555') {
           addressRegion: state,
           postalCode: zip || undefined,
           addressCountry: 'US'
-        },
-        areaServed: {
-          '@type': routeType === 'state' ? 'State' : 'City',
-          name: routeType === 'state' ? stateName : cityName
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -155,18 +180,18 @@ export function updateCitySEO(cityData, phoneNumber = '1 (888) 555-5555') {
         mainEntity: [
           {
             '@type': 'Question',
-            name: `Who provides the fastest internet in ${routeType === 'state' ? stateName : cityName}?`,
+            name: `What are the best internet providers in ${locationContext}?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `In ${routeType === 'state' ? stateName : cityName}, top fiber optic and advanced cable networks deliver download speeds up to 1,000 Mbps to 5,000 Mbps with symmetrical uploads. Leading providers include Verizon, EarthLink Fiber, T-Mobile 5G Home, and top regional cable networks.`
+              text: `The best internet providers in ${locationContext} depend on your exact address, but top-rated options typically include major Fiber Optic networks (like AT&T Fiber, Frontier, or EarthLink), reliable Cable providers (like Spectrum or Xfinity), and 5G Home Internet (like T-Mobile and Verizon). Call ${phoneNumber} to verify exact availability at your street.`
             }
           },
           {
             '@type': 'Question',
-            name: `What is the cheapest home internet option in ${routeType === 'state' ? stateName : cityName}?`,
+            name: `What is the cheapest home internet option in ${locationContext}?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `Home internet plans in ${routeType === 'state' ? stateName : cityName} start as low as $49.99 per month for 5G home internet options through Verizon and T-Mobile with no equipment rental fees, unlimited data, and no annual contracts.`
+              text: `Cheap internet plans in ${locationContext} start around $49.99 to $55.00 per month for 5G home internet options (like Verizon and T-Mobile) and standard cable tiers. These often include the router, unlimited data, and no annual contracts.`
             }
           },
           {
@@ -174,7 +199,7 @@ export function updateCitySEO(cityData, phoneNumber = '1 (888) 555-5555') {
             name: `How do I lock in current promotional rates and mover deals?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `Call Home Tech Dealer Inc. toll-free at ${phoneNumber} to verify exact street address availability, lock in promotional rates, and claim eligible mover reward cards.`
+              text: `Call Home Tech Dealer Inc. toll-free at ${phoneNumber} to verify exact street address availability, bypass online hidden fees, lock in promotional pricing, and claim eligible Visa® Reward Cards.`
             }
           }
         ]
