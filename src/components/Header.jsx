@@ -25,7 +25,8 @@ export function Header({
   zip = '',
   phoneNumber = DEFAULT_PHONE_NUMBER,
   onAddressClick,
-  onOpenCityDirectory
+  onOpenCityDirectory,
+  isSqueezePage = false
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
@@ -71,39 +72,43 @@ export function Header({
             </div>
 
           {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-2">
-            {navItems.map((item) => {
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
-                    isActive
-                      ? 'text-indigo-700 bg-indigo-50/50'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+          {!isSqueezePage && (
+            <nav className="hidden lg:flex items-center gap-2">
+              {navItems.map((item) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      isActive
+                        ? 'text-indigo-700 bg-indigo-50/50'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          )}
 
           {/* Right Actions */}
           <div className="hidden sm:flex items-center gap-3">
             {/* Compare Cart */}
-            <button
-              onClick={onOpenCart}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all ${
-                comparisonCartCount > 0 
-                  ? 'bg-amber-500 text-white border-amber-600 shadow-sm' 
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50/50'
-              }`}
-            >
-              <Layers className="w-4 h-4" />
-              <span>Compare ({comparisonCartCount}/3)</span>
-            </button>
+            {!isSqueezePage && (
+              <button
+                onClick={onOpenCart}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all ${
+                  comparisonCartCount > 0 
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-sm' 
+                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50/50'
+                }`}
+              >
+                <Layers className="w-4 h-4" />
+                <span>Compare ({comparisonCartCount}/3)</span>
+              </button>
+            )}
 
             {/* Toll Free Phone Button */}
             <a
@@ -140,19 +145,21 @@ export function Header({
             </a>
 
             {/* Mobile Hamburger Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 text-slate-600 active:text-slate-900 rounded-xl hover:bg-slate-100"
-              aria-label="Toggle Navigation Menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {!isSqueezePage && (
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2.5 text-slate-600 active:text-slate-900 rounded-xl hover:bg-slate-100"
+                aria-label="Toggle Navigation Menu"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            )}
           </div>
         </div>
       </div>
 
       {/* Mobile Dropdown */}
-      {mobileMenuOpen && (
+      {!isSqueezePage && mobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-2 shadow-lg">
           {detectedLocation && (
             <div className="px-3 py-2 bg-blue-50 rounded-xl text-xs font-semibold text-blue-800 flex items-center gap-2">

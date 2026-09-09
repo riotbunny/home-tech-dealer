@@ -420,6 +420,7 @@ export function App() {
         zip={selectedMarket?.zip || currentCityData?.zip || ''}
         phoneNumber={routedPhoneNumber}
         onOpenCityDirectory={() => setIsCityDirectoryOpen(true)}
+        isSqueezePage={isLeadFunnelRoute}
       />
 
       {isLeadFunnelRoute ? (
