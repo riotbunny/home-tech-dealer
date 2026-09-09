@@ -88,12 +88,6 @@ export function GoogleAddressAutocomplete({
     }
   };
 
-  // Initialize session token when places library is available
-  useEffect(() => {
-    if (placesLib?.AutocompleteSessionToken) {
-      sessionTokenRef.current = new placesLib.AutocompleteSessionToken();
-    }
-  }, [placesLib]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -190,6 +184,18 @@ export function GoogleAddressAutocomplete({
       }
     );
   };
+
+  // Initialize session token and refetch if input exists (handles fast typers before library loads)
+  useEffect(() => {
+    if (placesLib) {
+      if (placesLib.AutocompleteSessionToken && !sessionTokenRef.current) {
+        sessionTokenRef.current = new placesLib.AutocompleteSessionToken();
+      }
+      if (inputValue && inputValue.trim().length >= 2 && suggestions.length === 0) {
+        fetchSuggestions(inputValue);
+      }
+    }
+  }, [placesLib]);
 
   // Debounced input change
   const handleInputChange = (e) => {
