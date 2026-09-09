@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { MapPin, Search, X, Loader2 } from 'lucide-react';
 
@@ -28,6 +28,7 @@ export function GoogleAddressAutocomplete({
   const containerRef = useRef(null);
   const sessionTokenRef = useRef(null);
   const autocompleteServiceRef = useRef(null);
+  const debounceTimerRef = useRef(null);
 
   // Synchronize external value prop
   useEffect(() => {
@@ -42,7 +43,6 @@ export function GoogleAddressAutocomplete({
       const rect = containerRef.current.getBoundingClientRect();
       const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
       
-      // Calculate remaining visible space between bottom of input and virtual keyboard
       const availableBelow = viewportHeight - rect.bottom - 14;
       
       if (availableBelow > 130) {
@@ -77,17 +77,23 @@ export function GoogleAddressAutocomplete({
       setTimeout(() => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        const headerOffset = 66; // Sticky header clearance
+        const headerOffset = 66;
         const targetY = window.pageYOffset + rect.top - headerOffset - 8;
         
         window.scrollTo({
           top: Math.max(0, targetY),
           behavior: 'smooth'
         });
-      }, 220); // 220ms matches keyboard slide-in duration
+      }, 220);
     }
   };
 
+  // Safe Session Token Initialization (No Infinite Loop!)
+  useEffect(() => {
+    if (placesLib?.AutocompleteSessionToken && !sessionTokenRef.current) {
+      sessionTokenRef.current = new placesLib.AutocompleteSessionToken();
+    }
+  }, [placesLib]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -100,15 +106,52 @@ export function GoogleAddressAutocomplete({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Fetch suggestions using Google Places API (New & Classic Service fallback)
-  const fetchSuggestions = (query) => {
+  // Fallback to Classic AutocompleteService
+  const fallbackClassicAutocomplete = useCallback((query) => {
+    if (!placesLib?.AutocompleteService) {
+      setIsLoading(false);
+      return;
+    }
+
+    if (!autocompleteServiceRef.current) {
+      autocompleteServiceRef.current = new placesLib.AutocompleteService();
+    }
+
+    autocompleteServiceRef.current.getPlacePredictions(
+      {
+        input: query,
+        componentRestrictions: { country: 'us' }
+      },
+      (predictions, status) => {
+        setIsLoading(false);
+        if (status === placesLib.PlacesServiceStatus?.OK && predictions && predictions.length > 0) {
+          const formatted = predictions.map((p) => ({
+            placeId: p.place_id,
+            description: p.description,
+            mainText: p.structured_formatting?.main_text || p.description,
+            secondaryText: p.structured_formatting?.secondary_text || ''
+          }));
+          setSuggestions(formatted);
+          setIsOpen(true);
+        } else {
+          setSuggestions([]);
+          setIsOpen(false);
+        }
+      }
+    );
+  }, [placesLib]);
+
+  // Fetch suggestions using Google Places API (Modern + Classic Fallback)
+  const fetchSuggestions = useCallback((query) => {
     if (!query || query.trim().length < 2) {
       setSuggestions([]);
       setIsOpen(false);
+      setIsLoading(false);
       return;
     }
 
     if (!placesLib) {
+      setIsLoading(false);
       return;
     }
 
@@ -140,71 +183,35 @@ export function GoogleAddressAutocomplete({
             fallbackClassicAutocomplete(query);
           }
         })
-        .catch((err) => {
-          console.error("Places API (New) failed, falling back:", err);
+        .catch(() => {
           fallbackClassicAutocomplete(query);
         });
     } else {
       fallbackClassicAutocomplete(query);
     }
-  };
+  }, [placesLib, fallbackClassicAutocomplete]);
 
-  // Fallback to AutocompleteService (for projects where Places API New is not yet activated)
-  const fallbackClassicAutocomplete = (query) => {
-    if (!placesLib?.AutocompleteService) {
-      console.warn("Google Maps Places Library is not available. Check API key and enabled APIs.");
-      setIsLoading(false);
-      return;
-    }
-
-    if (!autocompleteServiceRef.current) {
-      autocompleteServiceRef.current = new placesLib.AutocompleteService();
-    }
-
-    autocompleteServiceRef.current.getPlacePredictions(
-      {
-        input: query,
-        componentRestrictions: { country: 'us' }
-      },
-      (predictions, status) => {
-        setIsLoading(false);
-        if (status === placesLib.PlacesServiceStatus?.OK && predictions) {
-          const formatted = predictions.map((p) => ({
-            placeId: p.place_id,
-            description: p.description,
-            mainText: p.structured_formatting?.main_text || p.description,
-            secondaryText: p.structured_formatting?.secondary_text || ''
-          }));
-          setSuggestions(formatted);
-          setIsOpen(true);
-        } else {
-          console.error("Google Places API Classic fallback failed with status:", status);
-          setSuggestions([]);
-        }
-      }
-    );
-  };
-
-  // Initialize session token and refetch if input exists (handles fast typers before library loads)
-  useEffect(() => {
-    if (placesLib) {
-      if (placesLib.AutocompleteSessionToken && !sessionTokenRef.current) {
-        sessionTokenRef.current = new placesLib.AutocompleteSessionToken();
-      }
-      if (inputValue && inputValue.trim().length >= 2 && suggestions.length === 0) {
-        fetchSuggestions(inputValue);
-      }
-    }
-  }, [placesLib]);
-
-  // Debounced input change
+  // Debounced input change (300ms delay to prevent API quota spam & infinite loops)
   const handleInputChange = (e) => {
     const val = e.target.value;
     setInputValue(val);
     if (onChange) onChange(val);
 
-    // Debounce search query to avoid quota spam
-    fetchSuggestions(val);
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    if (val.trim().length < 2) {
+      setSuggestions([]);
+      setIsOpen(false);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    debounceTimerRef.current = setTimeout(() => {
+      fetchSuggestions(val);
+    }, 300);
   };
 
   // Handle selecting an autocomplete suggestion
@@ -241,106 +248,87 @@ export function GoogleAddressAutocomplete({
       }
     } else if (e.key === 'Escape') {
       setIsOpen(false);
+      setActiveIndex(-1);
     }
   };
 
-  const handleClear = () => {
-    setInputValue('');
-    setSuggestions([]);
-    setIsOpen(false);
-    if (onChange) onChange('');
-  };
-
   return (
-    <div ref={containerRef} className={`relative w-full ${className}`}>
-      <div className="relative w-full">
-        <MapPin className="absolute left-4 top-3.5 w-5 h-5 text-indigo-600 pointer-events-none" />
-        
+    <div className={`relative w-full ${className}`} ref={containerRef}>
+      <div className="relative flex items-center w-full">
+        {/* Left Icon (MapPin or Spinner) */}
+        <div className="absolute left-4 z-10 flex items-center pointer-events-none text-slate-400">
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
+          ) : (
+            <MapPin className="w-5 h-5 text-blue-600" />
+          )}
+        </div>
+
+        {/* Input Element */}
         <input
           type="text"
-          inputMode="search"
-          enterKeyHint="search"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => {
             setIsFocused(true);
-            if (suggestions.length > 0) setIsOpen(true);
             scrollToOptimalPosition();
+            if (suggestions.length > 0) setIsOpen(true);
           }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
+          onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className={`w-full pl-12 pr-10 py-3.5 bg-slate-50/50 border border-slate-300 rounded-2xl text-slate-900 placeholder-slate-400 text-base sm:text-sm focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 font-medium transition-all ${
-            isFocused ? 'ring-2 ring-blue-500/25 border-blue-600 bg-white shadow-md' : ''
-          } ${inputClassName}`}
+          autoComplete="off"
+          spellCheck="false"
+          className={`w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 font-medium shadow-sm focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 transition-all ${inputClassName}`}
         />
 
-        {/* Right side loader / clear */}
-        <div className="absolute right-3 top-3 flex items-center gap-1.5">
-          {isLoading && (
-            <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
-          )}
-          {inputValue && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition-colors"
-              title="Clear input"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
+        {/* Clear Button */}
+        {inputValue && (
+          <button
+            type="button"
+            onClick={() => {
+              setInputValue('');
+              setSuggestions([]);
+              setIsOpen(false);
+              if (onChange) onChange('');
+            }}
+            className="absolute right-4 z-10 p-1 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
-      {/* Google Places Dropdown Predictions with Dynamic Keyboard-Safe Max Height */}
+      {/* Autocomplete Dropdown List */}
       {isOpen && suggestions.length > 0 && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden animate-fade-in divide-y divide-slate-100">
-          <div 
-            className="overflow-y-auto overscroll-contain transition-all"
-            style={{ maxHeight: `${dropdownMaxHeight}px` }}
-          >
-            {suggestions.map((item, index) => {
-              const isSelected = index === activeIndex;
-              return (
-                <button
-                  key={item.placeId || index}
-                  type="button"
-                  onClick={() => handleSelectSuggestion(item)}
-                  className={`w-full text-left px-4 py-3 flex items-start gap-3 transition-colors ${
-                    isSelected ? 'bg-blue-50 text-blue-900' : 'hover:bg-slate-50/50 text-slate-800'
-                  }`}
-                >
-                  <div className="w-8 h-8 rounded-xl bg-blue-100/70 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin className="w-4 h-4" />
+        <ul
+          className="absolute z-50 left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-y-auto divide-y divide-slate-100 animate-fade-in"
+          style={{ maxHeight: `${dropdownMaxHeight}px` }}
+        >
+          {suggestions.map((item, idx) => (
+            <li
+              key={item.placeId || idx}
+              onClick={() => handleSelectSuggestion(item)}
+              onMouseEnter={() => setActiveIndex(idx)}
+              className={`px-4 py-3.5 flex items-start gap-3 cursor-pointer transition-colors ${
+                activeIndex === idx ? 'bg-blue-50/80 text-blue-900' : 'hover:bg-slate-50 text-slate-700'
+              }`}
+            >
+              <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-1" />
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-sm text-slate-900 truncate">
+                  {item.mainText}
+                </div>
+                {item.secondaryText && (
+                  <div className="text-xs text-slate-500 truncate">
+                    {item.secondaryText}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs font-bold text-slate-900 truncate">
-                      {item.mainText}
-                    </div>
-                    {item.secondaryText && (
-                      <div className="text-[11px] text-slate-500 truncate">
-                        {item.secondaryText}
-                      </div>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Google Attribution Strip (ToS Compliance) */}
-          <div className="px-4 py-2 bg-slate-50/50 flex items-center justify-between text-[10px] text-slate-400">
-            <span className="flex items-center gap-1">
-              <span>Suggestions powered by</span>
-              <span className="font-semibold text-slate-600">Google Places</span>
-            </span>
-            <span className="text-[10px] text-slate-400">United States</span>
-          </div>
-        </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
