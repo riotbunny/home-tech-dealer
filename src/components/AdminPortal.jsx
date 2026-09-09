@@ -758,30 +758,61 @@ export function AdminPortal({
               </div>
             )}
 
-            {/* Carrier Settings (Enrollment URL) */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <Globe className="w-4 h-4 text-indigo-600" />
-                <span>Online Enrollment Link</span>
-              </h3>
+            {/* Carrier Settings (Enrollment URL & Custom Logo) */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              
+              {/* Enrollment URL */}
               <div>
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
+                  <Globe className="w-4 h-4 text-indigo-600" />
+                  <span>Online Enrollment Link</span>
+                </h3>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Direct Affiliate / Enrollment URL (Optional)</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <LinkIcon className="w-4 h-4 text-slate-400" />
+                    <Globe className="h-4 w-4 text-slate-400" />
                   </div>
                   <input
                     type="url"
                     value={selectedProvider.enrollUrl || ''}
                     onChange={(e) => handleUpdateProviderField('enrollUrl', e.target.value)}
-                    placeholder="https://..."
-                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                    placeholder="https://affiliate.carrier.com/signup?id=123"
+                    className="pl-9 w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
-                <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
-                  If provided, an "Order Online" button will appear next to the "Call to Order" button on this carrier's plans.
+                <p className="mt-1.5 text-[11px] text-slate-500">
+                  If provided, an "Order Online" button will appear alongside the call button for all plans under this carrier.
                 </p>
               </div>
+
+              <hr className="border-slate-100" />
+
+              {/* Custom Logo URL */}
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
+                  <svg className="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Custom Carrier Logo</span>
+                </h3>
+                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Image URL (Optional)</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Globe className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="url"
+                    value={selectedProvider.customLogo || ''}
+                    onChange={(e) => handleUpdateProviderField('customLogo', e.target.value)}
+                    placeholder="https://example.com/images/verizon-logo.png"
+                    className="pl-9 w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                  />
+                </div>
+                <p className="mt-1.5 text-[11px] text-slate-500">
+                  Provide an image URL to replace the default vector logo for this carrier across the entire site. Leave blank to use the default.
+                </p>
+              </div>
+
             </div>
 
             {/* Plans Grid */}

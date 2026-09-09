@@ -1,12 +1,29 @@
 import React from 'react';
+import { getStoredCatalog } from '../services/catalogService';
 
 /**
  * CarrierLogos
  * Authentic, crisp SVG vector brand logomarks for nationwide and regional carriers.
  * Elevates the visual credibility from plain colored dots to official enterprise partner status.
  */
-export function CarrierLogo({ id, name, className = 'h-5 w-auto' }) {
+export function CarrierLogo({ id, name, customUrl, className = 'h-5 w-auto' }) {
   const carrierId = (id || '').toLowerCase();
+  
+  // Look up custom logo from the catalog if not explicitly provided
+  let finalCustomUrl = customUrl;
+  if (!finalCustomUrl) {
+    const catalog = getStoredCatalog();
+    const provider = catalog.find(p => p.id === carrierId);
+    if (provider && provider.customLogo) {
+      finalCustomUrl = provider.customLogo;
+    }
+  }
+
+  if (finalCustomUrl) {
+    return (
+      <img src={finalCustomUrl} alt={name || 'Carrier Logo'} className={`${className} object-contain`} />
+    );
+  }
 
   switch (carrierId) {
     case 'verizon':
