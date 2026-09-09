@@ -44,10 +44,15 @@ import {
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { Layers, ArrowRight, X, PhoneCall } from 'lucide-react';
 import { AntiSnoop } from './components/AntiSnoop';
+import { LeadFunnel } from './components/LeadFunnel';
 
 export function App() {
   const initialLoc = getStoredDefaultLocation();
   const [activeTab, setActiveTab] = useState('qualifier');
+
+  // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
+  const isLeadFunnelRoute = typeof window !== 'undefined' && 
+    (window.location.pathname.startsWith('/check-availability') || window.location.pathname.startsWith('/lead'));
   const [catalog, setCatalog] = useState(getStoredCatalog);
   const [topPicks, setTopPicks] = useState(getStoredTopPicks);
   const [phoneNumber, setPhoneNumber] = useState(getStoredPhoneNumber);
@@ -417,12 +422,16 @@ export function App() {
         onOpenCityDirectory={() => setIsCityDirectoryOpen(true)}
       />
 
-      {/* Hero Section */}
-      <HeroSection
-        onSelectNearbyCity={handleSelectNearbyCity}
-        nearbyCities={nearbyCities}
-        cityName={cityName}
-        state={selectedMarket?.state || currentCityData?.state || ''}
+      {isLeadFunnelRoute ? (
+        <LeadFunnel phoneNumber={routedPhoneNumber} catalog={catalog} />
+      ) : (
+        <>
+          {/* Hero Section */}
+          <HeroSection
+            onSelectNearbyCity={handleSelectNearbyCity}
+            nearbyCities={nearbyCities}
+            cityName={cityName}
+            state={selectedMarket?.state || currentCityData?.state || ''}
         zip={selectedMarket?.zip || currentCityData?.zip || ''}
         phoneNumber={routedPhoneNumber}
         onSearchAddress={(addr) => {
@@ -701,6 +710,8 @@ export function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSpeedQuiz={() => setIsSpeedQuizOpen(true)}
       />
+        </>
+      )}
       </div>
     </APIProvider>
   );
