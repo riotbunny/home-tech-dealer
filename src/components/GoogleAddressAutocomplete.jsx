@@ -146,7 +146,8 @@ export function GoogleAddressAutocomplete({
             fallbackClassicAutocomplete(query);
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.error("Places API (New) failed, falling back:", err);
           fallbackClassicAutocomplete(query);
         });
     } else {
@@ -157,6 +158,7 @@ export function GoogleAddressAutocomplete({
   // Fallback to AutocompleteService (for projects where Places API New is not yet activated)
   const fallbackClassicAutocomplete = (query) => {
     if (!placesLib?.AutocompleteService) {
+      console.warn("Google Maps Places Library is not available. Check API key and enabled APIs.");
       setIsLoading(false);
       return;
     }
@@ -182,6 +184,7 @@ export function GoogleAddressAutocomplete({
           setSuggestions(formatted);
           setIsOpen(true);
         } else {
+          console.error("Google Places API Classic fallback failed with status:", status);
           setSuggestions([]);
         }
       }
