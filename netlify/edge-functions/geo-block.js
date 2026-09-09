@@ -25,10 +25,25 @@ export default async (request, context) => {
       return context.next();
     }
 
-    // Return a 403 Forbidden response for foreign human/scraper traffic
-    return new Response('Access Denied. This service is only available in the United States.', {
-      status: 403,
-      headers: { 'content-type': 'text/plain' },
+    // Return a fake 503 Service Unavailable response for foreign human/scraper traffic
+    // This stealth-blocks them by making it look like a generic server crash, 
+    // so they don't realize they need a VPN.
+    const fakeNginxError = `<!DOCTYPE html>
+<html>
+<head>
+<title>503 Service Temporarily Unavailable</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+<h1>503 Service Temporarily Unavailable</h1>
+<p>The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.</p>
+<hr style="width: 80%; border: 0; border-top: 1px solid #ccc;">
+<address style="font-size: 12px; color: #666;">nginx/1.18.0 (Ubuntu)</address>
+</body>
+</html>`;
+
+    return new Response(fakeNginxError, {
+      status: 503,
+      headers: { 'content-type': 'text/html; charset=utf-8' },
     });
   }
 
