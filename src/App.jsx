@@ -52,7 +52,7 @@ export function App() {
 
   // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
   const isLeadFunnelRoute = typeof window !== 'undefined' && 
-    (window.location.pathname.toLowerCase().startsWith('/check-availability') || window.location.pathname.toLowerCase().startsWith('/lead'));
+    (window.location.pathname.toLowerCase().includes('/check-availability') || window.location.pathname.toLowerCase().includes('/lead'));
   const [catalog, setCatalog] = useState(getStoredCatalog);
   const [topPicks, setTopPicks] = useState(getStoredTopPicks);
   const [phoneNumber, setPhoneNumber] = useState(getStoredPhoneNumber);
