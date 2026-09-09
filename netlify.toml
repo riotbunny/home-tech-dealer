@@ -42,3 +42,8 @@
   [headers.values]
     X-Robots-Tag = "index, follow"
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Run the Geo-Blocking Edge Function on all routes
+[[edge_functions]]
+  path = "/*"
+  function = "geo-block"
