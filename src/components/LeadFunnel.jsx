@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
+import { CarrierLogo } from './CarrierLogos';
 import { 
   MapPin, 
   Gamepad2, 
@@ -74,8 +75,11 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
     }, interval);
   };
 
-  // Select top 2 providers from catalog
-  const activeProviders = catalog.filter(p => !p.paused).slice(0, 2);
+  // Select providers configured for Lead Funnel from catalog (or unpaused ones if none explicitly selected)
+  const funnelExplicit = catalog.filter(p => !p.paused && p.showInLeadFunnel === true);
+  const activeProviders = funnelExplicit.length > 0 
+    ? funnelExplicit 
+    : catalog.filter(p => !p.paused && p.showInLeadFunnel !== false).slice(0, 3);
 
   return (
     <div className="w-full bg-slate-50 min-h-[calc(100vh-80px)] flex flex-col pt-6 pb-24 px-4 sm:px-6">
@@ -309,20 +313,30 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
               {activeProviders.map((provider) => (
                 <div key={provider.id} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    {provider.customLogo ? (
-                      <img src={provider.customLogo} alt={provider.name} className="h-8 w-auto object-contain" />
-                    ) : (
-                      <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center font-bold text-slate-600 text-xs">
-                        {provider.name}
-                      </div>
-                    )}
+                    <div className="h-10 min-w-[70px] max-w-[120px] flex items-center justify-center">
+                      <CarrierLogo
+                        id={provider.id}
+                        name={provider.name}
+                        customUrl={provider.customLogo}
+                        className="h-8 w-auto max-w-[110px] object-contain"
+                      />
+                    </div>
                     <div>
                       <h3 className="font-bold text-slate-900">{provider.name}</h3>
-                      <p className="text-xs text-slate-500">Up to {provider.plans?.[0]?.downloadSpeed || '1000 Mbps'}</p>
+                      <p className="text-xs text-slate-500 font-medium">
+                        {provider.plans?.[0]?.name || 'High-Speed Broadband'} &bull; Up to {provider.plans?.[0]?.downloadSpeed || '1000 Mbps'}
+                      </p>
+                      {provider.plans?.[0]?.price && (
+                        <p className="text-xs text-emerald-600 font-bold">
+                          Starting at ${provider.plans[0].price}/mo
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-xs text-green-600 font-bold uppercase tracking-wider mb-0.5">Available</div>
+                  <div className="text-right shrink-0 pl-2">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                      Available Today
+                    </span>
                   </div>
                 </div>
               ))}

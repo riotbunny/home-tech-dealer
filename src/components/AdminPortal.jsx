@@ -727,6 +727,25 @@ export function AdminPortal({
               </div>
 
               <div className="flex flex-wrap items-center gap-2 shrink-0">
+                {/* Facebook Lead Funnel Toggle */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const isCurrentlyFeatured = selectedProvider.showInLeadFunnel === true;
+                    handleUpdateProviderField('showInLeadFunnel', !isCurrentlyFeatured);
+                    showToast(`${selectedProvider.name} ${!isCurrentlyFeatured ? 'featured in' : 'removed from'} Facebook Lead Funnel!`);
+                  }}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
+                    selectedProvider.showInLeadFunnel === true
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600 shadow-sm'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
+                  }`}
+                  title="Toggle whether this provider is featured on Step 5 of the Facebook Lead Funnel"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>{selectedProvider.showInLeadFunnel === true ? 'FB Funnel Active' : 'Feature in FB Funnel'}</span>
+                </button>
+
                 {/* Pause / Resume Button */}
                 <button
                   type="button"
