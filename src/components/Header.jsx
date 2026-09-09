@@ -26,10 +26,30 @@ export function Header({
   phoneNumber = DEFAULT_PHONE_NUMBER,
   onAddressClick,
   onOpenCityDirectory,
-  isSqueezePage = false
+  isSqueezePage = false,
+  onOpenAdminLogin
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoClickCount, setLogoClickCount] = useState(0);
   const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
+
+  const handleLogoClick = () => {
+    setActiveTab('qualifier');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setLogoClickCount(prev => {
+      const nextCount = prev + 1;
+      if (nextCount >= 3) {
+        if (onOpenAdminLogin) onOpenAdminLogin();
+        return 0;
+      }
+      return nextCount;
+    });
+
+    setTimeout(() => {
+      setLogoClickCount(0);
+    }, 1500);
+  };
 
   const navItems = [
     { id: 'qualifier', label: 'Find Plans', icon: Wifi },
@@ -55,10 +75,7 @@ export function Header({
               {/* Logo */}
               <div 
                 className="flex items-center gap-3 cursor-pointer group"
-                onClick={() => {
-                  setActiveTab('qualifier');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                onClick={handleLogoClick}
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-105 transition-all">
                   <Wifi className="w-5 h-5 sm:w-6 sm:h-6" />

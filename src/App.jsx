@@ -121,10 +121,15 @@ export function App() {
 
   const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved);
 
-  // Secret Admin Portal Trigger (Ctrl+Shift+X)
+  // Secret Admin Portal Trigger (Ctrl+Shift+X or Ctrl+Shift+A or Cmd+Shift+X)
   useEffect(() => {
     const handleSecretKey = (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'x' || e.key === 'X')) {
+      const isControl = e.ctrlKey || e.metaKey;
+      const isShift = e.shiftKey;
+      const keyLower = (e.key || '').toLowerCase();
+      const isXorA = keyLower === 'x' || keyLower === 'a' || e.code === 'KeyX' || e.code === 'KeyA';
+
+      if (isControl && isShift && isXorA) {
         e.preventDefault();
         setIsAdminLoginOpen(true);
       }
@@ -421,6 +426,7 @@ export function App() {
         phoneNumber={routedPhoneNumber}
         onOpenCityDirectory={() => setIsCityDirectoryOpen(true)}
         isSqueezePage={isLeadFunnelRoute}
+        onOpenAdminLogin={() => setIsAdminLoginOpen(true)}
       />
 
       {isLeadFunnelRoute ? (
