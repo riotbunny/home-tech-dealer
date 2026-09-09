@@ -24,8 +24,11 @@ import {
   EyeOff,
   Building2,
   Star,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
+import { CarrierLogo } from './CarrierLogos';
 
 export function AdminPortal({ 
   isOpen, 
@@ -185,6 +188,28 @@ export function AdminPortal({
         };
       });
     });
+  };
+
+  // Upload logo directly from computer
+  const handleLogoFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Logo file size must be under 2MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result;
+      if (typeof base64 === 'string') {
+        handleUpdateProviderField('customLogo', base64);
+        showToast(`Uploaded new logo for ${selectedProvider.name}!`);
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
   };
 
   // Update a field for a specific plan
@@ -787,30 +812,90 @@ export function AdminPortal({
 
               <hr className="border-slate-100" />
 
-              {/* Custom Logo URL */}
+              {/* Custom Carrier Logo (Direct Upload & URL) */}
               <div>
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
-                  <svg className="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>Custom Carrier Logo</span>
-                </h3>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Image URL (Optional)</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Globe className="h-4 w-4 text-slate-400" />
-                  </div>
-                  <input
-                    type="url"
-                    value={selectedProvider.customLogo || ''}
-                    onChange={(e) => handleUpdateProviderField('customLogo', e.target.value)}
-                    placeholder="https://example.com/images/verizon-logo.png"
-                    className="pl-9 w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                  />
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-indigo-600" />
+                    <span>Carrier Brand Logo</span>
+                  </h3>
+                  {selectedProvider.customLogo ? (
+                    <span className="text-[10px] uppercase font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
+                      Custom Logo Active
+                    </span>
+                  ) : (
+                    <span className="text-[10px] uppercase font-mono font-bold bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full">
+                      Default Vector Active
+                    </span>
+                  )}
                 </div>
-                <p className="mt-1.5 text-[11px] text-slate-500">
-                  Provide an image URL to replace the default vector logo for this carrier across the entire site. Leave blank to use the default.
-                </p>
+
+                {/* Logo Preview & Action Row */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 mb-3">
+                  {/* Visual Box */}
+                  <div className="h-14 min-w-[140px] px-4 rounded-lg bg-white border border-slate-200 flex items-center justify-center shadow-xs">
+                    <CarrierLogo
+                      id={selectedProvider.id}
+                      name={selectedProvider.name}
+                      customUrl={selectedProvider.customLogo}
+                      className="h-8 w-auto max-w-[120px]"
+                    />
+                  </div>
+
+                  <div className="flex-1 space-y-1">
+                    <div className="text-xs font-bold text-slate-800">
+                      {selectedProvider.customLogo ? 'Custom Uploaded Logo' : `${selectedProvider.name} Default Vector Logo`}
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Changes update every single {selectedProvider.name} plan card, top pick, and comparison across the entire site.
+                    </p>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <label className="cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-xs transition-all transform active:scale-95">
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Upload from Device</span>
+                      <input
+                        type="file"
+                        accept="image/png, image/jpeg, image/svg+xml, image/webp"
+                        onChange={handleLogoFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+
+                    {selectedProvider.customLogo && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleUpdateProviderField('customLogo', '');
+                          showToast(`Reset ${selectedProvider.name} to default vector logo`);
+                        }}
+                        className="px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition-colors"
+                        title="Reset to default system logo"
+                      >
+                        Reset Default
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Secondary Option: Direct URL */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-500 mb-1">Or paste a direct image URL:</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Globe className="h-4 w-4 text-slate-400" />
+                    </div>
+                    <input
+                      type="url"
+                      value={selectedProvider.customLogo || ''}
+                      onChange={(e) => handleUpdateProviderField('customLogo', e.target.value)}
+                      placeholder="https://example.com/images/logo.png"
+                      className="pl-9 w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    />
+                  </div>
+                </div>
               </div>
 
             </div>
