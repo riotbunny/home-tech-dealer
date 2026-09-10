@@ -49,10 +49,12 @@ import { LeadFunnel } from './components/LeadFunnel';
 export function App() {
   const initialLoc = getStoredDefaultLocation();
   const [activeTab, setActiveTab] = useState('qualifier');
+  const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
+  const isPromoHost = hostname === 'promo.hometechdealer.com';
 
   // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
   const isLeadFunnelRoute = typeof window !== 'undefined' && 
-    (window.location.pathname.toLowerCase().includes('/check-availability') || window.location.pathname.toLowerCase().includes('/lead'));
+    (isPromoHost || window.location.pathname.toLowerCase().includes('/check-availability') || window.location.pathname.toLowerCase().includes('/lead'));
   const [catalog, setCatalog] = useState(getStoredCatalog);
   const [topPicks, setTopPicks] = useState(getStoredTopPicks);
   const [phoneNumber, setPhoneNumber] = useState(getStoredPhoneNumber);
@@ -162,6 +164,10 @@ export function App() {
   // Automatically detect user's city via Geo IP on initial load (only if no specific pSEO slug in URL)
   useEffect(() => {
     async function initUserLocation() {
+      if (isPromoHost) {
+        return;
+      }
+
       // If a specific pSEO city slug is already in the URL or query, let pSEO take priority
       if (typeof window !== 'undefined') {
         const path = window.location.pathname;
