@@ -109,7 +109,7 @@ export function AntiSnoop() {
         />
         <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-950/60 px-5 py-4 text-center">
           <p className="text-xs font-black uppercase tracking-[0.28em] text-red-200">
-            IP address detected
+            IP address detected: 203.0.113.47
           </p>
           <p className="mt-1 text-xs font-black uppercase tracking-[0.28em] text-red-200">
             Developer tools detected
