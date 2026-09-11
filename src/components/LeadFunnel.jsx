@@ -50,7 +50,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
     setStep(4);
     setProgress(0);
     
-    const duration = 4000;
+    const duration = 3000;
     const interval = 50;
     const steps = duration / interval;
     let currentStep = 0;
@@ -67,10 +67,8 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
       if (percent >= 100) {
         clearInterval(timer);
-        setTimeout(() => {
-          triggerHaptic('success');
-          setStep(5);
-        }, 300);
+        triggerHaptic('success');
+        setStep(5);
       }
     }, interval);
   };
