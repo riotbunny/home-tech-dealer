@@ -109,10 +109,10 @@ export function AntiSnoop() {
         />
         <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-950/60 px-5 py-4 text-center">
           <p className="text-xs font-black uppercase tracking-[0.28em] text-red-200">
-            Developer tools blocked
+            Developer tools detected
           </p>
           <p className="mt-2 text-sm font-semibold text-white sm:text-base">
-            Redirecting in {secondsRemaining}...
+            Redirecting to cyber headquarters in {secondsRemaining}...
           </p>
         </div>
       </div>
