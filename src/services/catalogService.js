@@ -41,7 +41,7 @@ export function saveStoredTopPicks(picksObj) {
   }
 }
 
-export const DEFAULT_PHONE_NUMBER = '1 (888) 482-6192';
+export const DEFAULT_PHONE_NUMBER = '1 (888) 845-1912';
 export const DEFAULT_GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAFI7nr1gt8WkTJZ-MX6SE-j-pVfllTm60';
 
 /**
@@ -133,6 +133,7 @@ export function saveStoredPhoneNumber(newPhone) {
   try {
     if (newPhone && newPhone.trim()) {
       localStorage.setItem(PHONE_STORAGE_KEY, newPhone.trim());
+      localStorage.removeItem(LEGACY_PHONE_KEY);
       return true;
     }
   } catch (err) {

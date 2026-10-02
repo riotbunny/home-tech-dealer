@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Lock, 
   X, 
@@ -71,6 +71,15 @@ export function AdminPortal({
     price: 65,
     contract: 'No Annual Contract'
   });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setActivePhone(phoneNumber || '');
+    setActiveGoogleKey(googleApiKey || '');
+    setActiveBaseCity(defaultLocation?.city || '');
+    setActiveBaseState(defaultLocation?.state || '');
+    setActiveTopPicks(topPicks || { fiber: 'att', cable: 'spectrum', value: 'tmobile' });
+  }, [isOpen, phoneNumber, googleApiKey, defaultLocation, topPicks]);
 
   if (!isOpen) return null;
 
@@ -521,7 +530,7 @@ export function AdminPortal({
                   type="text"
                   value={activePhone}
                   onChange={(e) => setActivePhone(e.target.value)}
-                  placeholder="e.g. 1 (888) 482-6192"
+                  placeholder="e.g. 1 (888) 845-1912"
                   className="px-3.5 py-2 bg-slate-50/50 border border-slate-300 rounded-xl text-slate-900 font-mono font-bold text-sm focus:outline-none focus:border-emerald-600 w-48 sm:w-56"
                 />
                 <button

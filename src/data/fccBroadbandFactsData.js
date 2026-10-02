@@ -100,7 +100,7 @@ export function generateFccBroadbandFacts(plan, provider, detectedCity = null) {
     // Network Management & Consumer Protection
     networkManagementUrl: `${carrierDisclosureUrl}#network-management`,
     privacyPolicyUrl: `${carrierDisclosureUrl}#privacy`,
-    customerSupportPhone: '1 (888) 482-6192',
+    customerSupportPhone: '1 (888) 845-1912',
     carrierFccDisclosurePortal: carrierDisclosureUrl,
     fccConsumerComplaintsUrl: 'https://consumercomplaints.fcc.gov/',
     fccRegistrationDate: 'April 2024 (Mandatory 47 CFR § 8.1 Standard)',
