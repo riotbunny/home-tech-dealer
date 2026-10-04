@@ -243,6 +243,9 @@ export function PaidInternetLandingPage({
             {availableProviders.map((provider, index) => {
               const plan = provider.plans?.find((item) => item.popular) || provider.plans?.[0] || {};
               const isRecommendedProvider = provider.id === 'tmobile';
+              const displaySpeed = provider.id === 'tmobile' || provider.id === 'verizon'
+                ? (plan.downloadSpeed || '1000 Mbps')
+                : '2 Gbps';
               const displayPrice = isRecommendedProvider ? 35 : (plan.price || 50);
               const paidLocalLogo = PAID_LOCAL_LOGOS[provider.id];
               const cardBadges = [
@@ -298,7 +301,7 @@ export function PaidInternetLandingPage({
                     </div>
                     <div className="rounded-2xl bg-slate-50 p-3 sm:p-4">
                       <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Speeds offered up to</div>
-                      <div className="mt-1 text-lg font-black text-slate-900">{plan.downloadSpeed || '1000 Mbps'}</div>
+                      <div className="mt-1 text-lg font-black text-slate-900">{displaySpeed}</div>
                     </div>
                   </div>
 
