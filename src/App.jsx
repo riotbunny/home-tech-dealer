@@ -62,6 +62,7 @@ export function App() {
       : currentPath === '/disclaimers'
         ? 'disclaimers'
         : null;
+  const isStandaloneRoute = isPaidInternetLocalRoute || Boolean(legalPageType);
 
   // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
   const isLeadFunnelRoute = typeof window !== 'undefined' && 
@@ -133,7 +134,7 @@ export function App() {
     updateCitySEO(cityData, phoneNumber);
   }, [phoneNumber, isPaidInternetLocalRoute]);
 
-  const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved, { disabled: isPaidInternetLocalRoute });
+  const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved, { disabled: isStandaloneRoute });
 
   // Secret Admin Portal Trigger (Ctrl+Shift+X or Ctrl+Shift+A or Cmd+Shift+X)
   useEffect(() => {
@@ -176,7 +177,7 @@ export function App() {
   // Automatically detect user's city via Geo IP on initial load (only if no specific pSEO slug in URL)
   useEffect(() => {
     async function initUserLocation() {
-      if (isPromoHost) {
+      if (isPromoHost || isStandaloneRoute) {
         return;
       }
 
