@@ -191,7 +191,7 @@ export function PaidInternetLandingPage({
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
-                  Verify Availability - Call {phoneNumber}
+                  Call to Verify Your Best Match
                 </span>
                 <span className="mt-1 text-xs font-bold text-emerald-100">
                   24/7 Internet Availability Desk
@@ -210,7 +210,7 @@ export function PaidInternetLandingPage({
                   Want to know exactly what's available at your address?
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-600">
-                  Call our Internet Availability Desk to verify service, speeds and current offers. Exact service, speeds and offers vary by address.
+                  Your ZIP shows multiple possible options. A specialist can verify which providers, speeds and current offers best match your address.
                 </p>
                 <p className="mt-2 text-xs font-extrabold uppercase tracking-wide text-emerald-700">
                   24/7 assistance - No obligation
@@ -222,7 +222,7 @@ export function PaidInternetLandingPage({
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
               >
                 <PhoneCall className="h-5 w-5" />
-                <span>Call {phoneNumber}</span>
+                <span>Call to Verify My Options</span>
               </a>
             </div>
           </div>
@@ -300,7 +300,9 @@ export function PaidInternetLandingPage({
                   </div>
 
                   <p className="mt-4 text-xs font-bold leading-5 text-slate-500">
-                    Pricing, speeds and exact availability vary by address.
+                    {isRecommendedProvider
+                      ? 'Recommended starting point for quick home internet approval.'
+                      : 'Call to confirm this option for your address.'}
                   </p>
 
                   <div className="mt-6 pt-2">
@@ -309,7 +311,7 @@ export function PaidInternetLandingPage({
                       className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      Call to Check Availability
+                      {isRecommendedProvider ? 'Verify T-Mobile Availability' : 'Call to Verify This Option'}
                     </a>
                   </div>
                 </article>
@@ -333,7 +335,7 @@ export function PaidInternetLandingPage({
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call {phoneNumber}</span>
+                <span>Call to Verify Options</span>
               </a>
             </div>
 
@@ -358,6 +360,10 @@ export function PaidInternetLandingPage({
               </div>
             </div>
           </div>
+
+          <p className="mt-5 text-center text-xs font-semibold leading-5 text-slate-500">
+            Availability, plan details, pricing, promotions, installation options and speeds are subject to carrier confirmation and may vary by service address. HomeTechDealer helps compare options but cannot guarantee that a specific carrier, plan or offer will be available at every location.
+          </p>
         </section>
 
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
