@@ -144,13 +144,12 @@ export function PaidInternetLandingPage({
                   Address received
                 </div>
                 <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-                  Internet Options Found for Your Area
+                  {submittedAddress.zipCode
+                    ? `Internet Options Found in the ${submittedAddress.zipCode} Area`
+                    : 'Internet Options Found for Your Area'}
                 </h1>
                 <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
                   Your location matches internet options in your area. Call to verify exact availability, speeds and current offers for your address.
-                </p>
-                <p className="mt-3 text-sm font-extrabold text-slate-500">
-                  Checking options for ZIP {submittedAddress.zipCode}
                 </p>
               </div>
 
