@@ -476,7 +476,7 @@ export function PaidInternetLandingPage({
 
           <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-black text-amber-900 shadow-sm">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span>Phone-only setup offers may be available in select areas</span>
+            <span>Ask about setup offers that may not be shown online</span>
           </div>
 
           <div className="mt-6">
