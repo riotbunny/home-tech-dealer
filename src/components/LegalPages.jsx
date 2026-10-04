@@ -157,10 +157,6 @@ export function LegalPage({ page = 'terms' }) {
             </article>
           ))}
         </div>
-
-        <div className="mt-8 rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm font-semibold leading-7 text-amber-900">
-          This page is general website legal language for customer notice and risk reduction. It is not legal advice and should be reviewed by a qualified attorney for your business, locations, data practices and carrier relationships.
-        </div>
       </section>
     </main>
   );
