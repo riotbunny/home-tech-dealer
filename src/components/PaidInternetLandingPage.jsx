@@ -232,7 +232,7 @@ export function PaidInternetLandingPage({
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
-                  Call Now to Verify Availability
+                  Call Now - Get My Best Option
                 </span>
                 <span className="mt-1 text-xs font-bold text-emerald-100">
                   24/7 Internet Availability Desk
@@ -266,7 +266,7 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-5 w-5" />
-                <span>Call Now - Check Availability & Offers</span>
+                <span>Call Now - Unlock Available Offers</span>
               </a>
             </div>
           </div>
@@ -358,8 +358,8 @@ export function PaidInternetLandingPage({
                       className="js-google-phone-link inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-extrabold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      <span className="hidden sm:inline">Call Now - Check Availability & Offers</span>
-                      <span className="sm:hidden">Call Now - Check Availability</span>
+                      <span className="hidden sm:inline">Call Now - Get This Offer</span>
+                      <span className="sm:hidden">Call Now</span>
                     </a>
                   </div>
                 </article>
@@ -383,7 +383,7 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call Now to Verify My Options</span>
+                <span>Call Now - Find My Best Plan</span>
               </a>
             </div>
 
@@ -435,7 +435,7 @@ export function PaidInternetLandingPage({
               className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
             >
               <PhoneCall className="h-5 w-5" />
-              <span>Call Now - Check Availability</span>
+              <span>Call Now - Find My Plan</span>
             </a>
           </div>
         </div>
@@ -627,7 +627,7 @@ export function PaidInternetLandingPage({
               className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:bg-blue-500"
             >
               <Search className="h-4 w-4" />
-              <span>{isSubmitting ? 'Checking Available Plans...' : 'Check Plans Available at My Address →'}</span>
+              <span>{isSubmitting ? 'Checking Available Plans...' : 'Find My Internet Options →'}</span>
             </button>
           </div>
 
