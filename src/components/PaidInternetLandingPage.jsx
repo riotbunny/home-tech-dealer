@@ -327,7 +327,7 @@ export function PaidInternetLandingPage({
                     >
                       <PhoneCall className="h-4 w-4" />
                       <span className="hidden sm:inline">Call to Confirm This Plan</span>
-                      <span className="sm:hidden">Call to Confirm</span>
+                      <span className="sm:hidden">Call to Confirm This Plan</span>
                     </a>
                   </div>
                 </article>
@@ -433,9 +433,9 @@ export function PaidInternetLandingPage({
           href={telHref}
           onClick={handleHeaderPhoneClick}
           aria-label={`Call HomeTechDealer at ${PPC_PHONE_DISPLAY}`}
-          className="js-google-phone-link inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
+          className="js-google-phone-link inline-flex min-w-[104px] shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
         >
-          <PhoneCall className="h-4 w-4" />
+          <PhoneCall className="hidden h-4 w-4 min-[380px]:block" />
           <span>Call Now</span>
         </a>
       </header>
@@ -454,6 +454,11 @@ export function PaidInternetLandingPage({
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
             Speak with a live Internet Setup Desk specialist to check service at your address, review fast install options, and help you take the next step. Same-day or next-day installation may be available in select areas.
           </p>
+
+          <div className="mt-5 inline-flex max-w-full items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-800 shadow-sm">
+            <Wifi className="h-4 w-4 shrink-0" />
+            <span>Ask about fiber and high-speed internet options up to 5 Gigs</span>
+          </div>
 
           <div className="mt-6">
             <a
