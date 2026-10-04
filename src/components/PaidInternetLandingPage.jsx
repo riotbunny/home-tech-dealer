@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle2, Clock3, Home, PhoneCall, Search, ShieldCheck, Sparkles, Wifi } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock3, Home, PhoneCall, Search, ShieldCheck, Wifi } from 'lucide-react';
 import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
@@ -67,7 +67,7 @@ export function PaidInternetLandingPage({
 
   if (submittedAddress) {
     return (
-      <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-slate-50 px-4 pb-28 pt-8 sm:px-6 lg:px-8 lg:pb-8">
         <section className="mx-auto max-w-6xl">
           <button
             type="button"
@@ -86,19 +86,53 @@ export function PaidInternetLandingPage({
                   Address received
                 </div>
                 <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-                  Choose an internet carrier for your home
+                  Internet Options Found for Your Area
                 </h1>
                 <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
-                  Showing popular options for {submittedAddress.streetAddress}
-                  {submittedAddress.aptNumber ? `, ${submittedAddress.aptNumber}` : ''}, ZIP {submittedAddress.zipCode}.
+                  Your location matches internet options in your area. Call to verify exact availability, speeds and current offers for your address.
+                </p>
+                <p className="mt-3 text-sm font-extrabold text-slate-500">
+                  Checking options for ZIP {submittedAddress.zipCode}
                 </p>
               </div>
 
               <a
                 href={telHref}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                className="inline-flex flex-col items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-center text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
               >
-                <PhoneCall className="h-4 w-4" />
+                <span className="inline-flex items-center gap-2 text-base font-black">
+                  <PhoneCall className="h-4 w-4" />
+                  Verify Availability - Call {phoneNumber}
+                </span>
+                <span className="mt-1 text-xs font-bold text-emerald-100">
+                  24/7 Internet Availability Desk
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-3xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm sm:p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
+                  Found options in your area
+                </div>
+                <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-900">
+                  Want to know exactly what's available at your address?
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-600">
+                  Call our Internet Availability Desk to verify service, speeds and current offers. Exact service, speeds and offers vary by address.
+                </p>
+                <p className="mt-2 text-xs font-extrabold uppercase tracking-wide text-emerald-700">
+                  24/7 assistance - No obligation
+                </p>
+              </div>
+
+              <a
+                href={telHref}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
+              >
+                <PhoneCall className="h-5 w-5" />
                 <span>Call {phoneNumber}</span>
               </a>
             </div>
@@ -132,7 +166,7 @@ export function PaidInternetLandingPage({
                         ? 'bg-blue-600 text-white'
                         : 'border border-emerald-200 bg-emerald-50 text-emerald-700'
                     }`}>
-                      {index === 0 ? 'Top pick' : 'Available'}
+                      {index === 0 ? 'Top pick' : 'Area option'}
                     </span>
                   </div>
 
@@ -143,14 +177,14 @@ export function PaidInternetLandingPage({
 
                   <div className="mt-5 grid grid-cols-2 gap-3">
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Starting at</div>
+                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Plans may start around</div>
                       <div className="mt-1 text-2xl font-black text-slate-900">
                         ${plan.price || 50}
                         <span className="text-sm font-extrabold text-slate-500">/mo</span>
                       </div>
                     </div>
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Speeds up to</div>
+                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Speeds offered up to</div>
                       <div className="mt-1 text-lg font-black text-slate-900">{plan.downloadSpeed || '1000 Mbps'}</div>
                     </div>
                   </div>
@@ -164,36 +198,81 @@ export function PaidInternetLandingPage({
                     ))}
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-2 pt-2 sm:flex-row">
+                  <p className="mt-4 text-xs font-bold leading-5 text-slate-500">
+                    Pricing, speeds and exact availability vary by address.
+                  </p>
+
+                  <div className="mt-6 pt-2">
                     <a
                       href={telHref}
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      Call to order
+                      Call to Check Availability
                     </a>
-                    <button
-                      type="button"
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-extrabold text-slate-700 transition-colors hover:bg-slate-50"
-                    >
-                      <Sparkles className="h-4 w-4 text-blue-600" />
-                      Select
-                    </button>
                   </div>
                 </article>
               );
             })}
           </div>
 
-          <div className="mt-6 rounded-3xl border border-blue-100 bg-blue-50 p-5 text-center">
-            <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-sm">
-              <Wifi className="h-5 w-5" />
+          <div className="mt-6 rounded-3xl border border-blue-100 bg-blue-50 p-5 sm:p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-2xl font-black tracking-tight text-slate-900">
+                  Why verify by phone?
+                </h2>
+                <p className="mt-2 text-sm font-semibold text-slate-600">
+                  Internet specialists are available 24/7 to help you check availability and compare your options.
+                </p>
+              </div>
+
+              <a
+                href={telHref}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700"
+              >
+                <PhoneCall className="h-4 w-4" />
+                <span>Call {phoneNumber}</span>
+              </a>
             </div>
-            <p className="text-sm font-bold text-slate-700">
-              Availability and final pricing are confirmed at the exact service address. Call {phoneNumber} if you want help choosing the best fit.
-            </p>
+
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="text-sm font-black text-slate-900">Exact Availability</div>
+                <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
+                  Confirm service options for your address.
+                </p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="text-sm font-black text-slate-900">Current Offers</div>
+                <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
+                  Ask about current plans, pricing and promotions.
+                </p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="text-sm font-black text-slate-900">Setup Options</div>
+                <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
+                  Get help understanding installation and equipment options.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
+
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
+          <div className="mx-auto max-w-md">
+            <div className="mb-2 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
+              Available 24/7
+            </div>
+            <a
+              href={telHref}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
+            >
+              <PhoneCall className="h-5 w-5" />
+              <span>Call to Verify Availability</span>
+            </a>
+          </div>
+        </div>
       </main>
     );
   }
