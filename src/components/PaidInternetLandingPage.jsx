@@ -7,6 +7,8 @@ import { CarrierLogo } from './CarrierLogos';
 const PAID_LOCAL_TITLE = 'Internet Providers Near You | Check Availability | HomeTechDealer';
 const PAID_LOCAL_DESCRIPTION = 'Compare internet providers, speeds and available plans at your address. Check availability online or call HomeTechDealer at 1-888-845-1912.';
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
+const PPC_PHONE_DISPLAY = '1-888-845-1912';
+const PPC_PHONE_TEL = '18888451912';
 const PAID_LOCAL_CARRIER_IDS = ['tmobile', 'spectrum', 'att', 'verizon', 'earthlink', 'frontier'];
 const PAID_LOCAL_LOGOS = {
   tmobile: {
@@ -60,7 +62,7 @@ export function PaidInternetLandingPage({
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const hasTrackedFormStartRef = useRef(false);
-  const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
+  const telHref = `tel:${PPC_PHONE_TEL}`;
   const availableProviders = PAID_LOCAL_CARRIER_IDS
     .map((id) => PROVIDERS_CATALOG.find((provider) => provider.id === id))
     .filter(Boolean);
@@ -96,6 +98,12 @@ export function PaidInternetLandingPage({
     document.getElementById('pseo-jsonld')?.remove();
     trackPaidLocalEvent('ppc_local_landing_view');
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof window.__applyGooglePhoneConversionNumber === 'function') {
+      window.__applyGooglePhoneConversionNumber();
+    }
+  }, [submittedAddress]);
 
   const trackFormStarted = () => {
     if (hasTrackedFormStartRef.current) return;
@@ -188,11 +196,11 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex w-full flex-col items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-center text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
+                className="js-google-phone-link inline-flex w-full flex-col items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-center text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
-                  Call to Verify Your Best Match
+                  Verify Best Match - Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span>
                 </span>
                 <span className="mt-1 text-xs font-bold text-emerald-100">
                   24/7 Internet Availability Desk
@@ -220,10 +228,10 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
+                className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-5 w-5" />
-                <span>Call to Verify My Options</span>
+                <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span> to Verify My Options</span>
               </a>
             </div>
           </div>
@@ -309,10 +317,12 @@ export function PaidInternetLandingPage({
                   <div className="mt-6 pt-2">
                     <a
                       href={telHref}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
+                      className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      {isRecommendedProvider ? 'Verify T-Mobile Availability' : 'Call to Verify This Option'}
+                      <span>
+                        {isRecommendedProvider ? 'Verify T-Mobile' : 'Verify This Option'} - <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span>
+                      </span>
                     </a>
                   </div>
                 </article>
@@ -333,10 +343,10 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
+                className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call to Verify Options</span>
+                <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
               </a>
             </div>
 
@@ -374,10 +384,10 @@ export function PaidInternetLandingPage({
             </div>
             <a
               href={telHref}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
+              className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
             >
               <PhoneCall className="h-5 w-5" />
-              <span>Call to Verify Availability</span>
+              <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
             </a>
           </div>
         </div>
@@ -405,12 +415,11 @@ export function PaidInternetLandingPage({
         <a
           href={telHref}
           onClick={handleHeaderPhoneClick}
-          aria-label={`Call HomeTechDealer at ${phoneNumber}`}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-2.5 text-sm font-extrabold text-emerald-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 active:scale-[0.99]"
+          aria-label={`Call HomeTechDealer at ${PPC_PHONE_DISPLAY}`}
+          className="js-google-phone-link inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-2.5 text-sm font-extrabold text-emerald-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 active:scale-[0.99]"
         >
           <PhoneCall className="h-4 w-4" />
-          <span className="hidden sm:inline">Call {phoneNumber}</span>
-          <span className="sm:hidden">Call</span>
+          <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
         </a>
       </header>
 

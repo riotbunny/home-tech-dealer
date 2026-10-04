@@ -15,10 +15,30 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      window.__googlePhoneConversionState = null;
+      window.__applyGooglePhoneConversionNumber = function(formattedNumber, mobileNumber) {
+        var formatted = formattedNumber || (window.__googlePhoneConversionState && window.__googlePhoneConversionState.formattedNumber);
+        var mobile = mobileNumber || (window.__googlePhoneConversionState && window.__googlePhoneConversionState.mobileNumber);
+        if (!formatted || !mobile) return;
+
+        window.__googlePhoneConversionState = {
+          formattedNumber: formatted,
+          mobileNumber: mobile
+        };
+
+        document.querySelectorAll('.js-google-phone-number').forEach(function(el) {
+          el.textContent = formatted;
+        });
+
+        document.querySelectorAll('a.js-google-phone-link').forEach(function(el) {
+          el.setAttribute('href', 'tel:' + mobile);
+        });
+      };
       gtag('js', new Date());
       gtag('config', 'AW-16641283046');
       gtag('config', 'AW-16641283046/GfRBCLbLgZAdEOanl_89', {
-        'phone_conversion_number': '1-888-845-1912'
+        'phone_conversion_number': '1-888-845-1912',
+        'phone_conversion_callback': window.__applyGooglePhoneConversionNumber
       });
     </script>
 
