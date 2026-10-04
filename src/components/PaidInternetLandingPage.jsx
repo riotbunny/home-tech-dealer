@@ -4,8 +4,8 @@ import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
 
-const PAID_LOCAL_TITLE = 'Internet Providers Near You | Check Availability | HomeTechDealer';
-const PAID_LOCAL_DESCRIPTION = 'Compare internet providers, speeds and available plans at your address. Check availability online or call HomeTechDealer at 1-888-845-1912.';
+const PAID_LOCAL_TITLE = 'Get Internet Set Up at Your Address | HomeTechDealer';
+const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1-888-845-1912.';
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
 const PPC_PHONE_DISPLAY = '1-888-845-1912';
 const PPC_PHONE_TEL = '18888451912';
@@ -218,11 +218,11 @@ export function PaidInternetLandingPage({
                 </div>
                 <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">
                   {submittedAddress.zipCode
-                    ? `Internet Options Found Near ${submittedAddress.zipCode}`
-                    : 'Internet Options Found Near You'}
+                    ? `Internet Setup Options Near ${submittedAddress.zipCode}`
+                    : 'Internet Setup Options Near You'}
                 </h1>
                 <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
-                  Availability, pricing, and installation dates can vary by exact address. Call now to confirm your best option with a live specialist.
+                  Service and installation timing can vary by exact address. Call now to speak with a live setup specialist and take the next step.
                 </p>
               </div>
 
@@ -232,10 +232,10 @@ export function PaidInternetLandingPage({
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
-                  Call Now to Confirm My Best Plan
+                  Call Now to Get Internet Set Up
                 </span>
                 <span className="mt-1 text-xs font-bold text-emerald-100">
-                  24/7 Internet Availability Desk
+                  24/7 Internet Setup Desk
                 </span>
               </a>
             </div>
@@ -339,10 +339,10 @@ export function PaidInternetLandingPage({
             <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h2 className="text-2xl font-black tracking-tight text-slate-900">
-                  Why Call to Confirm?
+                  Why Call to Set Up?
                 </h2>
                 <p className="mt-2 text-sm font-semibold text-slate-600">
-                  A live specialist can help confirm address-specific availability, pricing and installation timing.
+                  A live specialist can check service at your address and help you move toward installation.
                 </p>
               </div>
 
@@ -351,27 +351,27 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call Now to Confirm My Best Plan</span>
+                <span>Call Now to Get Set Up</span>
               </a>
             </div>
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="text-sm font-black text-slate-900">Exact Availability</div>
+                <div className="text-sm font-black text-slate-900">Address Check</div>
                 <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
-                  Confirm service options for your specific address.
+                  Check service for your specific address.
                 </p>
               </div>
               <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="text-sm font-black text-slate-900">Current Offers</div>
+                <div className="text-sm font-black text-slate-900">Setup Help</div>
                 <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
-                  Ask about current plans, pricing, and promotions.
+                  Get help choosing the next step for your home.
                 </p>
               </div>
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <div className="text-sm font-black text-slate-900">Install Timing</div>
                 <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
-                  Check available installation dates and equipment options.
+                  Check fast installation dates and equipment options.
                 </p>
               </div>
             </div>
@@ -403,7 +403,7 @@ export function PaidInternetLandingPage({
               className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
             >
               <PhoneCall className="h-5 w-5" />
-              <span>Tap to Call - Check Availability</span>
+              <span>Tap to Call - Get Set Up</span>
             </a>
           </div>
         </div>
@@ -424,7 +424,7 @@ export function PaidInternetLandingPage({
               HomeTechDealer
             </div>
             <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
-              Internet availability desk
+              Internet setup desk
             </div>
           </div>
         </div>
@@ -444,15 +444,15 @@ export function PaidInternetLandingPage({
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
             <ShieldCheck className="h-4 w-4" />
-            <span>Internet availability check</span>
+            <span>Internet setup desk</span>
           </div>
 
           <h1 className="max-w-3xl text-[2.45rem] font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-            Find Internet Available at Your Address
+            Call Now to Get Internet Set Up at Your Address
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Call now to confirm plans, pricing, speeds, and installation times for your home. Or enter your address to start a quick availability check.
+            Speak with a live Internet Setup Desk specialist to check service at your address, review fast install options, and help you take the next step. Same-day or next-day installation may be available in select areas.
           </p>
 
           <div className="mt-6">
@@ -462,7 +462,7 @@ export function PaidInternetLandingPage({
               className="js-google-phone-link inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-xl shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99] sm:w-auto"
             >
               <PhoneCall className="h-5 w-5" />
-              <span>Call Now to Check Availability</span>
+              <span>Call Now to Get Internet Set Up</span>
             </a>
           </div>
 
@@ -487,7 +487,7 @@ export function PaidInternetLandingPage({
 
           <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="text-xs font-black uppercase tracking-wide text-slate-500">
-              Compare availability from leading internet providers
+              Setup help from leading internet providers
             </div>
             <div className="mt-3 grid grid-cols-3 items-center gap-3 sm:grid-cols-6">
               {availableProviders.map((provider) => {
@@ -518,10 +518,10 @@ export function PaidInternetLandingPage({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
-                  Need Internet Options Now?
+                  Need Internet Set Up Fast?
                 </div>
                 <p className="mt-1 text-sm font-bold leading-6 text-slate-700">
-                  Call the Internet Availability Desk to compare available plans, current offers, and installation times with a live specialist.
+                  Call the Internet Setup Desk to check service at your address, review fast install options, and get help taking the next step.
                 </p>
               </div>
               <a
@@ -530,19 +530,22 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call Now to Check Availability</span>
+                <span>Call Now to Get Set Up</span>
               </a>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-blue-100 bg-white p-5 shadow-2xl shadow-blue-100/80 sm:p-6">
+        <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-200/70 sm:p-6">
           <div className="mb-5">
+            <div className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-500">
+              Not ready to call yet?
+            </div>
             <h2 className="text-2xl font-black tracking-tight text-slate-900">
-              Start a Quick Address Check
+              Check Your Address for Available Carriers
             </h2>
             <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-              Enter your service address and ZIP code to start an exact-address availability lookup.
+              Enter your address and ZIP code to see which carriers may service your area. A live setup specialist can confirm exact installation options by phone.
             </p>
             <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs font-extrabold text-emerald-700">
               <span>✓ Free to check</span>
@@ -630,10 +633,10 @@ export function PaidInternetLandingPage({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-blue-600 bg-white px-6 py-4 text-base font-extrabold text-blue-700 shadow-sm transition-colors hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-4 text-base font-extrabold text-slate-700 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/15 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
             >
               <Search className="h-4 w-4" />
-              <span>{isSubmitting ? 'Checking Availability...' : 'Check Availability at My Address →'}</span>
+              <span>{isSubmitting ? 'Checking Your Address...' : 'Check Available Carriers →'}</span>
             </button>
           </div>
 
@@ -654,7 +657,7 @@ export function PaidInternetLandingPage({
 
           {submittedAddress && (
             <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-bold text-emerald-800">
-              Thanks. We will check availability for {submittedAddress.streetAddress}
+              Thanks. We will check service for {submittedAddress.streetAddress}
               {submittedAddress.aptNumber ? `, ${submittedAddress.aptNumber}` : ''}, {submittedAddress.zipCode}.
             </div>
           )}
@@ -663,9 +666,9 @@ export function PaidInternetLandingPage({
 
       <section className="mx-auto max-w-6xl border-t border-slate-200 py-6">
         <div className="flex flex-wrap items-center justify-center gap-5 text-sm font-extrabold text-slate-500">
-          <span>Compare leading providers</span>
+          <span>Setup help from leading providers</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
-          <span>Options for your area</span>
+          <span>Service for your area</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
           <span>Help available 24/7</span>
         </div>
@@ -676,7 +679,7 @@ export function PaidInternetLandingPage({
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
         <div className="mx-auto max-w-md">
           <div className="mb-2 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
-            Talk to an availability specialist
+            Talk to an internet setup specialist
           </div>
           <a
             href={telHref}
@@ -684,7 +687,7 @@ export function PaidInternetLandingPage({
             className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
           >
             <PhoneCall className="h-5 w-5" />
-            <span>Tap to Call - Check Availability</span>
+            <span>Tap to Call - Get Set Up</span>
           </a>
         </div>
       </div>
