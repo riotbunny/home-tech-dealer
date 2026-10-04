@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle2, Clock3, Home, PhoneCall, Search, ShieldCheck, Wifi } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock3, PhoneCall, Search, ShieldCheck, Wifi } from 'lucide-react';
 import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
@@ -308,50 +308,52 @@ export function PaidInternetLandingPage({
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
             <ShieldCheck className="h-4 w-4" />
-            <span>Secure address check</span>
+            <span>Internet availability check</span>
           </div>
 
           <h1 className="max-w-3xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-            Compare internet providers available at your address.
+            See Which Internet Options Are Available Near You
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Enter your home address and ZIP code to view popular carrier options, plan speeds, and setup choices. You can also call HomeTechDealer at {phoneNumber}.
+            Enter your address to see internet options, speeds and offers in your area. It only takes a few seconds.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
-              <span className="text-sm font-extrabold text-slate-700">No obligation</span>
+              <span className="text-sm font-extrabold text-slate-700">Free to check</span>
             </div>
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <Clock3 className="h-5 w-5 shrink-0 text-blue-600" />
-              <span className="text-sm font-extrabold text-slate-700">Fast results</span>
+              <span className="text-sm font-extrabold text-slate-700">Takes less than a minute</span>
             </div>
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-              <Home className="h-5 w-5 shrink-0 text-indigo-600" />
-              <span className="text-sm font-extrabold text-slate-700">Home setup</span>
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-indigo-600" />
+              <span className="text-sm font-extrabold text-slate-700">No obligation</span>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-200/70 sm:p-6">
+        <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-blue-100 bg-white p-5 shadow-2xl shadow-blue-100/80 sm:p-6">
           <div className="mb-5">
-            <div className="text-sm font-black uppercase tracking-wide text-blue-600">
-              Step 1 of 2
-            </div>
-            <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-900">
-              Check your address
+            <h2 className="text-2xl font-black tracking-tight text-slate-900">
+              See Your Internet Options
             </h2>
             <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-              We use your ZIP code to match nearby carrier options. Apartment or unit number is optional.
+              Enter your service address to get started.
             </p>
+            <div className="mt-3 text-xs font-extrabold text-emerald-700">
+              <span>✓ Free</span>
+              <span className="mx-2 text-slate-300">•</span>
+              <span>✓ No obligation</span>
+            </div>
           </div>
 
           <div className="grid gap-4 text-left">
             <label className="block">
               <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                Street address
+                Street address *
               </span>
               <input
                 type="text"
@@ -367,7 +369,7 @@ export function PaidInternetLandingPage({
             <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_150px]">
               <label className="block">
                 <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                  Apt number
+                  Apt / Unit
                 </span>
                 <input
                   type="text"
@@ -381,7 +383,7 @@ export function PaidInternetLandingPage({
 
               <label className="block">
                 <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                  ZIP code
+                  ZIP code *
                 </span>
                 <input
                   type="text"
@@ -404,13 +406,13 @@ export function PaidInternetLandingPage({
               className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700"
             >
               <Search className="h-4 w-4" />
-              <span>Check Availability</span>
+              <span>Show My Internet Options →</span>
             </button>
           </div>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-xs font-bold text-slate-500">
             <ShieldCheck className="h-4 w-4 text-emerald-600" />
-            <span>Your address is used only to check local availability.</span>
+            <span>We'll use your ZIP code to identify internet options in your area.</span>
           </div>
 
           {submittedAddress && (
@@ -424,11 +426,11 @@ export function PaidInternetLandingPage({
 
       <section className="mx-auto max-w-6xl border-t border-slate-200 py-6">
         <div className="flex flex-wrap items-center justify-center gap-5 text-sm font-extrabold text-slate-500">
-          <span>Compare top carriers</span>
+          <span>Compare leading providers</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
-          <span>Address-based availability</span>
+          <span>Options for your area</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
-          <span>Call support available</span>
+          <span>Help available 24/7</span>
         </div>
       </section>
     </main>
