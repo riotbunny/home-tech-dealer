@@ -472,7 +472,7 @@ export function PaidInternetLandingPage({
         </a>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-7 py-8 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-16">
+      <section className="mx-auto grid max-w-6xl gap-7 py-8 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-14">
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
             <ShieldCheck className="h-4 w-4" />
@@ -480,11 +480,11 @@ export function PaidInternetLandingPage({
           </div>
 
           <h1 className="max-w-3xl text-[2.45rem] font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-            See Which Internet Options Are Available Near You
+            Check Internet Plans Available at Your Address
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Enter your address to see internet options, speeds and offers in your area. It only takes a few seconds.
+            Compare internet options, speeds and current offers for your home. Enter your address to see matches for your area in seconds.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
@@ -501,18 +501,49 @@ export function PaidInternetLandingPage({
               <span className="text-sm font-extrabold text-slate-700">No obligation</span>
             </div>
           </div>
+
+          <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="text-xs font-black uppercase tracking-wide text-slate-500">
+              Compare options from leading internet providers
+            </div>
+            <div className="mt-3 grid grid-cols-3 items-center gap-3 sm:grid-cols-6">
+              {availableProviders.map((provider) => {
+                const paidLocalLogo = PAID_LOCAL_LOGOS[provider.id];
+                return (
+                  <div key={provider.id} className="flex h-10 items-center justify-center rounded-xl bg-slate-50 px-2">
+                    {paidLocalLogo ? (
+                      <img
+                        src={paidLocalLogo.src}
+                        alt={paidLocalLogo.alt}
+                        className="max-h-7 max-w-full object-contain"
+                      />
+                    ) : (
+                      <CarrierLogo
+                        id={provider.id}
+                        name={provider.name}
+                        customUrl={provider.customLogo}
+                        className="max-h-7 max-w-full object-contain"
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-blue-100 bg-white p-5 shadow-2xl shadow-blue-100/80 sm:p-6">
           <div className="mb-5">
             <h2 className="text-2xl font-black tracking-tight text-slate-900">
-              See Your Internet Options
+              Start With Your Address
             </h2>
             <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-              Enter your service address to get started.
+              We use your address and ZIP code to match available internet options in your area.
             </p>
-            <div className="mt-3 text-xs font-extrabold text-emerald-700">
-              <span>✓ Free</span>
+            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs font-extrabold text-emerald-700">
+              <span>✓ Free to check</span>
+              <span className="mx-2 text-slate-300">•</span>
+              <span>✓ Takes seconds</span>
               <span className="mx-2 text-slate-300">•</span>
               <span>✓ No obligation</span>
             </div>
@@ -596,13 +627,23 @@ export function PaidInternetLandingPage({
               className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:bg-blue-500"
             >
               <Search className="h-4 w-4" />
-              <span>{isSubmitting ? 'Finding Internet Options...' : 'Show My Internet Options →'}</span>
+              <span>{isSubmitting ? 'Checking Available Plans...' : 'Check Plans Available at My Address →'}</span>
             </button>
           </div>
 
-          <div className="mt-4 flex items-center justify-center gap-2 text-center text-xs font-bold text-slate-500">
-            <ShieldCheck className="h-4 w-4 text-emerald-600" />
-            <span>Your information helps us identify internet options for your location.</span>
+          <div className="mt-4 grid gap-2 rounded-2xl bg-slate-50 p-4 text-xs font-bold text-slate-600 sm:grid-cols-3">
+            <div className="flex items-center justify-center gap-1.5 text-center">
+              <ShieldCheck className="h-4 w-4 text-emerald-600" />
+              <span>Secure lookup</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 text-center">
+              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              <span>No purchase required</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 text-center">
+              <Clock3 className="h-4 w-4 text-blue-600" />
+              <span>Fast results</span>
+            </div>
           </div>
 
           {submittedAddress && (
