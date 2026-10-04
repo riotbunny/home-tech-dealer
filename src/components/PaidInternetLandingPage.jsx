@@ -42,6 +42,20 @@ const PAID_LOCAL_LOGOS = {
     className: 'h-10 w-auto max-w-[160px] object-contain'
   }
 };
+const PAID_LOCAL_SETUP_LOGOS = [
+  { src: '/tmobile-internet-authorized-retailer.png', alt: 'T-Mobile Internet Authorized Retailer' },
+  { src: '/spectrum-logo.png', alt: 'Spectrum' },
+  { src: '/att-authorized-retailer.png', alt: 'AT&T Authorized Retailer' },
+  { src: '/verizon-logo.png', alt: 'Verizon' },
+  { src: '/earthlink-logo.png', alt: 'EarthLink' },
+  { src: '/frontier-verizon-company-logo.png', alt: 'Frontier, a Verizon company' },
+  { src: '/astound-logo.png', alt: 'Astound' },
+  { src: '/breezeline-logo.png', alt: 'Breezeline' },
+  { src: '/cox-logo.png', alt: 'Cox' },
+  { src: '/centurylink-logo.png', alt: 'CenturyLink' },
+  { src: '/optimum-authorized-reseller-logo.png', alt: 'Optimum authorized reseller' },
+  { src: '/starlink-logo.png', alt: 'Starlink' }
+];
 
 function trackPaidLocalEvent(eventName) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
@@ -492,30 +506,35 @@ export function PaidInternetLandingPage({
 
           <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="text-xs font-black uppercase tracking-wide text-slate-500">
-              Setup help from leading internet providers
+              Call to get connected with an available internet provider
             </div>
-            <div className="mt-3 grid grid-cols-3 items-center gap-3 sm:grid-cols-6">
-              {availableProviders.map((provider) => {
-                const paidLocalLogo = PAID_LOCAL_LOGOS[provider.id];
-                return (
-                  <div key={provider.id} className="flex h-10 items-center justify-center rounded-xl bg-slate-50 px-2">
-                    {paidLocalLogo ? (
-                      <img
-                        src={paidLocalLogo.src}
-                        alt={paidLocalLogo.alt}
-                        className="max-h-7 max-w-full object-contain"
-                      />
-                    ) : (
-                      <CarrierLogo
-                        id={provider.id}
-                        name={provider.name}
-                        customUrl={provider.customLogo}
-                        className="max-h-7 max-w-full object-contain"
-                      />
-                    )}
+            <style>
+              {`
+                @keyframes paidLocalLogoCarousel {
+                  from { transform: translateX(0); }
+                  to { transform: translateX(-50%); }
+                }
+              `}
+            </style>
+            <div className="mt-3 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+              <div
+                className="flex w-max items-center gap-3"
+                style={{ animation: 'paidLocalLogoCarousel 34s linear infinite' }}
+                aria-label="Internet provider logos"
+              >
+                {[...PAID_LOCAL_SETUP_LOGOS, ...PAID_LOCAL_SETUP_LOGOS].map((logo, index) => (
+                  <div
+                    key={`${logo.alt}-${index}`}
+                    className="flex h-11 w-[112px] shrink-0 items-center justify-center rounded-xl bg-slate-50 px-3"
+                  >
+                    <img
+                      src={logo.src}
+                      alt={logo.alt}
+                      className="max-h-7 max-w-full object-contain"
+                    />
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
 
