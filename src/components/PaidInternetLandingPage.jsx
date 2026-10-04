@@ -214,12 +214,20 @@ export function PaidInternetLandingPage({
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex h-12 min-w-[120px] items-center">
-                      <CarrierLogo
-                        id={provider.id}
-                        name={provider.name}
-                        customUrl={provider.customLogo}
-                        className="h-8 w-auto max-w-[120px] object-contain"
-                      />
+                      {isRecommendedProvider ? (
+                        <img
+                          src="/tmobile-internet-authorized-retailer.png"
+                          alt="T-Mobile Internet Authorized Retailer"
+                          className="h-10 w-auto max-w-[150px] object-contain"
+                        />
+                      ) : (
+                        <CarrierLogo
+                          id={provider.id}
+                          name={provider.name}
+                          customUrl={provider.customLogo}
+                          className="h-8 w-auto max-w-[120px] object-contain"
+                        />
+                      )}
                     </div>
                     <span className={`rounded-full px-3 py-1 text-xs font-extrabold ${
                       index === 0
