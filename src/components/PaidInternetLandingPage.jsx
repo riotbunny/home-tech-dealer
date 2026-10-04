@@ -8,6 +8,38 @@ const PAID_LOCAL_TITLE = 'Internet Providers Near You | Check Availability | Hom
 const PAID_LOCAL_DESCRIPTION = 'Compare internet providers, speeds and available plans at your address. Check availability online or call HomeTechDealer at 1-888-845-1912.';
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
 const PAID_LOCAL_CARRIER_IDS = ['tmobile', 'spectrum', 'att', 'verizon', 'earthlink', 'frontier'];
+const PAID_LOCAL_LOGOS = {
+  tmobile: {
+    src: '/tmobile-internet-authorized-retailer.png',
+    alt: 'T-Mobile Internet Authorized Retailer',
+    className: 'h-10 w-auto max-w-[150px] object-contain'
+  },
+  spectrum: {
+    src: '/spectrum-logo.png',
+    alt: 'Spectrum',
+    className: 'h-8 w-auto max-w-[150px] object-contain'
+  },
+  att: {
+    src: '/att-authorized-retailer.png',
+    alt: 'AT&T Authorized Retailer',
+    className: 'h-11 w-auto max-w-[160px] object-contain'
+  },
+  verizon: {
+    src: '/verizon-logo.png',
+    alt: 'Verizon',
+    className: 'h-10 w-auto max-w-[150px] object-contain'
+  },
+  earthlink: {
+    src: '/earthlink-logo.png',
+    alt: 'EarthLink',
+    className: 'h-10 w-auto max-w-[160px] object-contain'
+  },
+  frontier: {
+    src: '/frontier-verizon-company-logo.png',
+    alt: 'Frontier, a Verizon company',
+    className: 'h-10 w-auto max-w-[160px] object-contain'
+  }
+};
 
 function trackPaidLocalEvent(eventName) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
@@ -200,6 +232,7 @@ export function PaidInternetLandingPage({
               const plan = provider.plans?.find((item) => item.popular) || provider.plans?.[0] || {};
               const isRecommendedProvider = provider.id === 'tmobile';
               const displayPrice = isRecommendedProvider ? 35 : (plan.price || 50);
+              const paidLocalLogo = PAID_LOCAL_LOGOS[provider.id];
               const cardBadges = [
                 ...(isRecommendedProvider ? ['EASY APPROVAL'] : []),
                 plan.contract || 'No annual contract',
@@ -214,11 +247,11 @@ export function PaidInternetLandingPage({
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex h-12 min-w-[120px] items-center">
-                      {isRecommendedProvider ? (
+                      {paidLocalLogo ? (
                         <img
-                          src="/tmobile-internet-authorized-retailer.png"
-                          alt="T-Mobile Internet Authorized Retailer"
-                          className="h-10 w-auto max-w-[150px] object-contain"
+                          src={paidLocalLogo.src}
+                          alt={paidLocalLogo.alt}
+                          className={paidLocalLogo.className}
                         />
                       ) : (
                         <CarrierLogo
