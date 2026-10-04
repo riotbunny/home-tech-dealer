@@ -424,7 +424,6 @@ export function App() {
       {isPaidInternetLocalRoute ? (
         <PaidInternetLandingPage
           phoneNumber={routedPhoneNumber}
-          onSearchAddress={handlePerformAddressSearch}
         />
       ) : (
       <>
