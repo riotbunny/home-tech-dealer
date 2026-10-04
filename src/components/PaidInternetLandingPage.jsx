@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, CheckCircle2, Clock3, PhoneCall, Search, ShieldCheck, Wifi } from 'lucide-react';
 import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
@@ -9,6 +9,15 @@ const PAID_LOCAL_DESCRIPTION = 'Compare internet providers, speeds and available
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
 const PAID_LOCAL_CARRIER_IDS = ['spectrum', 'att', 'verizon', 'tmobile', 'earthlink', 'frontier'];
 
+function trackPaidLocalEvent(eventName) {
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, {
+    event_category: 'paid_local_funnel',
+    page_path: '/internet/local',
+    transport_type: 'beacon'
+  });
+}
+
 export function PaidInternetLandingPage({
   phoneNumber = DEFAULT_PHONE_NUMBER
 }) {
@@ -16,6 +25,9 @@ export function PaidInternetLandingPage({
   const [aptNumber, setAptNumber] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [submittedAddress, setSubmittedAddress] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const hasTrackedFormStartRef = useRef(false);
   const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
   const availableProviders = PAID_LOCAL_CARRIER_IDS
     .map((id) => PROVIDERS_CATALOG.find((provider) => provider.id === id))
@@ -50,18 +62,64 @@ export function PaidInternetLandingPage({
     canonicalEl.setAttribute('href', PAID_LOCAL_CANONICAL);
 
     document.getElementById('pseo-jsonld')?.remove();
+    trackPaidLocalEvent('ppc_local_landing_view');
   }, []);
+
+  const trackFormStarted = () => {
+    if (hasTrackedFormStartRef.current) return;
+    hasTrackedFormStartRef.current = true;
+    trackPaidLocalEvent('ppc_local_address_form_started');
+  };
+
+  const updateField = (field, value) => {
+    trackFormStarted();
+    if (field === 'streetAddress') {
+      setStreetAddress(value);
+    } else if (field === 'aptNumber') {
+      setAptNumber(value);
+    } else if (field === 'zipCode') {
+      setZipCode(value.replace(/\D/g, '').slice(0, 5));
+    }
+
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
+  const handleHeaderPhoneClick = () => {
+    trackPaidLocalEvent('ppc_local_header_phone_clicked');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!streetAddress.trim() || !zipCode.trim()) {
+    const nextErrors = {};
+
+    if (!streetAddress.trim()) {
+      nextErrors.streetAddress = 'Enter your street address.';
+    }
+
+    if (!/^\d{5}$/.test(zipCode.trim())) {
+      nextErrors.zipCode = 'Enter a valid 5-digit ZIP code.';
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
       return;
     }
 
-    setSubmittedAddress({
-      streetAddress: streetAddress.trim(),
-      aptNumber: aptNumber.trim(),
-      zipCode: zipCode.trim()
+    setIsSubmitting(true);
+    trackPaidLocalEvent('ppc_local_address_form_submitted');
+
+    window.requestAnimationFrame(() => {
+      setSubmittedAddress({
+        streetAddress: streetAddress.trim(),
+        aptNumber: aptNumber.trim(),
+        zipCode: zipCode.trim()
+      });
+      setIsSubmitting(false);
     });
   };
 
@@ -296,7 +354,9 @@ export function PaidInternetLandingPage({
 
         <a
           href={telHref}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-emerald-700"
+          onClick={handleHeaderPhoneClick}
+          aria-label={`Call HomeTechDealer at ${phoneNumber}`}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-2.5 text-sm font-extrabold text-emerald-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 active:scale-[0.99]"
         >
           <PhoneCall className="h-4 w-4" />
           <span className="hidden sm:inline">Call {phoneNumber}</span>
@@ -335,7 +395,7 @@ export function PaidInternetLandingPage({
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-blue-100 bg-white p-5 shadow-2xl shadow-blue-100/80 sm:p-6">
+        <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-blue-100 bg-white p-5 shadow-2xl shadow-blue-100/80 sm:p-6">
           <div className="mb-5">
             <h2 className="text-2xl font-black tracking-tight text-slate-900">
               See Your Internet Options
@@ -356,14 +416,24 @@ export function PaidInternetLandingPage({
                 Street address *
               </span>
               <input
+                id="paid-local-street-address"
                 type="text"
                 value={streetAddress}
-                onChange={(e) => setStreetAddress(e.target.value)}
+                onChange={(e) => updateField('streetAddress', e.target.value)}
                 placeholder="123 Main St"
                 required
                 autoComplete="street-address"
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                aria-invalid={!!errors.streetAddress}
+                aria-describedby={errors.streetAddress ? 'paid-local-street-error' : undefined}
+                className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 ${
+                  errors.streetAddress ? 'border-red-300' : 'border-slate-200'
+                }`}
               />
+              {errors.streetAddress && (
+                <p id="paid-local-street-error" className="mt-2 text-xs font-bold text-red-600">
+                  {errors.streetAddress}
+                </p>
+              )}
             </label>
 
             <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_150px]">
@@ -372,9 +442,10 @@ export function PaidInternetLandingPage({
                   Apt / Unit
                 </span>
                 <input
+                  id="paid-local-apt-number"
                   type="text"
                   value={aptNumber}
-                  onChange={(e) => setAptNumber(e.target.value)}
+                  onChange={(e) => updateField('aptNumber', e.target.value)}
                   placeholder="Optional"
                   autoComplete="address-line2"
                   className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
@@ -386,16 +457,26 @@ export function PaidInternetLandingPage({
                   ZIP code *
                 </span>
                 <input
+                  id="paid-local-zip-code"
                   type="text"
                   value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                  onChange={(e) => updateField('zipCode', e.target.value)}
                   placeholder="78526"
                   required
                   inputMode="numeric"
                   pattern="[0-9]{5}"
                   autoComplete="postal-code"
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                  aria-invalid={!!errors.zipCode}
+                  aria-describedby={errors.zipCode ? 'paid-local-zip-error' : undefined}
+                  className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 ${
+                    errors.zipCode ? 'border-red-300' : 'border-slate-200'
+                  }`}
                 />
+                {errors.zipCode && (
+                  <p id="paid-local-zip-error" className="mt-2 text-xs font-bold text-red-600">
+                    {errors.zipCode}
+                  </p>
+                )}
               </label>
             </div>
           </div>
@@ -403,16 +484,17 @@ export function PaidInternetLandingPage({
           <div className="mt-5">
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700"
+              disabled={isSubmitting}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:bg-blue-500"
             >
               <Search className="h-4 w-4" />
-              <span>Show My Internet Options →</span>
+              <span>{isSubmitting ? 'Finding Internet Options...' : 'Show My Internet Options →'}</span>
             </button>
           </div>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-xs font-bold text-slate-500">
             <ShieldCheck className="h-4 w-4 text-emerald-600" />
-            <span>We'll use your ZIP code to identify internet options in your area.</span>
+            <span>Your information helps us identify internet options for your location.</span>
           </div>
 
           {submittedAddress && (
