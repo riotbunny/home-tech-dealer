@@ -7,7 +7,7 @@ import { CarrierLogo } from './CarrierLogos';
 const PAID_LOCAL_TITLE = 'Internet Providers Near You | Check Availability | HomeTechDealer';
 const PAID_LOCAL_DESCRIPTION = 'Compare internet providers, speeds and available plans at your address. Check availability online or call HomeTechDealer at 1-888-845-1912.';
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
-const PAID_LOCAL_CARRIER_IDS = ['spectrum', 'att', 'verizon', 'tmobile', 'earthlink', 'frontier'];
+const PAID_LOCAL_CARRIER_IDS = ['tmobile', 'spectrum', 'att', 'verizon', 'earthlink', 'frontier'];
 
 function trackPaidLocalEvent(eventName) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
@@ -198,7 +198,10 @@ export function PaidInternetLandingPage({
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {availableProviders.map((provider, index) => {
               const plan = provider.plans?.find((item) => item.popular) || provider.plans?.[0] || {};
+              const isRecommendedProvider = provider.id === 'tmobile';
+              const displayPrice = isRecommendedProvider ? 35 : (plan.price || 50);
               const cardBadges = [
+                ...(isRecommendedProvider ? ['EASY APPROVAL'] : []),
                 plan.contract || 'No annual contract',
                 plan.dataCap || 'Unlimited data',
                 provider.installationSla || 'Fast setup'
@@ -223,7 +226,7 @@ export function PaidInternetLandingPage({
                         ? 'bg-blue-600 text-white'
                         : 'border border-emerald-200 bg-emerald-50 text-emerald-700'
                     }`}>
-                      {index === 0 ? 'Top pick' : 'Area option'}
+                      {isRecommendedProvider ? 'Recommended for you' : 'Area option'}
                     </span>
                   </div>
 
@@ -236,7 +239,7 @@ export function PaidInternetLandingPage({
                     <div className="rounded-2xl bg-slate-50 p-4">
                       <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Plans may start around</div>
                       <div className="mt-1 text-2xl font-black text-slate-900">
-                        ${plan.price || 50}
+                        ${displayPrice}
                         <span className="text-sm font-extrabold text-slate-500">/mo</span>
                       </div>
                     </div>
