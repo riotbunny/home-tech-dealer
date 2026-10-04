@@ -230,6 +230,10 @@ export function PaidInternetLandingPage({
                   <CheckCircle2 className="h-4 w-4" />
                   Address received
                 </div>
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-wide text-blue-700">
+                  <ShieldCheck className="h-4 w-4" />
+                  Authorized dealer access
+                </div>
                 <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">
                   {submittedAddress.zipCode
                     ? `Internet Setup Options Near ${submittedAddress.zipCode}`
@@ -469,7 +473,12 @@ export function PaidInternetLandingPage({
             Speak with a live Internet Setup Desk specialist to check service at your address, review fast install options, and help you take the next step. Same-day or next-day installation may be available in select areas.
           </p>
 
-          <div className="mt-5 inline-flex max-w-full items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-800 shadow-sm">
+          <div className="mt-5 inline-flex max-w-full items-center gap-2 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-black text-blue-800 shadow-sm">
+            <ShieldCheck className="h-4 w-4 shrink-0" />
+            <span>Authorized dealer access to leading internet providers</span>
+          </div>
+
+          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-800 shadow-sm">
             <Wifi className="h-4 w-4 shrink-0" />
             <span>Ask about 5 Gig options and setup offers not shown online</span>
           </div>
@@ -506,7 +515,7 @@ export function PaidInternetLandingPage({
 
           <div className="mt-6 hidden rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:block">
             <div className="text-xs font-black uppercase tracking-wide text-slate-500">
-              Call to get connected with an available internet provider
+              Authorized dealer access to leading internet providers
             </div>
             <style>
               {`
@@ -671,7 +680,7 @@ export function PaidInternetLandingPage({
 
       <section className="mx-auto max-w-6xl border-t border-slate-200 py-6">
         <div className="flex flex-wrap items-center justify-center gap-5 text-sm font-extrabold text-slate-500">
-          <span>Setup help from leading providers</span>
+          <span>Authorized dealer access</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
           <span>Service for your area</span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
