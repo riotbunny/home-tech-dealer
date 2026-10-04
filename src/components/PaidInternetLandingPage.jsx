@@ -474,6 +474,11 @@ export function PaidInternetLandingPage({
             <span>Ask about fiber and high-speed internet options up to 5 Gigs</span>
           </div>
 
+          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-black text-amber-900 shadow-sm">
+            <CheckCircle2 className="h-4 w-4 shrink-0" />
+            <span>Phone-only setup offers may be available in select areas</span>
+          </div>
+
           <div className="mt-6">
             <a
               href={telHref}
@@ -556,6 +561,9 @@ export function PaidInternetLandingPage({
                 <PhoneCall className="h-4 w-4" />
                 <span>Call Now to Get Set Up</span>
               </a>
+              <p className="mt-3 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
+                Ask about setup offers that may not be shown online
+              </p>
             </div>
           </div>
         </div>
