@@ -280,7 +280,7 @@ export function GoogleAddressAutocomplete({
           autoFocus={autoFocus}
           autoComplete="off"
           spellCheck="false"
-          className={`w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 font-medium shadow-sm focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 transition-all ${inputClassName}`}
+          className={`w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl text-base text-slate-900 placeholder:text-slate-400 font-medium shadow-sm focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 transition-all ${inputClassName}`}
         />
 
         {/* Clear Button */}

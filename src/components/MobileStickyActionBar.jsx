@@ -34,15 +34,15 @@ export function MobileStickyActionBar({
   if (isKeyboardOpen) return null;
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-3.5 py-2.5 shadow-2xl flex items-center justify-between gap-2.5 animate-fade-in">
+    <div className="fixed inset-x-0 bottom-0 z-40 flex animate-fade-in items-center justify-between gap-2.5 border-t border-slate-200/90 bg-white/95 px-3.5 pb-[calc(env(safe-area-inset-bottom)+0.625rem)] pt-2.5 shadow-2xl backdrop-blur-md lg:hidden">
       {/* 1-Tap Direct Call-to-Order Hotline */}
       <a
         href={telHref}
-        className="flex-1 min-h-[46px] px-3.5 py-2.5 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
+        className="flex min-h-[46px] min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition-all active:bg-emerald-700"
         title={`Call ${phoneNumber} to order`}
       >
         <PhoneCall className="w-4 h-4 text-emerald-100 shrink-0 animate-pulse" />
-        <span className="truncate font-black">Call to Order: {phoneNumber}</span>
+        <span className="truncate font-black">Call: {phoneNumber}</span>
       </a>
 
       {/* Dynamic Secondary Action */}
@@ -50,21 +50,23 @@ export function MobileStickyActionBar({
         <button
           type="button"
           onClick={onOpenCart}
-          className="min-h-[46px] px-3.5 py-2.5 rounded-xl bg-amber-500 active:bg-amber-600 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all shrink-0"
+          className="flex min-h-[46px] shrink-0 items-center justify-center gap-1.5 rounded-xl bg-amber-500 px-3 py-2.5 text-xs font-extrabold text-white shadow-sm transition-all active:bg-amber-600"
           title="Open Comparison Cart"
         >
           <Layers className="w-4 h-4 shrink-0" />
-          <span>Compare ({comparisonCartCount})</span>
+          <span className="hidden min-[380px]:inline">Compare ({comparisonCartCount})</span>
+          <span className="min-[380px]:hidden">{comparisonCartCount}</span>
         </button>
       ) : (
         <button
           type="button"
           onClick={onOpenSpeedQuiz}
-          className="min-h-[46px] px-3 py-2.5 rounded-xl bg-blue-50 active:bg-blue-100 border border-blue-200 text-indigo-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shrink-0"
+          className="flex min-h-[46px] shrink-0 items-center justify-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2.5 text-xs font-bold text-indigo-700 transition-all active:bg-blue-100"
           title="Take Speed Matcher Quiz"
         >
           <Zap className="w-4 h-4 text-amber-500 shrink-0" />
-          <span>Speed Quiz</span>
+          <span className="hidden min-[380px]:inline">Speed Quiz</span>
+          <span className="min-[380px]:hidden">Quiz</span>
         </button>
       )}
     </div>

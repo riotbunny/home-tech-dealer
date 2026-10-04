@@ -64,25 +64,25 @@ export function Header({
     : 'Your Area';
 
   return (
-    <div className="w-full pt-4 px-4 sticky top-0 z-50">
-      <header className="max-w-7xl mx-auto rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white/50 shadow-xl shadow-indigo-900/5 transition-all">
+    <div className="w-full sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+      <header className="max-w-7xl mx-auto rounded-3xl bg-white/90 backdrop-blur-xl border border-white/60 shadow-xl shadow-indigo-900/5 transition-all">
         
         {/* Main Nav */}
         <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+          <div className="flex items-center justify-between h-16 sm:h-20 gap-3">
             
-            <div className="flex items-center gap-6">
+            <div className="flex min-w-0 items-center gap-4 lg:gap-6">
               {/* Logo */}
               <div 
-                className="flex items-center gap-3 cursor-pointer group"
+                className="flex min-w-0 items-center gap-3 cursor-pointer group"
                 onClick={handleLogoClick}
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-105 transition-all">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex shrink-0 items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-105 transition-all">
                   <Wifi className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
-                <div>
-                  <span className="font-extrabold text-xl sm:text-2xl tracking-tighter text-slate-900">
-                    Home Tech Dealer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Inc.</span>
+                <div className="min-w-0">
+                  <span className="block truncate font-extrabold text-lg tracking-tight text-slate-900 sm:text-2xl">
+                    HomeTechDealer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Inc.</span>
                   </span>
                 </div>
               </div>
@@ -138,7 +138,7 @@ export function Header({
           </div>
 
           {/* Mobile Right Action Bar */}
-          <div className="lg:hidden flex items-center gap-2">
+          <div className="lg:hidden flex shrink-0 items-center gap-2">
             {/* Mobile Cart Button */}
             {comparisonCartCount > 0 && (
               <button

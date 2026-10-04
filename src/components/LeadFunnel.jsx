@@ -80,7 +80,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
     : catalog.filter(p => !p.paused && p.showInLeadFunnel !== false).slice(0, 3);
 
   return (
-    <div className="w-full bg-slate-50 min-h-[calc(100vh-80px)] flex flex-col pt-6 pb-24 px-4 sm:px-6">
+    <div className="w-full bg-slate-50 min-h-[calc(100vh-80px)] flex flex-col px-4 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-4 sm:px-6 sm:pt-6">
       <div className="max-w-xl mx-auto w-full flex-1 flex flex-col">
         
         {/* Progress Tracker (Steps 1-3) */}
@@ -109,7 +109,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
         {/* STEP 1: ADDRESS */}
         {step === 1 && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
+          <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <MapPin className="w-8 h-8" />
@@ -131,7 +131,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                   setTimeout(() => handleNextStep(2), 400);
                 }}
                 placeholder="123 Main St, City, Zip"
-                inputClassName="py-4 text-lg border-2 border-slate-200 focus:border-blue-600 rounded-2xl shadow-sm"
+                inputClassName="py-4 text-base sm:text-lg border-2 border-slate-200 focus:border-blue-600 rounded-2xl shadow-sm"
               />
             </div>
 
@@ -148,7 +148,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
         {/* STEP 2: USAGE */}
         {step === 2 && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
+          <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
             <div className="text-center mb-8">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
                 How do you use the internet?
@@ -166,7 +166,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                     setFormData({...formData, usageType: opt.id});
                     setTimeout(() => handleNextStep(3), 300);
                   }}
-                  className={`flex flex-col items-center text-center p-5 rounded-2xl border-2 transition-all ${
+                  className={`flex min-h-[132px] flex-col items-center justify-center text-center p-4 sm:p-5 rounded-2xl border-2 transition-all ${
                     formData.usageType === opt.id 
                       ? 'border-blue-600 bg-blue-50 shadow-md shadow-blue-500/10 scale-[1.02]' 
                       : 'border-slate-100 hover:border-slate-300 bg-white'
@@ -194,7 +194,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
         {/* STEP 3: CONTACT INFO */}
         {step === 3 && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
+          <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 animate-fade-in flex-1 flex flex-col">
             <div className="text-center mb-8">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
                 Who should we reserve this for?
@@ -216,7 +216,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                     placeholder="e.g. John"
-                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors"
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base sm:text-lg font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors"
                   />
                 </div>
               </div>
@@ -232,7 +232,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     placeholder="(555) 123-4567"
-                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors"
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base sm:text-lg font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors"
                   />
                 </div>
               </div>
@@ -292,7 +292,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
         {/* STEP 5: RESULTS & CALL NOW */}
         {step === 5 && (
           <div className="animate-fade-in flex-1 flex flex-col">
-            <div className="bg-emerald-600 text-white rounded-3xl p-8 text-center shadow-lg shadow-emerald-500/20 mb-6 relative overflow-hidden">
+            <div className="bg-emerald-600 text-white rounded-3xl p-6 sm:p-8 text-center shadow-lg shadow-emerald-500/20 mb-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Wifi className="w-32 h-32" />
               </div>
@@ -300,7 +300,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                   <CheckCircle2 className="w-10 h-10 text-white" />
                 </div>
-                <h2 className="text-3xl font-extrabold mb-2">Great news, {formData.firstName}!</h2>
+                <h2 className="text-2xl sm:text-3xl font-extrabold mb-2">Great news, {formData.firstName}!</h2>
                 <p className="text-emerald-100 text-sm sm:text-base">
                   We found {activeProviders.length} high-speed providers available at your address today.
                 </p>
@@ -309,8 +309,8 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
             <div className="space-y-4 mb-8">
               {activeProviders.map((provider) => (
-                <div key={provider.id} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <div key={provider.id} className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-center gap-3 sm:gap-4">
                     <div className="h-10 min-w-[70px] max-w-[120px] flex items-center justify-center">
                       <CarrierLogo
                         id={provider.id}
@@ -319,9 +319,9 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                         className="h-8 w-auto max-w-[110px] object-contain"
                       />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-bold text-slate-900">{provider.name}</h3>
-                      <p className="text-xs text-slate-500 font-medium">
+                      <p className="text-xs text-slate-500 font-medium leading-5">
                         {provider.plans?.[0]?.name || 'High-Speed Broadband'} &bull; Up to {provider.plans?.[0]?.downloadSpeed || '1000 Mbps'}
                       </p>
                       {provider.plans?.[0]?.price && (
@@ -331,7 +331,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                       )}
                     </div>
                   </div>
-                  <div className="text-right shrink-0 pl-2">
+                  <div className="shrink-0 sm:pl-2 sm:text-right">
                     <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                       Available Today
                     </span>
@@ -342,7 +342,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
 
             <div className="bg-white rounded-3xl p-6 sm:p-8 text-center border border-blue-200 shadow-xl shadow-blue-500/10 mt-auto">
               <p className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2">Lock In Your Rate</p>
-              <h3 className="text-2xl font-extrabold text-slate-900 mb-6">Call now to claim these unadvertised deals before they expire.</h3>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-6">Call now to claim these unadvertised deals before they expire.</h3>
               
               <a
                 href={telHref}
@@ -351,7 +351,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
               >
                 <div className="flex items-center gap-3 mb-1">
                   <PhoneCall className="w-7 h-7 fill-white/20 animate-pulse" />
-                  <span className="text-3xl font-extrabold tracking-tight">{phoneNumber}</span>
+                  <span className="text-2xl font-extrabold tracking-tight sm:text-3xl">{phoneNumber}</span>
                 </div>
                 <span className="text-sm font-bold text-green-100">Live Agents Available • Fast Setup</span>
               </a>

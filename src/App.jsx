@@ -614,7 +614,7 @@ export function App() {
 
       {/* Floating Bottom Comparison Dock */}
       {comparisonCart.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-2xl bg-slate-900 text-white border border-slate-700 rounded-2xl p-3.5 shadow-2xl flex items-center justify-between gap-4 animate-slide-up">
+        <div className="fixed bottom-4 left-1/2 z-40 hidden w-[95%] max-w-2xl -translate-x-1/2 animate-slide-up items-center justify-between gap-4 rounded-2xl border border-slate-700 bg-slate-900 p-3.5 text-white shadow-2xl lg:flex">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-xs">
               {comparisonCart.length}/3

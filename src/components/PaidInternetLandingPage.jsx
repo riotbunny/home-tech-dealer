@@ -152,30 +152,31 @@ export function PaidInternetLandingPage({
         zipCode: zipCode.trim()
       });
       setIsSubmitting(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   };
 
   if (submittedAddress) {
     return (
-      <main className="min-h-screen bg-slate-50 px-4 pb-28 pt-8 sm:px-6 lg:px-8 lg:pb-8">
+      <main className="min-h-screen bg-slate-50 px-4 pb-28 pt-5 sm:px-6 sm:pt-8 lg:px-8 lg:pb-8">
         <section className="mx-auto max-w-6xl">
           <button
             type="button"
             onClick={() => setSubmittedAddress(null)}
-            className="mb-6 inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 shadow-sm transition-colors hover:bg-slate-100"
+            className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 shadow-sm transition-colors hover:bg-slate-100 sm:mb-6"
           >
             <ArrowLeft className="h-4 w-4" />
             Edit address
           </button>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:rounded-[2rem] sm:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-emerald-700">
                   <CheckCircle2 className="h-4 w-4" />
                   Address received
                 </div>
-                <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+                <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">
                   {submittedAddress.zipCode
                     ? `Internet Options Found in the ${submittedAddress.zipCode} Area`
                     : 'Internet Options Found for Your Area'}
@@ -187,7 +188,7 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex flex-col items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-center text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
+                className="inline-flex w-full flex-col items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-center text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
@@ -219,7 +220,7 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-5 w-5" />
                 <span>Call to Verify My Options</span>
@@ -243,7 +244,7 @@ export function PaidInternetLandingPage({
               return (
                 <article
                   key={provider.id}
-                  className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
+                  className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60 sm:p-5"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex h-12 min-w-[120px] items-center">
@@ -262,7 +263,7 @@ export function PaidInternetLandingPage({
                         />
                       )}
                     </div>
-                    <span className={`rounded-full px-3 py-1 text-xs font-extrabold ${
+                    <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-extrabold sm:text-xs ${
                       index === 0
                         ? 'bg-blue-600 text-white'
                         : 'border border-emerald-200 bg-emerald-50 text-emerald-700'
@@ -277,14 +278,14 @@ export function PaidInternetLandingPage({
                   </div>
 
                   <div className="mt-5 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-slate-50 p-4">
+                    <div className="rounded-2xl bg-slate-50 p-3 sm:p-4">
                       <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Plans may start around</div>
                       <div className="mt-1 text-2xl font-black text-slate-900">
                         ${displayPrice}
                         <span className="text-sm font-extrabold text-slate-500">/mo</span>
                       </div>
                     </div>
-                    <div className="rounded-2xl bg-slate-50 p-4">
+                    <div className="rounded-2xl bg-slate-50 p-3 sm:p-4">
                       <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Speeds offered up to</div>
                       <div className="mt-1 text-lg font-black text-slate-900">{plan.downloadSpeed || '1000 Mbps'}</div>
                     </div>
@@ -332,7 +333,7 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
                 <span>Call to Verify Options</span>
@@ -385,7 +386,7 @@ export function PaidInternetLandingPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-slate-50 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
@@ -413,14 +414,14 @@ export function PaidInternetLandingPage({
         </a>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-16">
+      <section className="mx-auto grid max-w-6xl gap-7 py-8 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-16">
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
             <ShieldCheck className="h-4 w-4" />
             <span>Internet availability check</span>
           </div>
 
-          <h1 className="max-w-3xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-3xl text-[2.45rem] font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
             See Which Internet Options Are Available Near You
           </h1>
 
@@ -474,7 +475,7 @@ export function PaidInternetLandingPage({
                 autoComplete="street-address"
                 aria-invalid={!!errors.streetAddress}
                 aria-describedby={errors.streetAddress ? 'paid-local-street-error' : undefined}
-                className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 ${
+                className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 sm:text-sm ${
                   errors.streetAddress ? 'border-red-300' : 'border-slate-200'
                 }`}
               />
@@ -497,7 +498,7 @@ export function PaidInternetLandingPage({
                   onChange={(e) => updateField('aptNumber', e.target.value)}
                   placeholder="Optional"
                   autoComplete="address-line2"
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 sm:text-sm"
                 />
               </label>
 
@@ -517,7 +518,7 @@ export function PaidInternetLandingPage({
                   autoComplete="postal-code"
                   aria-invalid={!!errors.zipCode}
                   aria-describedby={errors.zipCode ? 'paid-local-zip-error' : undefined}
-                  className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 ${
+                  className={`w-full rounded-2xl border bg-white px-4 py-3.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 sm:text-sm ${
                     errors.zipCode ? 'border-red-300' : 'border-slate-200'
                   }`}
                 />
