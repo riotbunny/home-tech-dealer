@@ -45,12 +45,14 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 import { Layers, ArrowRight, X, PhoneCall } from 'lucide-react';
 import { AntiSnoop } from './components/AntiSnoop';
 import { LeadFunnel } from './components/LeadFunnel';
+import { PaidInternetLandingPage } from './components/PaidInternetLandingPage';
 
 export function App() {
   const initialLoc = getStoredDefaultLocation();
   const [activeTab, setActiveTab] = useState('qualifier');
   const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
   const isPromoHost = hostname === 'promo.hometechdealer.com';
+  const isPaidInternetLocalRoute = typeof window !== 'undefined' && window.location.pathname.toLowerCase().replace(/\/$/, '') === '/internet/local';
 
   // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
   const isLeadFunnelRoute = typeof window !== 'undefined' && 
@@ -90,6 +92,7 @@ export function App() {
 
   // Programmatic SEO (pSEO) Dynamic City & 44k ZIP Resolver Callback
   const handleCityResolved = useCallback((cityData) => {
+    if (isPaidInternetLocalRoute) return;
     if (!cityData) return;
     setCityName(cityData.cityName);
     // Keep currentAddress empty so search bar shows inviting placeholder instead of pre-filled address
@@ -119,9 +122,9 @@ export function App() {
 
     // Synchronize dynamic SEO metadata & JSON-LD schema
     updateCitySEO(cityData, phoneNumber);
-  }, [phoneNumber]);
+  }, [phoneNumber, isPaidInternetLocalRoute]);
 
-  const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved);
+  const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved, { disabled: isPaidInternetLocalRoute });
 
   // Secret Admin Portal Trigger (Ctrl+Shift+X or Ctrl+Shift+A or Cmd+Shift+X)
   useEffect(() => {
@@ -418,6 +421,13 @@ export function App() {
     >
       <div className={`min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0 ${import.meta.env.PROD ? 'select-none' : ''}`}>
       <AntiSnoop />
+      {isPaidInternetLocalRoute ? (
+        <PaidInternetLandingPage
+          phoneNumber={routedPhoneNumber}
+          onSearchAddress={handlePerformAddressSearch}
+        />
+      ) : (
+      <>
       {/* Consumer Header */}
       <Header
         activeTab={activeTab}
@@ -724,6 +734,8 @@ export function App() {
         onOpenSpeedQuiz={() => setIsSpeedQuizOpen(true)}
       />
         </>
+      )}
+      </>
       )}
       </div>
     </APIProvider>

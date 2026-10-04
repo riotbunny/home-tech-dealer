@@ -11,16 +11,17 @@ import { resolveLocationRoute, createCitySlug } from '../data/usCitiesData';
  * - ?city=...&state=...&zip=...
  * Supports clean client-side history navigation without full page reloads.
  */
-export function useCityRoute(onCityResolved) {
+export function useCityRoute(onCityResolved, options = {}) {
+  const { disabled = false } = options;
   const [currentCityData, setCurrentCityData] = useState(null);
 
   // Helper to extract location from current window location
   const detectLocationFromUrl = useCallback(() => {
-    if (typeof window === 'undefined') return null;
+    if (disabled || typeof window === 'undefined') return null;
     const pathname = window.location.pathname;
     const searchParams = new URLSearchParams(window.location.search);
     return resolveLocationRoute(pathname, searchParams);
-  }, []);
+  }, [disabled]);
 
   // Apply a resolved location object to state and parent callback
   const applyLocation = useCallback((locationData, shouldScroll = false) => {
@@ -39,6 +40,8 @@ export function useCityRoute(onCityResolved) {
 
   // Navigate to a new city/state/zip programmatically
   const navigateToCity = useCallback((targetSlugOrCity, targetState, targetZip, shouldScroll = true) => {
+    if (disabled) return;
+
     let path = '';
     
     // Check if targetSlugOrCity is already a full path like /internet/tx/brownsville/78522
@@ -66,10 +69,15 @@ export function useCityRoute(onCityResolved) {
     }
 
     applyLocation(loc, shouldScroll);
-  }, [applyLocation]);
+  }, [applyLocation, disabled]);
 
   // Initial mount resolution and back/forward popstate listener
   useEffect(() => {
+    if (disabled) {
+      setCurrentCityData(null);
+      return;
+    }
+
     const initialLocation = detectLocationFromUrl() || resolveLocationRoute('/internet/tx/austin/78701');
     applyLocation(initialLocation, false);
 
@@ -80,7 +88,7 @@ export function useCityRoute(onCityResolved) {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [detectLocationFromUrl, applyLocation]);
+  }, [detectLocationFromUrl, applyLocation, disabled]);
 
   return {
     currentCityData,
