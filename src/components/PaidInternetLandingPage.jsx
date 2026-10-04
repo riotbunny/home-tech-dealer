@@ -241,36 +241,6 @@ export function PaidInternetLandingPage({
             </div>
           </div>
 
-          <div className="mt-5 rounded-3xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm sm:p-6">
-            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
-                  Check availability & offers
-                </div>
-                <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-900">
-                  Check Today's Internet Offers for Your Address
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-600">
-                  Call our Internet Availability Desk to verify service, speeds and current promotional offers for your location.
-                </p>
-                <p className="mt-2 text-xs font-extrabold uppercase tracking-wide text-emerald-700">
-                  24/7 assistance - No obligation
-                </p>
-                <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">
-                  Offers, pricing and availability vary by provider and service address.
-                </p>
-              </div>
-
-              <a
-                href={telHref}
-                className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
-              >
-                <PhoneCall className="h-5 w-5" />
-                <span>Call Now - Unlock Available Offers</span>
-              </a>
-            </div>
-          </div>
-
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {availableProviders.map((provider, index) => {
               const plan = provider.plans?.find((item) => item.popular) || provider.plans?.[0] || {};
@@ -311,7 +281,7 @@ export function PaidInternetLandingPage({
                     </div>
                     <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-extrabold sm:text-xs ${
                       index === 0
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-amber-400 text-slate-950'
                         : 'border border-emerald-200 bg-emerald-50 text-emerald-700'
                     }`}>
                       {isRecommendedProvider ? 'Recommended for you' : 'Area option'}
@@ -380,7 +350,7 @@ export function PaidInternetLandingPage({
 
               <a
                 href={telHref}
-                className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
+                className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
                 <span>Call Now - Find My Best Plan</span>
@@ -444,7 +414,7 @@ export function PaidInternetLandingPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 pb-28 lg:pb-0">
       <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex items-center gap-3">
@@ -465,7 +435,7 @@ export function PaidInternetLandingPage({
           href={telHref}
           onClick={handleHeaderPhoneClick}
           aria-label={`Call HomeTechDealer at ${PPC_PHONE_DISPLAY}`}
-          className="js-google-phone-link inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-2.5 text-sm font-extrabold text-emerald-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 active:scale-[0.99]"
+          className="js-google-phone-link inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
         >
           <PhoneCall className="h-4 w-4" />
           <span>Call Now</span>
@@ -528,6 +498,27 @@ export function PaidInternetLandingPage({
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
+                  Prefer faster help?
+                </div>
+                <p className="mt-1 text-sm font-bold leading-6 text-slate-700">
+                  Call the Internet Availability Desk now to compare options with a live specialist.
+                </p>
+              </div>
+              <a
+                href={telHref}
+                onClick={handleHeaderPhoneClick}
+                className="js-google-phone-link inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
+              >
+                <PhoneCall className="h-4 w-4" />
+                <span>Call Now - Find My Best Plan</span>
+              </a>
             </div>
           </div>
         </div>
@@ -624,7 +615,7 @@ export function PaidInternetLandingPage({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:bg-blue-500"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-blue-600 bg-white px-6 py-4 text-base font-extrabold text-blue-700 shadow-sm transition-colors hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
             >
               <Search className="h-4 w-4" />
               <span>{isSubmitting ? 'Checking Available Plans...' : 'Find My Internet Options →'}</span>
@@ -666,6 +657,22 @@ export function PaidInternetLandingPage({
       </section>
       </div>
       <PaidLocalFooter />
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
+        <div className="mx-auto max-w-md">
+          <div className="mb-2 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
+            Talk to an availability specialist
+          </div>
+          <a
+            href={telHref}
+            onClick={handleHeaderPhoneClick}
+            className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
+          >
+            <PhoneCall className="h-5 w-5" />
+            <span>Call Now - Find My Plan</span>
+          </a>
+        </div>
+      </div>
     </main>
   );
 }
