@@ -149,7 +149,7 @@ export function PaidInternetLandingPage({
                     : 'Internet Options Found for Your Area'}
                 </h1>
                 <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
-                  Your location matches internet options in your area. Call to verify exact availability, speeds and current offers for your address.
+                  Your area matches internet options from leading providers. Scroll below to compare choices and find the best fit for your home.
                 </p>
               </div>
 
