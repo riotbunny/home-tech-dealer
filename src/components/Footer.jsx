@@ -223,11 +223,25 @@ export function Footer({
 
         {/* Carrier Disclaimers & Trademarks */}
         <div className="mt-8 pt-2 text-[11px] text-slate-500 space-y-2 leading-relaxed">
-          <p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-2 font-bold text-slate-400">
+            <a href="#site-terms" className="hover:text-white transition-colors">
+              Terms of Service
+            </a>
+            <a href="#site-privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#site-disclaimers" className="hover:text-white transition-colors">
+              Disclaimers
+            </a>
+          </div>
+          <p id="site-disclaimers">
             Trademarks: Verizon, T-Mobile, EarthLink, Starlink, AT&amp;T, Spectrum, Xfinity (Comcast), Frontier, Cox, Optimum, Ziply, DIRECTV, Mediacom, Astound, Kinetic, Metronet, Breezeline, TDS, WOW!, Clearwave, Altafiber, Buckeye, Bend, Hawaiian Telcom, Consolidated (Fidium), SmithVille, and ViaSat are registered trademarks of their respective owners.
           </p>
-          <p>
+          <p id="site-terms">
             Home Tech Dealer Inc. is an independent consumer comparison marketplace. Pricing, gift cards, and technician availability are subject to carrier confirmation at your specific address.
+          </p>
+          <p id="site-privacy">
+            Privacy Policy: information submitted through Home Tech Dealer Inc. forms is used to help compare internet options, verify service availability, and connect users with support for their requested services. Do not submit information you do not want used for service availability review.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
             <div className="flex items-center gap-2.5">
