@@ -320,10 +320,11 @@ export function PaidInternetLandingPage({
                   <div className="mt-6 pt-2">
                     <a
                       href={telHref}
-                      className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
+                      className="js-google-phone-link inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-extrabold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      <span>Check Availability & Offers</span>
+                      <span className="hidden sm:inline">Call Now - Check Availability & Offers</span>
+                      <span className="sm:hidden">Call Now - Check Availability</span>
                     </a>
                   </div>
                 </article>
