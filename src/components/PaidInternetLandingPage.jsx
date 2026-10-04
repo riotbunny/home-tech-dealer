@@ -200,7 +200,7 @@ export function PaidInternetLandingPage({
               >
                 <span className="inline-flex items-center gap-2 text-base font-black">
                   <PhoneCall className="h-4 w-4" />
-                  Verify Best Match - Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span>
+                  Call Now to Verify Availability
                 </span>
                 <span className="mt-1 text-xs font-bold text-emerald-100">
                   24/7 Internet Availability Desk
@@ -213,16 +213,19 @@ export function PaidInternetLandingPage({
             <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
-                  Found options in your area
+                  Check availability & offers
                 </div>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-900">
-                  Want to know exactly what's available at your address?
+                  Check Today's Internet Offers for Your Address
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-600">
-                  Your ZIP shows multiple possible options. A specialist can verify which providers, speeds and current offers best match your address.
+                  Call our Internet Availability Desk to verify service, speeds and current promotional offers for your location.
                 </p>
                 <p className="mt-2 text-xs font-extrabold uppercase tracking-wide text-emerald-700">
                   24/7 assistance - No obligation
+                </p>
+                <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">
+                  Offers, pricing and availability vary by provider and service address.
                 </p>
               </div>
 
@@ -231,7 +234,7 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
               >
                 <PhoneCall className="h-5 w-5" />
-                <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span> to Verify My Options</span>
+                <span>Call Now - Check Availability & Offers</span>
               </a>
             </div>
           </div>
@@ -320,9 +323,7 @@ export function PaidInternetLandingPage({
                       className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-extrabold text-white transition-colors hover:bg-blue-700"
                     >
                       <PhoneCall className="h-4 w-4" />
-                      <span>
-                        {isRecommendedProvider ? 'Verify T-Mobile' : 'Verify This Option'} - <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span>
-                      </span>
+                      <span>Check Availability & Offers</span>
                     </a>
                   </div>
                 </article>
@@ -346,7 +347,7 @@ export function PaidInternetLandingPage({
                 className="js-google-phone-link inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
               >
                 <PhoneCall className="h-4 w-4" />
-                <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
+                <span>Call Now to Verify My Options</span>
               </a>
             </div>
 
@@ -375,6 +376,16 @@ export function PaidInternetLandingPage({
           <p className="mt-5 text-center text-xs font-semibold leading-5 text-slate-500">
             Availability, plan details, pricing, promotions, installation options and speeds are subject to carrier confirmation and may vary by service address. HomeTechDealer helps compare options but cannot guarantee that a specific carrier, plan or offer will be available at every location.
           </p>
+
+          <div className="mt-4 text-center">
+            <a
+              href={telHref}
+              className="js-google-phone-link inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-colors hover:border-emerald-200 hover:text-emerald-700"
+            >
+              <PhoneCall className="h-3.5 w-3.5 text-emerald-600" />
+              <span>Prefer to call directly? <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
+            </a>
+          </div>
         </section>
 
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
@@ -387,7 +398,7 @@ export function PaidInternetLandingPage({
               className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
             >
               <PhoneCall className="h-5 w-5" />
-              <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
+              <span>Call Now - Check Availability</span>
             </a>
           </div>
         </div>
@@ -419,7 +430,7 @@ export function PaidInternetLandingPage({
           className="js-google-phone-link inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-2.5 text-sm font-extrabold text-emerald-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 active:scale-[0.99]"
         >
           <PhoneCall className="h-4 w-4" />
-          <span>Call <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
+          <span>Call Now</span>
         </a>
       </header>
 
