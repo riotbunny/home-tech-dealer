@@ -426,7 +426,7 @@ export function PaidInternetLandingPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-28 lg:pb-0">
+    <main className="min-h-screen bg-slate-50">
       <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex items-center gap-3">
@@ -471,12 +471,7 @@ export function PaidInternetLandingPage({
 
           <div className="mt-5 inline-flex max-w-full items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-800 shadow-sm">
             <Wifi className="h-4 w-4 shrink-0" />
-            <span>Ask about fiber and high-speed internet options up to 5 Gigs</span>
-          </div>
-
-          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-black text-amber-900 shadow-sm">
-            <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span>Ask about setup offers that may not be shown online</span>
+            <span>Ask about 5 Gig options and setup offers not shown online</span>
           </div>
 
           <div className="mt-6">
@@ -490,7 +485,7 @@ export function PaidInternetLandingPage({
             </a>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
               <span className="text-sm font-extrabold text-slate-700">Free to check</span>
@@ -509,7 +504,7 @@ export function PaidInternetLandingPage({
             </div>
           </div>
 
-          <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="mt-6 hidden rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:block">
             <div className="text-xs font-black uppercase tracking-wide text-slate-500">
               Call to get connected with an available internet provider
             </div>
@@ -543,29 +538,6 @@ export function PaidInternetLandingPage({
             </div>
           </div>
 
-          <div className="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="text-xs font-black uppercase tracking-wide text-emerald-700">
-                  Need Internet Set Up Fast?
-                </div>
-                <p className="mt-1 text-sm font-bold leading-6 text-slate-700">
-                  Call the Internet Setup Desk to check service at your address, review fast install options, and get help taking the next step.
-                </p>
-              </div>
-              <a
-                href={telHref}
-                onClick={handleHeaderPhoneClick}
-                className="js-google-phone-link inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]"
-              >
-                <PhoneCall className="h-4 w-4" />
-                <span>Call Now to Get Set Up</span>
-              </a>
-              <p className="mt-3 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
-                Ask about setup offers that may not be shown online
-              </p>
-            </div>
-          </div>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-200/70 sm:p-6">
@@ -668,7 +640,8 @@ export function PaidInternetLandingPage({
               className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-4 text-base font-extrabold text-slate-700 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/15 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
             >
               <Search className="h-4 w-4" />
-              <span>{isSubmitting ? 'Checking Your Address...' : 'Check Available Carriers →'}</span>
+              <span className="hidden sm:inline">{isSubmitting ? 'Checking Your Address...' : 'Check Available Carriers →'}</span>
+              <span className="sm:hidden">{isSubmitting ? 'Checking...' : 'Check Carriers →'}</span>
             </button>
           </div>
 
@@ -707,22 +680,6 @@ export function PaidInternetLandingPage({
       </section>
       </div>
       <PaidLocalFooter />
-
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
-        <div className="mx-auto max-w-md">
-          <div className="mb-2 text-center text-xs font-extrabold uppercase tracking-wide text-emerald-700">
-            Talk to an internet setup specialist
-          </div>
-          <a
-            href={telHref}
-            onClick={handleHeaderPhoneClick}
-            className="js-google-phone-link flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-black text-white shadow-lg shadow-emerald-600/20"
-          >
-            <PhoneCall className="h-5 w-5" />
-            <span>Tap to Call - Get Set Up</span>
-          </a>
-        </div>
-      </div>
     </main>
   );
 }
