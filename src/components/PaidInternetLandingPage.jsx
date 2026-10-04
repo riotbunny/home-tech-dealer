@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle2, PhoneCall, Search, ShieldCheck, Sparkles, Wifi } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock3, Home, PhoneCall, Search, ShieldCheck, Sparkles, Wifi } from 'lucide-react';
 import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
@@ -199,23 +199,77 @@ export function PaidInternetLandingPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-      <section className="mx-auto flex max-w-3xl flex-col items-center text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-emerald-700">
-          <PhoneCall className="h-4 w-4" />
-          <span>Call {phoneNumber}</span>
+    <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+      <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
+            <Wifi className="h-5 w-5" />
+          </div>
+          <div>
+            <div className="text-lg font-black tracking-tight text-slate-900">
+              HomeTechDealer
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
+              Internet availability desk
+            </div>
+          </div>
         </div>
 
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-          Internet Providers Near You
-        </h1>
+        <a
+          href={telHref}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-emerald-700"
+        >
+          <PhoneCall className="h-4 w-4" />
+          <span className="hidden sm:inline">Call {phoneNumber}</span>
+          <span className="sm:hidden">Call</span>
+        </a>
+      </header>
 
-        <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
-          Compare internet providers, speeds and available plans at your address. Check availability online or call HomeTechDealer at {phoneNumber}.
-        </p>
+      <section className="mx-auto grid max-w-6xl gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-16">
+        <div>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
+            <ShieldCheck className="h-4 w-4" />
+            <span>Secure address check</span>
+          </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 w-full rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <div className="grid gap-3 text-left sm:grid-cols-[minmax(0,1fr)_140px_130px]">
+          <h1 className="max-w-3xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+            Compare internet providers available at your address.
+          </h1>
+
+          <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
+            Enter your home address and ZIP code to view popular carrier options, plan speeds, and setup choices. You can also call HomeTechDealer at {phoneNumber}.
+          </p>
+
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+              <span className="text-sm font-extrabold text-slate-700">No obligation</span>
+            </div>
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+              <Clock3 className="h-5 w-5 shrink-0 text-blue-600" />
+              <span className="text-sm font-extrabold text-slate-700">Fast results</span>
+            </div>
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+              <Home className="h-5 w-5 shrink-0 text-indigo-600" />
+              <span className="text-sm font-extrabold text-slate-700">Home setup</span>
+            </div>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-200/70 sm:p-6">
+          <div className="mb-5">
+            <div className="text-sm font-black uppercase tracking-wide text-blue-600">
+              Step 1 of 2
+            </div>
+            <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-900">
+              Check your address
+            </h2>
+            <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
+              We use your ZIP code to match nearby carrier options. Apartment or unit number is optional.
+            </p>
+          </div>
+
+          <div className="grid gap-4 text-left">
             <label className="block">
               <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
                 Street address
@@ -231,46 +285,53 @@ export function PaidInternetLandingPage({
               />
             </label>
 
-            <label className="block">
-              <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                Apt number
-              </span>
-              <input
-                type="text"
-                value={aptNumber}
-                onChange={(e) => setAptNumber(e.target.value)}
-                placeholder="Optional"
-                autoComplete="address-line2"
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
-              />
-            </label>
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_150px]">
+              <label className="block">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
+                  Apt number
+                </span>
+                <input
+                  type="text"
+                  value={aptNumber}
+                  onChange={(e) => setAptNumber(e.target.value)}
+                  placeholder="Optional"
+                  autoComplete="address-line2"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                />
+              </label>
 
-            <label className="block">
-              <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                ZIP code
-              </span>
-              <input
-                type="text"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                placeholder="78526"
-                required
-                inputMode="numeric"
-                pattern="[0-9]{5}"
-                autoComplete="postal-code"
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
-              />
-            </label>
+              <label className="block">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">
+                  ZIP code
+                </span>
+                <input
+                  type="text"
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                  placeholder="78526"
+                  required
+                  inputMode="numeric"
+                  pattern="[0-9]{5}"
+                  autoComplete="postal-code"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                />
+              </label>
+            </div>
           </div>
 
-          <div className="mt-4 flex justify-center">
+          <div className="mt-5">
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-3.5 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700"
             >
               <Search className="h-4 w-4" />
               <span>Check Availability</span>
             </button>
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-2 text-center text-xs font-bold text-slate-500">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <span>Your address is used only to check local availability.</span>
           </div>
 
           {submittedAddress && (
@@ -280,14 +341,16 @@ export function PaidInternetLandingPage({
             </div>
           )}
         </form>
+      </section>
 
-        <a
-          href={telHref}
-          className="mt-5 inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-emerald-700"
-        >
-          <PhoneCall className="h-4 w-4" />
-          <span>Call {phoneNumber}</span>
-        </a>
+      <section className="mx-auto max-w-6xl border-t border-slate-200 py-6">
+        <div className="flex flex-wrap items-center justify-center gap-5 text-sm font-extrabold text-slate-500">
+          <span>Compare top carriers</span>
+          <span className="h-1 w-1 rounded-full bg-slate-300" />
+          <span>Address-based availability</span>
+          <span className="h-1 w-1 rounded-full bg-slate-300" />
+          <span>Call support available</span>
+        </div>
       </section>
     </main>
   );
