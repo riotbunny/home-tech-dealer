@@ -52,6 +52,29 @@ function trackPaidLocalEvent(eventName) {
   });
 }
 
+function PaidLocalFooter() {
+  return (
+    <footer className="border-t border-slate-200 bg-white px-4 py-8 text-xs text-slate-500 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl space-y-3 leading-relaxed">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-bold text-slate-600">
+          <span>Terms of Service</span>
+          <span>Privacy Policy</span>
+          <span>Disclaimers</span>
+        </div>
+        <p>
+          Home Tech Dealer Inc. is an independent consumer comparison marketplace. Pricing, gift cards, promotional offers, plan details, speeds, installation options and technician availability are subject to carrier confirmation at your specific service address.
+        </p>
+        <p>
+          Trademarks: Verizon, T-Mobile, EarthLink, Starlink, AT&amp;T, Spectrum, Xfinity (Comcast), Frontier, Cox, Optimum, Ziply, DIRECTV, Mediacom, Astound, Kinetic, Metronet, Breezeline, TDS, WOW!, Clearwave, Altafiber, Buckeye, Bend, Hawaiian Telcom, Consolidated (Fidium), SmithVille, and ViaSat are registered trademarks of their respective owners.
+        </p>
+        <div className="pt-2 text-slate-400">
+          &copy; 2026 Home Tech Dealer Inc. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 export function PaidInternetLandingPage({
   phoneNumber = DEFAULT_PHONE_NUMBER
 }) {
@@ -166,8 +189,8 @@ export function PaidInternetLandingPage({
 
   if (submittedAddress) {
     return (
-      <main className="min-h-screen bg-slate-50 px-4 pb-28 pt-5 sm:px-6 sm:pt-8 lg:px-8 lg:pb-8">
-        <section className="mx-auto max-w-6xl">
+      <main className="min-h-screen bg-slate-50 pb-28 lg:pb-0">
+        <section className="mx-auto max-w-6xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8 lg:pb-8">
           <button
             type="button"
             onClick={() => setSubmittedAddress(null)}
@@ -391,6 +414,7 @@ export function PaidInternetLandingPage({
             </a>
           </div>
         </section>
+        <PaidLocalFooter />
 
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-200 bg-white/95 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-2xl shadow-slate-900/15 backdrop-blur lg:hidden">
           <div className="mx-auto max-w-md">
@@ -411,7 +435,8 @@ export function PaidInternetLandingPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+    <main className="min-h-screen bg-slate-50">
+      <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
@@ -589,6 +614,8 @@ export function PaidInternetLandingPage({
           <span>Help available 24/7</span>
         </div>
       </section>
+      </div>
+      <PaidLocalFooter />
     </main>
   );
 }
