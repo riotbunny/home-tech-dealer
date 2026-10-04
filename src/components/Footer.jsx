@@ -224,13 +224,13 @@ export function Footer({
         {/* Carrier Disclaimers & Trademarks */}
         <div className="mt-8 pt-2 text-[11px] text-slate-500 space-y-2 leading-relaxed">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-2 font-bold text-slate-400">
-            <a href="#site-terms" className="hover:text-white transition-colors">
+            <a href="/terms" className="hover:text-white transition-colors">
               Terms of Service
             </a>
-            <a href="#site-privacy" className="hover:text-white transition-colors">
+            <a href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </a>
-            <a href="#site-disclaimers" className="hover:text-white transition-colors">
+            <a href="/disclaimers" className="hover:text-white transition-colors">
               Disclaimers
             </a>
           </div>

@@ -57,13 +57,13 @@ function PaidLocalFooter() {
     <footer className="border-t border-slate-200 bg-white px-4 py-8 text-xs text-slate-500 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-3 leading-relaxed">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-bold text-slate-600">
-          <a href="#paid-local-terms" className="transition-colors hover:text-emerald-700">
+          <a href="/terms" className="transition-colors hover:text-emerald-700">
             Terms of Service
           </a>
-          <a href="#paid-local-privacy" className="transition-colors hover:text-emerald-700">
+          <a href="/privacy" className="transition-colors hover:text-emerald-700">
             Privacy Policy
           </a>
-          <a href="#paid-local-disclaimers" className="transition-colors hover:text-emerald-700">
+          <a href="/disclaimers" className="transition-colors hover:text-emerald-700">
             Disclaimers
           </a>
         </div>

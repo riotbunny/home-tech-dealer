@@ -46,13 +46,22 @@ import { Layers, ArrowRight, X, PhoneCall } from 'lucide-react';
 import { AntiSnoop } from './components/AntiSnoop';
 import { LeadFunnel } from './components/LeadFunnel';
 import { PaidInternetLandingPage } from './components/PaidInternetLandingPage';
+import { LegalPage } from './components/LegalPages';
 
 export function App() {
   const initialLoc = getStoredDefaultLocation();
   const [activeTab, setActiveTab] = useState('qualifier');
   const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
+  const currentPath = typeof window !== 'undefined' ? window.location.pathname.toLowerCase().replace(/\/$/, '') : '';
   const isPromoHost = hostname === 'promo.hometechdealer.com';
-  const isPaidInternetLocalRoute = typeof window !== 'undefined' && window.location.pathname.toLowerCase().replace(/\/$/, '') === '/internet/local';
+  const isPaidInternetLocalRoute = currentPath === '/internet/local';
+  const legalPageType = currentPath === '/terms'
+    ? 'terms'
+    : currentPath === '/privacy'
+      ? 'privacy'
+      : currentPath === '/disclaimers'
+        ? 'disclaimers'
+        : null;
 
   // Detect if we are on the dedicated Lead Funnel landing page (FB Ads)
   const isLeadFunnelRoute = typeof window !== 'undefined' && 
@@ -421,7 +430,9 @@ export function App() {
     >
       <div className={`min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white pb-20 lg:pb-0 ${import.meta.env.PROD ? 'select-none' : ''}`}>
       <AntiSnoop />
-      {isPaidInternetLocalRoute ? (
+      {legalPageType ? (
+        <LegalPage page={legalPageType} />
+      ) : isPaidInternetLocalRoute ? (
         <PaidInternetLandingPage
           phoneNumber={routedPhoneNumber}
         />
