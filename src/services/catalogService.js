@@ -41,7 +41,7 @@ export function saveStoredTopPicks(picksObj) {
   }
 }
 
-export const DEFAULT_PHONE_NUMBER = '1 (888) 845-1912';
+export const DEFAULT_PHONE_NUMBER = '1(855)215-8469';
 export const DEFAULT_GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAFI7nr1gt8WkTJZ-MX6SE-j-pVfllTm60';
 
 /**
@@ -115,14 +115,6 @@ export function saveStoredGoogleApiKey(newKey) {
  * Get active hotline phone number from persistent storage or default
  */
 export function getStoredPhoneNumber() {
-  try {
-    const saved = localStorage.getItem(PHONE_STORAGE_KEY) || localStorage.getItem(LEGACY_PHONE_KEY);
-    if (saved && saved.trim()) {
-      return saved.trim();
-    }
-  } catch (err) {
-    console.warn('Could not read custom phone from storage:', err);
-  }
   return DEFAULT_PHONE_NUMBER;
 }
 

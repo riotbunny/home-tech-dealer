@@ -5,10 +5,10 @@ import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
 
 const PAID_LOCAL_TITLE = 'Get Internet Set Up at Your Address | HomeTechDealer';
-const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1-888-845-1912.';
+const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1(855)215-8469.';
 const PAID_LOCAL_CANONICAL = 'https://www.hometechdealer.com/internet/local';
-const PPC_PHONE_DISPLAY = '1-888-845-1912';
-const PPC_PHONE_TEL = '18888451912';
+const PPC_PHONE_DISPLAY = '1(855)215-8469';
+const PPC_PHONE_TEL = '18552158469';
 const PAID_LOCAL_CARRIER_IDS = ['tmobile', 'spectrum', 'att', 'verizon', 'earthlink', 'frontier'];
 const PAID_LOCAL_LOGOS = {
   tmobile: {

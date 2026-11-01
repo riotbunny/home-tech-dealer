@@ -393,7 +393,7 @@ export function App() {
   const handleSavePhoneNumber = (newPhone) => {
     if (newPhone && newPhone.trim()) {
       saveStoredPhoneNumber(newPhone.trim());
-      setPhoneNumber(newPhone.trim());
+      setPhoneNumber(DEFAULT_PHONE_NUMBER);
     }
   };
 

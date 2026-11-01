@@ -5,7 +5,7 @@
  * Updates document head metadata, canonical tags, OpenGraph, and JSON-LD schema
  * tailored dynamically to the active city, state, and 44k 5-digit ZIP code.
  */
-export function updateCitySEO(cityData, phoneNumber = '1 (888) 845-1912') {
+export function updateCitySEO(cityData, phoneNumber = '1(855)215-8469') {
   if (!cityData) return;
 
   const routeType = cityData.routeType || (cityData.zip ? 'city' : (cityData.state && !cityData.cityName ? 'state' : 'city'));
