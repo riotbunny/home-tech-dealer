@@ -27,11 +27,11 @@
         };
 
         document.querySelectorAll('.js-google-phone-number').forEach(function(el) {
-          el.textContent = formatted;
+          if (el.textContent !== formatted) el.textContent = formatted;
         });
 
         document.querySelectorAll('a.js-google-phone-link').forEach(function(el) {
-          el.setAttribute('href', 'tel:' + mobile);
+          if (el.getAttribute('href') !== 'tel:' + mobile) el.setAttribute('href', 'tel:' + mobile);
         });
       };
       gtag('js', new Date());
