@@ -465,23 +465,13 @@ export function PaidInternetLandingPage({
             <span>Internet setup desk</span>
           </div>
 
-          <h1 className="max-w-3xl text-[2.45rem] font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.5rem]">
             Call Now to Get Internet Set Up at Your Address
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
             Speak with a live Internet Setup Desk specialist to check service at your address, review fast install options, and help you take the next step. Same-day or next-day installation may be available in select areas.
           </p>
-
-          <div className="mt-5 inline-flex max-w-full items-center gap-2 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-black text-blue-800 shadow-sm">
-            <ShieldCheck className="h-4 w-4 shrink-0" />
-            <span>Authorized dealer access to leading internet providers</span>
-          </div>
-
-          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-800 shadow-sm">
-            <Wifi className="h-4 w-4 shrink-0" />
-            <span>Ask about 5 Gig options and setup offers not shown online</span>
-          </div>
 
           <div className="mt-6">
             <a
@@ -494,7 +484,13 @@ export function PaidInternetLandingPage({
             </a>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-slate-600">
+            <ShieldCheck className="h-4 w-4 shrink-0 text-blue-700" />
+            <span>Authorized dealer access to leading internet providers</span>
+          </div>
+          <p className="mt-2 text-sm text-slate-600">Ask about 5 Gig options and setup offers not shown online</p>
+
+          <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 lg:grid-cols-4 [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div]:shadow-none">
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
               <span className="text-sm font-extrabold text-slate-700">Free to check</span>
@@ -549,7 +545,7 @@ export function PaidInternetLandingPage({
 
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="w-full rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-200/70 sm:p-6">
+        <form onSubmit={handleSubmit} noValidate className="w-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-5">
             <div className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-500">
               Not ready to call yet?
@@ -654,7 +650,7 @@ export function PaidInternetLandingPage({
             </button>
           </div>
 
-          <div className="mt-4 grid gap-2 rounded-2xl bg-slate-50 p-4 text-xs font-bold text-slate-600 sm:grid-cols-3">
+          <div className="hidden">
             <div className="flex items-center justify-center gap-1.5 text-center">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               <span>Exact-address lookup</span>

@@ -67,9 +67,9 @@ export function HeroSection({
     : 'Your Area';
 
   return (
-    <section className="relative overflow-hidden pt-10 sm:pt-16 pb-12 sm:pb-24">
+    <section className="relative overflow-hidden pt-7 sm:pt-12 pb-10 sm:pb-16">
       {/* Abstract Glowing Background Mesh */}
-      <div className="absolute top-0 left-0 right-0 h-full overflow-hidden -z-10 pointer-events-none">
+      <div className="hidden" aria-hidden="true">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
         <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px]"></div>
       </div>
@@ -99,9 +99,9 @@ export function HeroSection({
 
             {/* Headline & Subtitle */}
             <div className="text-center sm:text-left mb-8 sm:mb-10">
-              <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-extrabold text-slate-900 tracking-tighter leading-[1.1] mb-5">
+              <h1 className="text-[2rem] sm:text-5xl lg:text-[3.5rem] font-extrabold text-slate-900 leading-[1.12] mb-4">
                 Find the Best <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500">
+                <span className="text-blue-700">
                   Internet & TV
                 </span>
                 {' '}in {locationLabel}.
@@ -115,7 +115,7 @@ export function HeroSection({
             </div>
 
             {/* Big Search Box (Glassmorphic) */}
-            <div className="p-4 sm:p-6 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-2xl shadow-indigo-900/10 transition-all hover:shadow-indigo-900/15">
+            <div className="p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
               <div className="text-sm font-bold text-slate-800 mb-3 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span>
                   Enter your address in {hasValidCity ? formattedCityName : 'your area'}:

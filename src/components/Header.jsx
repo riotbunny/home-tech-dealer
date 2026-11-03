@@ -65,7 +65,7 @@ export function Header({
 
   return (
     <div className="w-full sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
-      <header className="max-w-7xl mx-auto rounded-3xl bg-white/90 backdrop-blur-xl border border-white/60 shadow-xl shadow-indigo-900/5 transition-all">
+      <header className="max-w-7xl mx-auto rounded-lg bg-white border border-slate-200 shadow-sm">
         
         {/* Main Nav */}
         <div className="px-4 sm:px-6 lg:px-8">
