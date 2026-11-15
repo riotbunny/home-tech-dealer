@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, X, ShieldCheck, AlertCircle, ArrowRight, KeyRound } from 'lucide-react';
 
-export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
+export function AdminLoginModal({ isOpen, onClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,14 +12,7 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
     e.preventDefault();
     setError('');
 
-    // Credentials specified by user: Admin / 2027isMine!
-    if (username.trim().toLowerCase() === 'admin' && password === '2027isMine!') {
-      onLoginSuccess();
-      setUsername('');
-      setPassword('');
-    } else {
-      setError('Invalid username or password. Please try again.');
-    }
+    setError('Administrator sign-in is disabled until secure authentication is configured.');
   };
 
   return (
@@ -88,7 +81,7 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
           <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 flex items-start gap-2.5 text-[11px] text-blue-900">
             <KeyRound className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
             <span>
-              Authorized administrator access only. Any changes saved will immediately update pricing across the consumer website.
+              Administrator sign-in is disabled until secure authentication is configured.
             </span>
           </div>
 
@@ -103,6 +96,7 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
 
             <button
               type="submit"
+              disabled
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 text-white font-bold flex items-center gap-2 shadow-sm transition-all transform active:scale-95"
             >
               <span>Authenticate</span>

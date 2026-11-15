@@ -694,10 +694,6 @@ export function App() {
       <AdminLoginModal
         isOpen={isAdminLoginOpen}
         onClose={() => setIsAdminLoginOpen(false)}
-        onLoginSuccess={() => {
-          setIsAdminLoginOpen(false);
-          setIsAdminPortalOpen(true);
-        }}
       />
 
       {/* Backend Admin Management Portal */}
