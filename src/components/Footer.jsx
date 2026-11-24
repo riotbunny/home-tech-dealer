@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrandLogo } from './BrandLogo';
 import { Wifi, ShieldCheck, PhoneCall, CheckCircle2, Lock, MapPin, Compass } from 'lucide-react';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 
@@ -18,12 +19,7 @@ export function Footer({
           {/* Brand Col */}
           <div className="md:col-span-4 space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
-                <Wifi className="w-4 h-4" />
-              </div>
-              <span className="font-extrabold text-base text-white">
-                Home Tech Dealer <span className="text-blue-400">Inc.</span>
-              </span>
+              <BrandLogo className="rounded bg-white" />
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               America's simplest home broadband comparison marketplace. Comparing fiber, cable, satellite, and 5G internet across 27 national and regional providers.

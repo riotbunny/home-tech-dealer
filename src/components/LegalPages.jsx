@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { BrandLogo } from './BrandLogo';
 import { ShieldCheck, Wifi } from 'lucide-react';
 
 const UPDATED_DATE = 'October 4, 2026';
@@ -106,12 +107,9 @@ export function LegalPage({ page = 'terms' }) {
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white px-4 py-5 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-            <Wifi className="h-5 w-5" />
-          </div>
           <div>
             <a href="/" className="text-lg font-black tracking-tight text-slate-900">
-              Home Tech Dealer Inc.
+              <BrandLogo />
             </a>
             <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
               Legal information

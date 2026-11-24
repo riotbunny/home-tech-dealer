@@ -3,6 +3,7 @@ import { ArrowLeft, CheckCircle2, Clock3, PhoneCall, Search, ShieldCheck, Wifi }
 import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
+import { BrandLogo } from './BrandLogo';
 
 const PAID_LOCAL_TITLE = 'Get Internet Set Up at Your Address | HomeTechDealer';
 const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1(855)215-8469.';
@@ -433,14 +434,9 @@ export function PaidInternetLandingPage({
     <main className="min-h-screen bg-slate-50">
       <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-            <Wifi className="h-5 w-5" />
-          </div>
+        <div className="min-w-0 flex-1">
           <div>
-            <div className="text-lg font-black tracking-tight text-slate-900">
-              HomeTechDealer
-            </div>
+            <BrandLogo />
             <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
               Internet setup desk
             </div>

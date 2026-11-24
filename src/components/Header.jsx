@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
+import { BrandLogo } from './BrandLogo';
 
 export function Header({ 
   activeTab, 
@@ -77,14 +78,7 @@ export function Header({
                 className="flex min-w-0 items-center gap-3 cursor-pointer group"
                 onClick={handleLogoClick}
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex shrink-0 items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-105 transition-all">
-                  <Wifi className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <div className="min-w-0">
-                  <span className="block truncate font-extrabold text-lg tracking-tight text-slate-900 sm:text-2xl">
-                    HomeTechDealer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Inc.</span>
-                  </span>
-                </div>
+                <BrandLogo />
               </div>
             </div>
 
