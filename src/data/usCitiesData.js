@@ -349,8 +349,8 @@ export function resolveLocationRoute(pathname, searchParams) {
     let parsedState = 'USA';
     if (parts.length >= 3) {
       if (parts.length >= 4) {
-        parsedState = (parts[2] || 'TX').toUpperCase();
-        parsedCity = (parts[3] || 'Austin').replace(/-/g, ' ');
+        parsedState = (parts[2] || 'USA').toUpperCase();
+        parsedCity = (parts[3] || 'Your Area').replace(/-/g, ' ');
       } else {
         const parsed = parseCitySlug(parts[2]);
         if (parsed) {
@@ -560,12 +560,7 @@ export function getNearbyCities(cityName, stateCode) {
          c.city.toLowerCase() !== (cityName || '').toLowerCase()
   );
 
-  if (sameStateCities.length >= 3) {
-    return sameStateCities.slice(0, 4).map(c => `${c.city}, ${c.state}`);
-  }
-
-  // Fallback to top national metros
-  return ['Austin, TX', 'Miami, FL', 'Chicago, IL', 'Seattle, WA'];
+  return sameStateCities.slice(0, 4).map(c => `${c.city}, ${c.state}`);
 }
 
 /**

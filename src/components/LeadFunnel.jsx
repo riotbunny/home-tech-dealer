@@ -130,7 +130,7 @@ export function LeadFunnel({ phoneNumber, catalog = [] }) {
                   setFormData({...formData, address: val});
                   setTimeout(() => handleNextStep(2), 400);
                 }}
-                placeholder="123 Main St, City, Zip"
+                placeholder="Street address, city, ZIP"
                 inputClassName="py-4 text-base sm:text-lg border-2 border-slate-200 focus:border-blue-600 rounded-2xl shadow-sm"
               />
             </div>

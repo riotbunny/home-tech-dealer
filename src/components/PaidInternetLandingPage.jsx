@@ -578,7 +578,7 @@ export function PaidInternetLandingPage({
                 type="text"
                 value={streetAddress}
                 onChange={(e) => updateField('streetAddress', e.target.value)}
-                placeholder="123 Main St"
+                placeholder="Street address"
                 required
                 autoComplete="street-address"
                 aria-invalid={!!errors.streetAddress}
@@ -619,7 +619,7 @@ export function PaidInternetLandingPage({
                   type="text"
                   value={zipCode}
                   onChange={(e) => updateField('zipCode', e.target.value)}
-                  placeholder="78526"
+                  placeholder="ZIP code"
                   required
                   inputMode="numeric"
                   pattern="[0-9]{5}"

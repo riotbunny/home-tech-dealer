@@ -133,13 +133,10 @@ export function App() {
 
     // Update nearby cities in that state
     const nearby = getNearbyCities(cityData.cityName, cityData.state);
-    if (nearby && nearby.length > 0) {
-      setNearbyCities(nearby.map(c => {
-        const [ci, st] = c.split(',');
-        return { city: ci.trim(), state: st ? st.trim() : cityData.state };
-      }));
-    }
-
+    setNearbyCities((nearby || []).map(c => {
+      const [ci, st] = c.split(',');
+      return { city: ci.trim(), state: st ? st.trim() : cityData.state };
+    }));
     // Synchronize dynamic SEO metadata & JSON-LD schema
     updateCitySEO(cityData, phoneNumber);
   }, [phoneNumber, isPaidInternetLocalRoute]);

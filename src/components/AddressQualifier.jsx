@@ -72,7 +72,7 @@ export function AddressQualifier({
     if (!str) return '';
     return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
-  const formattedCityName = cityName ? toTitleCase(cityName) : '';
+  const formattedCityName = cityName && !/^your (area|local)$/i.test(cityName.trim()) ? toTitleCase(cityName) : '';
 
   const [fccModalPlan, setFccModalPlan] = useState(null);
   const [fccModalProvider, setFccModalProvider] = useState(null);
@@ -269,7 +269,7 @@ export function AddressQualifier({
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {isQualified 
               ? `Plan Options for ${localAddressInput || currentAddress}`
-              : (cityName ? `Internet & TV Providers in ${formattedCityName}${state ? `, ${state}` : ''}` : 'Internet & TV Providers in Your Area')}
+              : (formattedCityName ? `Internet & TV Providers in ${formattedCityName}${state && state !== 'USA' ? `, ${state}` : ''}` : 'Internet & TV Providers in Your Area')}
           </h2>
         </div>
 

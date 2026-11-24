@@ -2,10 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { canonicalInternetPath } from '../src/services/canonicalRoutes.js';
-import { resolveLocationRoute } from '../src/data/usCitiesData.js';
+import { resolveLocationRoute, getNearbyCities } from '../src/data/usCitiesData.js';
+import { getNearbyRadiusCities } from '../src/data/usCitiesRadiusData.js';
 import { getPageMetadata, getPageSchema } from '../src/services/seoMetadata.js';
 
 const postal = JSON.parse(readFileSync('seo/postalRoutes.json', 'utf8'));
+test('missing locations never fall back to a named city', () => {
+  assert.equal(resolveLocationRoute('/'), null);
+  assert.equal(resolveLocationRoute('/providers/att').cityName, 'Your Area');
+  assert.equal(resolveLocationRoute('/fiber-internet').cityName, 'Your Area');
+  assert.deepEqual(getNearbyRadiusCities(null, null), []);
+  assert.deepEqual(getNearbyRadiusCities(undefined, undefined), []);
+  assert.deepEqual(getNearbyCities('', ''), []);
+  assert(getNearbyCities('Seattle', 'WA').every(city => city.endsWith(', WA')));
+});
 test('city hubs never invent a ZIP and legacy city suffixes consolidate', () => {
   assert.equal(canonicalInternetPath('/internet/texas'), '/internet/tx');
   assert.equal(resolveLocationRoute('/internet/fl/miami/33101', new URLSearchParams('city=Houston&state=TX')).cityName, 'Miami');

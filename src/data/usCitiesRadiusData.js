@@ -205,15 +205,8 @@ function calculateDistanceMiles(lat1, lon1, lat2, lon2) {
  * Get nearby radius cities for a given latitude and longitude
  */
 export function getNearbyRadiusCities(lat, lon, currentCityName = '', limit = 6) {
-  if (!lat || !lon) {
-    // Return default nearby cities for Texas if unknown
-    return [
-      { city: 'Austin', state: 'TX', distance: 0, label: 'Austin, TX' },
-      { city: 'Round Rock', state: 'TX', distance: 17, label: 'Round Rock, TX' },
-      { city: 'Cedar Park', state: 'TX', distance: 18, label: 'Cedar Park, TX' },
-      { city: 'San Marcos', state: 'TX', distance: 29, label: 'San Marcos, TX' },
-      { city: 'San Antonio', state: 'TX', distance: 75, label: 'San Antonio, TX' }
-    ];
+  if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    return [];
   }
 
   // Calculate distance to all cities
