@@ -1,5 +1,5 @@
 import { canonicalInternetPath } from './src/services/canonicalRoutes.js';
-import postalRoutes from './seo/postalRoutes.json';
+import postalRoutes from './seo/postalRoutes.json' with { type: 'json' };
 
 const allowedCountries = ['US'];
 const knownGoodBotPattern = /googlebot|bingbot|yandex|baiduspider|slurp/i;

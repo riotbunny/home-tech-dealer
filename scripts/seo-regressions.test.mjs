@@ -4,7 +4,6 @@ import { readFileSync } from 'node:fs';
 import { canonicalInternetPath } from '../src/services/canonicalRoutes.js';
 import { resolveLocationRoute } from '../src/data/usCitiesData.js';
 import { getPageMetadata, getPageSchema } from '../src/services/seoMetadata.js';
-import { buildSync } from 'esbuild';
 
 const postal = JSON.parse(readFileSync('seo/postalRoutes.json', 'utf8'));
 test('city hubs never invent a ZIP and legacy city suffixes consolidate', () => {
@@ -36,8 +35,7 @@ test('schema describes the real organization, not invented reviews or local offi
   assert.equal(getPageMetadata(route).canonical, 'https://www.hometechdealer.com/internet/tx/houston/77031');
 });
 test('middleware preserves ad parameters and does not affect PPC or legal routes', async () => {
-  const output = buildSync({ entryPoints: ['middleware.js'], bundle: true, platform: 'node', format: 'esm', write: false }).outputFiles[0].text;
-  const { default: middleware } = await import(`data:text/javascript;base64,${Buffer.from(output).toString('base64')}`);
+  const { default: middleware } = await import('../middleware.js');
   const response = middleware(new Request('https://www.hometechdealer.com/internet/us/houston/77033?gclid=test&utm_source=google', { headers: { 'x-vercel-ip-country': 'US' } }));
   assert.equal(response.status, 308);
   assert.equal(response.headers.get('location'), 'https://www.hometechdealer.com/internet/tx/houston/77033?gclid=test&utm_source=google');
