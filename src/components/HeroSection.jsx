@@ -103,16 +103,14 @@ export function HeroSection({
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600/90 leading-relaxed max-w-lg font-medium">
-                Get help choosing internet service in{' '}
-                <strong className="text-slate-900 font-bold">{hasValidCity ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} area`) : 'your area'}</strong>. 
-                Talk with HomeTechDealer about providers, plans and installation for your address.
+                Ask about current internet promotions, pricing and installation options for your address. Speak with an authorized dealer to find out which offers you qualify for.
               </p>
               <a href={telHref} className="storefront-primary js-google-phone-link mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-4 text-base font-bold text-white hover:bg-emerald-700 sm:w-auto">
                 <PhoneCall className="h-5 w-5 shrink-0" />
-                Call an Internet Specialist
+                Call Now to Check Promotions
               </a>
               <a href={telHref} className="storefront-phone js-google-phone-link"><span className="js-google-phone-number">{phoneNumber}</span></a>
-              <div className="storefront-reassure"><span>✓ Free to discuss your options</span><span>✓ No obligation</span></div>
+              <div className="storefront-reassure"><span>✓ Free to check</span><span>✓ No obligation</span></div>
             </div>
           </div>
           <div className="storefront-showcase lg:col-span-5"><PaidLocalShowcase /></div>

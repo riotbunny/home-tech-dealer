@@ -9,10 +9,10 @@ const LOGOS = [
 
 export function PaidLocalShowcase() {
   return <aside className="paid-showcase">
-    <h2>Internet providers.<br />One place to call.</h2>
-    <p>Call HomeTechDealer to discuss service, plan details and installation.</p>
+    <h2>Your next internet offer<br />starts with a call.</h2>
+    <p>Ask about available promotions from leading providers—all in one conversation.</p>
     <div className="paid-showcase-logos">{LOGOS.map(([name, src]) => <div key={name}><img src={src} alt={name} width="140" height="48" /></div>)}</div>
-    <p className="paid-small">Service and installation are subject to provider confirmation.</p>
+    <p className="paid-small">Offers and availability vary by provider and address.</p>
   </aside>;
 }
 
