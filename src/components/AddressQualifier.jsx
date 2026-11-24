@@ -411,7 +411,7 @@ export function AddressQualifier({
   }, [catalog, activeProviderIds]);
 
   return (
-    <section id="plans-marketplace" className="pt-2 sm:pt-6 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
+    <section id="plans-marketplace" className="storefront-marketplace pt-2 sm:pt-6 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
       
       {/* Search Header Bar (Clean & Compact) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">

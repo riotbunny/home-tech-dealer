@@ -16,6 +16,8 @@ import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { triggerHaptic } from '../utils/haptics';
 import { HeroProviderStrip } from './HeroProviderStrip';
 import { HeroSteps } from './HeroSteps';
+import { PaidLocalShowcase } from './PaidLocalShowcase';
+import './storefront.css';
 
 export function HeroSection({ 
   onSelectNearbyCity, 
@@ -68,7 +70,7 @@ export function HeroSection({
     : 'Your Area';
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-200 bg-white pt-7 sm:pt-12 pb-10 sm:pb-16">
+    <section className="storefront-hero relative overflow-hidden border-b border-slate-200 bg-white pt-7 sm:pt-12 pb-10 sm:pb-16">
       {/* Abstract Glowing Background Mesh */}
       <div className="hidden" aria-hidden="true">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
@@ -83,16 +85,15 @@ export function HeroSection({
           <div className="lg:col-span-7">
             
             {/* Top Trust Pills */}
-            <div className="flex flex-col xs:flex-row sm:flex-row items-center justify-center sm:justify-start gap-3 mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-indigo-900 text-xs font-bold tracking-wide uppercase">
-                <Sparkles className="w-4 h-4 text-indigo-500 shrink-0" />
-                <span>Compare 27 Top Providers</span>
+            <div className="mb-4">
+              <div className="text-xs font-bold uppercase text-blue-700">
+                <span>Home internet · Human assistance</span>
               </div>
 
             </div>
 
             {/* Headline & Subtitle */}
-            <div className="text-center sm:text-left">
+            <div className="storefront-intro">
               <h1 className="text-[2rem] sm:text-5xl lg:text-[3.5rem] font-extrabold text-slate-900 leading-[1.12] mb-4">
                 Find the Best <br className="hidden sm:block" />
                 <span className="text-blue-700">
@@ -104,21 +105,22 @@ export function HeroSection({
               <p className="text-base sm:text-lg text-slate-600/90 leading-relaxed max-w-lg font-medium">
                 Get help choosing internet service in{' '}
                 <strong className="text-slate-900 font-bold">{hasValidCity ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} area`) : 'your area'}</strong>. 
-                One conversation with HomeTechDealer can help you understand provider options and decide what fits your home, without sorting through plans alone.
+                Talk with HomeTechDealer about providers, plans and installation for your address.
               </p>
-              <a href={telHref} className="js-google-phone-link mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-4 text-base font-bold text-white hover:bg-emerald-700 sm:w-auto">
+              <a href={telHref} className="storefront-primary js-google-phone-link mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-4 text-base font-bold text-white hover:bg-emerald-700 sm:w-auto">
                 <PhoneCall className="h-5 w-5 shrink-0" />
-                Call Now to Get Connected
+                Call an Internet Specialist
               </a>
-              <p className="mt-3 text-sm text-slate-600">Call <a href={telHref} className="js-google-phone-link font-semibold underline underline-offset-4"><span className="js-google-phone-number">{phoneNumber}</span></a> to speak with HomeTechDealer.</p>
+              <a href={telHref} className="storefront-phone js-google-phone-link"><span className="js-google-phone-number">{phoneNumber}</span></a>
+              <div className="storefront-reassure"><span>✓ Free to discuss your options</span><span>✓ No obligation</span></div>
             </div>
           </div>
-          <div className="lg:col-span-5"><HeroSteps /></div>
-          <div className="lg:col-span-12"><HeroProviderStrip /></div>
+          <div className="storefront-showcase lg:col-span-5"><PaidLocalShowcase /></div>
+          <div className="storefront-provider lg:col-span-12"><HeroProviderStrip /></div>
           <div className="lg:col-span-12">
 
             {/* Big Search Box (Glassmorphic) */}
-            <div className="p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
+            <div className="storefront-search p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
               <div className="text-sm font-bold text-slate-800 mb-3 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span>
                   Prefer to start online? Enter your address in {hasValidCity ? formattedCityName : 'your area'}:

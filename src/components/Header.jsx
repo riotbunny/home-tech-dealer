@@ -65,7 +65,7 @@ export function Header({
     : 'Your Area';
 
   return (
-    <div className="w-full sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <div className="storefront-header-shell w-full sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
       <header className="max-w-7xl mx-auto rounded-lg bg-white border border-slate-200 shadow-sm">
         
         {/* Main Nav */}
