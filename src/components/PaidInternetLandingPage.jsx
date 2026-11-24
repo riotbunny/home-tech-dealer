@@ -403,7 +403,7 @@ export function PaidInternetLandingPage({
           <div className="mt-4 text-center">
             <a
               href={telHref}
-              className="js-google-phone-link inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-colors hover:border-emerald-200 hover:text-emerald-700"
+              className="js-google-phone-link inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-colors hover:border-emerald-200 hover:text-emerald-700"
             >
               <PhoneCall className="h-3.5 w-3.5 text-emerald-600" />
               <span>Prefer to call directly? <span className="js-google-phone-number">{PPC_PHONE_DISPLAY}</span></span>
