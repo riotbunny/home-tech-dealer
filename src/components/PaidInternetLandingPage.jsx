@@ -464,7 +464,7 @@ export function PaidInternetLandingPage({
       <section className="paid-layout">
         <div className="paid-intro">
           <div className="paid-eyebrow">
-            <span>Home internet · Human assistance</span>
+            <span>Authorized internet dealer</span>
           </div>
 
           <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.5rem]">

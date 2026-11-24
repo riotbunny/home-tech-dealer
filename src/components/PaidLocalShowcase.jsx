@@ -9,8 +9,8 @@ const LOGOS = [
 
 export function PaidLocalShowcase() {
   return <aside className="paid-showcase">
-    <h2>Recognizable providers.<br />A real conversation.</h2>
-    <p>Ask a specialist which options may fit your home.</p>
+    <h2>Internet providers.<br />One place to call.</h2>
+    <p>Call HomeTechDealer to discuss service, plan details and installation.</p>
     <div className="paid-showcase-logos">{LOGOS.map(([name, src]) => <div key={name}><img src={src} alt={name} width="140" height="48" /></div>)}</div>
     <p className="paid-small">Service and installation are subject to provider confirmation.</p>
   </aside>;

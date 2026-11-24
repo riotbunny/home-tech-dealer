@@ -87,7 +87,7 @@ export function HeroSection({
             {/* Top Trust Pills */}
             <div className="mb-4">
               <div className="text-xs font-bold uppercase text-blue-700">
-                <span>Home internet · Human assistance</span>
+                <span>Authorized internet dealer</span>
               </div>
 
             </div>

@@ -39,6 +39,19 @@
 .paid-results .paid-result-hero{background:#fafbfc;border:0;border-radius:0;box-shadow:none;padding:24px 20px}
 .paid-result-hero h1{font-size:36px!important;line-height:1.12;letter-spacing:0}
 .paid-result-hero p{color:#536172}
+.paid-storefront .paid-header{border-top:4px solid #2251a2}
+.paid-storefront h1{font-weight:700}
+.paid-storefront .paid-eyebrow{letter-spacing:0;color:#2251a2}
+.paid-storefront .paid-form{background:#f5f6f7;border-top:1px solid #d8dfe6}
+.paid-storefront .paid-form-intro>div:first-child{background:transparent;padding:0;border-radius:0;color:#46535f}
+.paid-storefront .paid-provider-band{background:#f3f5f7;border-color:#d9dfe5}
+.paid-storefront .paid-band-logos>div{border:1px solid #e1e5ea}
+.paid-storefront .paid-showcase{background:#fff;border:1px solid #ccd4de;border-top:4px solid #2251a2}
+.paid-storefront .paid-showcase-logos>div{border:1px solid #e1e5ea}
+.paid-storefront .paid-reassure{color:#46535f}
+.paid-results article{border-color:#cbd3dc}
+.paid-results article .rounded-full{background:transparent;border:0;border-radius:0}
+.paid-results article .text-xs.uppercase{text-transform:none;color:#536172}
 .paid-result-hero>.flex{display:block}
 .paid-result-hero .paid-eyebrow svg{display:none}
 .paid-result-hero a{margin-top:20px}
