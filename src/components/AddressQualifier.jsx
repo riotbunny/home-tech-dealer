@@ -266,10 +266,6 @@ export function AddressQualifier({
       {/* Search Header Bar (Clean & Compact) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 mb-0.5">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{isQualified ? 'FCC Verified Service Availability' : 'FCC Speed Benchmarks & Local Carrier Matrix'}</span>
-          </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {isQualified 
               ? `Plans Available at ${localAddressInput || currentAddress}` 

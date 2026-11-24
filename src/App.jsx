@@ -13,7 +13,6 @@ import { AdminLoginModal } from './components/AdminLoginModal';
 import { AdminPortal } from './components/AdminPortal';
 import { MobileStickyActionBar } from './components/MobileStickyActionBar';
 import { SwitcherSavingsCalculator } from './components/SwitcherSavingsCalculator';
-import { VerifiedSocialProof } from './components/VerifiedSocialProof';
 import { Footer } from './components/Footer';
 import { LocalMarketGuide } from './components/LocalMarketGuide';
 import { CityDirectoryModal } from './components/CityDirectoryModal';
@@ -478,9 +477,6 @@ export function App() {
         }}
         onOpenSpeedQuiz={() => setIsSpeedQuizOpen(true)}
       />
-
-      {/* Verified Customer Social Proof & Trust Architecture Ribbon */}
-      <VerifiedSocialProof />
 
       {/* Dynamic Programmatic SEO Breadcrumb Hierarchy & Schema */}
       <BreadcrumbNav 

@@ -110,6 +110,7 @@ export function HeroSection({
                 Call Now to Check Promotions
               </a>
               <a href={telHref} className="storefront-phone js-google-phone-link"><span className="js-google-phone-number">{phoneNumber}</span></a>
+              <p className="mt-3 text-sm font-semibold text-slate-600">Authorized Internet Dealer</p>
               <div className="storefront-reassure"><span>✓ Free to check</span><span>✓ No obligation</span></div>
             </div>
           </div>
