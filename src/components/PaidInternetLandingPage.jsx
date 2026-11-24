@@ -4,6 +4,7 @@ import { PROVIDERS_CATALOG } from '../data/providersData';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
 import { BrandLogo } from './BrandLogo';
+import { HeroProviderStrip } from './HeroProviderStrip';
 
 const PAID_LOCAL_TITLE = 'Get Internet Set Up at Your Address | HomeTechDealer';
 const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1(855)215-8469.';
@@ -432,7 +433,7 @@ export function PaidInternetLandingPage({
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+      <div className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="min-w-0 flex-1">
           <div>
@@ -480,10 +481,7 @@ export function PaidInternetLandingPage({
             </a>
           </div>
 
-          <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-slate-600">
-            <ShieldCheck className="h-4 w-4 shrink-0 text-blue-700" />
-            <span>Authorized dealer access to leading internet providers</span>
-          </div>
+          <HeroProviderStrip />
           <p className="mt-2 text-sm text-slate-600">Ask about 5 Gig options and setup offers not shown online</p>
 
           <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 lg:grid-cols-4 [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div]:shadow-none">
@@ -505,7 +503,7 @@ export function PaidInternetLandingPage({
             </div>
           </div>
 
-          <div className="mt-6 hidden rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:block">
+          <div className="hidden">
             <div className="text-xs font-black uppercase tracking-wide text-slate-500">
               Authorized dealer access to leading internet providers
             </div>

@@ -14,6 +14,7 @@ import {
 import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { triggerHaptic } from '../utils/haptics';
+import { HeroProviderStrip } from './HeroProviderStrip';
 
 export function HeroSection({ 
   onSelectNearbyCity, 
@@ -66,7 +67,7 @@ export function HeroSection({
     : 'Your Area';
 
   return (
-    <section className="relative overflow-hidden pt-7 sm:pt-12 pb-10 sm:pb-16">
+    <section className="relative overflow-hidden border-b border-slate-200 bg-white pt-7 sm:pt-12 pb-10 sm:pb-16">
       {/* Abstract Glowing Background Mesh */}
       <div className="hidden" aria-hidden="true">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
@@ -116,6 +117,7 @@ export function HeroSection({
                 Call Now to Get Connected
               </a>
               <p className="mt-3 text-sm text-slate-600">Call <a href={telHref} className="js-google-phone-link font-semibold underline underline-offset-4"><span className="js-google-phone-number">{phoneNumber}</span></a> to speak with HomeTechDealer.</p>
+              <HeroProviderStrip />
             </div>
 
             {/* Big Search Box (Glassmorphic) */}
@@ -184,7 +186,7 @@ export function HeroSection({
 
           {/* Right Column: Live Speedometer Showstopper Visualizer (Desktop Only) */}
           <div className="hidden lg:flex lg:col-span-5 justify-center w-full relative">
-            <div className="w-full border-l border-slate-200 pl-8 py-6">
+            <div className="w-full border-t-4 border-blue-600 bg-slate-50 px-7 py-8">
               <h2 className="text-2xl font-bold text-slate-900">Your next steps, made clearer.</h2>
               <p className="mt-3 text-base leading-7 text-slate-600">Our specialists help you understand your options before you choose a service.</p>
               <ol className="mt-6 space-y-5 text-slate-700">
