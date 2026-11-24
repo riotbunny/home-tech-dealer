@@ -458,7 +458,7 @@ export function PaidInternetLandingPage({
 
       <section className="mx-auto grid max-w-6xl gap-x-7 gap-y-5 py-6 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-10">
         <div>
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
+          <div className="mb-5 hidden items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700 sm:inline-flex">
             <ShieldCheck className="h-4 w-4" />
             <span>Internet setup desk</span>
           </div>
@@ -468,7 +468,7 @@ export function PaidInternetLandingPage({
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Get help choosing a provider and plan for your home. A HomeTechDealer specialist can answer your questions and help you take the next step toward getting connected.
+            Get help choosing a provider and plan for your home, with a specialist to answer your questions and help you get connected.
           </p>
 
           <div className="mt-6">
@@ -484,7 +484,7 @@ export function PaidInternetLandingPage({
 
           <p className="mt-2 text-sm text-slate-600">Ask about 5 Gig options and setup offers not shown online</p>
 
-          <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 lg:grid-cols-4 [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div]:shadow-none">
+          <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-200 pt-3 lg:grid-cols-4 [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div]:shadow-none [&>div:nth-child(n+3)]:hidden sm:[&>div:nth-child(n+3)]:flex">
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
               <span className="text-sm font-extrabold text-slate-700">Free to check</span>
