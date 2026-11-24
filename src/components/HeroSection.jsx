@@ -77,7 +77,7 @@ export function HeroSection({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 2-Column Luxury Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 lg:gap-x-12 items-center">
           
           {/* Left Column: Headline, Trust, and Search Console (7 cols) */}
           <div className="lg:col-span-7">
@@ -89,17 +89,10 @@ export function HeroSection({
                 <span>Compare 27 Top Providers</span>
               </div>
 
-              <a
-                href={telHref}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-700 hover:text-emerald-800 text-xs font-bold transition-all shadow-sm"
-              >
-                <PhoneCall className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Order: {phoneNumber}</span>
-              </a>
             </div>
 
             {/* Headline & Subtitle */}
-            <div className="text-center sm:text-left mb-8 sm:mb-10">
+            <div className="text-center sm:text-left">
               <h1 className="text-[2rem] sm:text-5xl lg:text-[3.5rem] font-extrabold text-slate-900 leading-[1.12] mb-4">
                 Find the Best <br className="hidden sm:block" />
                 <span className="text-blue-700">
@@ -109,9 +102,9 @@ export function HeroSection({
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600/90 leading-relaxed max-w-lg font-medium">
-                Speak with a specialist about internet service in{' '}
+                Get help choosing internet service in{' '}
                 <strong className="text-slate-900 font-bold">{hasValidCity ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} area`) : 'your area'}</strong>. 
-                Check service, review plan terms, and discuss installation for your home.
+                One conversation with HomeTechDealer can help you understand provider options and decide what fits your home, without sorting through plans alone.
               </p>
               <a href={telHref} className="js-google-phone-link mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-4 text-base font-bold text-white hover:bg-emerald-700 sm:w-auto">
                 <PhoneCall className="h-5 w-5 shrink-0" />

@@ -456,7 +456,7 @@ export function PaidInternetLandingPage({
         </a>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-7 py-8 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-14">
+      <section className="mx-auto grid max-w-6xl gap-x-7 gap-y-5 py-6 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center lg:py-10">
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-700">
             <ShieldCheck className="h-4 w-4" />
@@ -468,7 +468,7 @@ export function PaidInternetLandingPage({
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Speak with HomeTechDealer to check service, review plan terms and discuss installation at your address.
+            Get help choosing a provider and plan for your home. A HomeTechDealer specialist can answer your questions and help you take the next step toward getting connected.
           </p>
 
           <div className="mt-6">
