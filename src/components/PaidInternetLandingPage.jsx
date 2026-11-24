@@ -462,11 +462,11 @@ export function PaidInternetLandingPage({
           </div>
 
           <h1 className="max-w-3xl text-[2rem] font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.5rem]">
-            Call Now to Get Internet Set Up at Your Address
+            Get Home Internet Sorted With One Call
           </h1>
 
           <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
-            Speak with a live Internet Setup Desk specialist to check service at your address, review fast install options, and help you take the next step. Same-day or next-day installation may be available in select areas.
+            Speak with HomeTechDealer to check service, review plan terms and discuss installation at your address.
           </p>
 
           <div className="mt-6">

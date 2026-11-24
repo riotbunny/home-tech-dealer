@@ -12,7 +12,6 @@ import {
   Star 
 } from 'lucide-react';
 import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
-import { LiveSpeedometerHero } from './LiveSpeedometerHero';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { triggerHaptic } from '../utils/haptics';
 
@@ -108,17 +107,22 @@ export function HeroSection({
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600/90 leading-relaxed max-w-lg font-medium">
-                See every fiber, cable, 5G, and satellite plan available in{' '}
+                Speak with a specialist about internet service in{' '}
                 <strong className="text-slate-900 font-bold">{hasValidCity ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} area`) : 'your area'}</strong>. 
-                Compare speeds, exclusive pricing, and secure your mover reward cards.
+                Check service, review plan terms, and discuss installation for your home.
               </p>
+              <a href={telHref} className="js-google-phone-link mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-4 text-base font-bold text-white hover:bg-emerald-700 sm:w-auto">
+                <PhoneCall className="h-5 w-5 shrink-0" />
+                Call Now to Get Connected
+              </a>
+              <p className="mt-3 text-sm text-slate-600">Call <a href={telHref} className="js-google-phone-link font-semibold underline underline-offset-4"><span className="js-google-phone-number">{phoneNumber}</span></a> to speak with HomeTechDealer.</p>
             </div>
 
             {/* Big Search Box (Glassmorphic) */}
             <div className="p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
               <div className="text-sm font-bold text-slate-800 mb-3 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span>
-                  Enter your address in {hasValidCity ? formattedCityName : 'your area'}:
+                  Prefer to start online? Enter your address in {hasValidCity ? formattedCityName : 'your area'}:
                 </span>
                 <button
                   onClick={onOpenSpeedQuiz}
@@ -149,7 +153,7 @@ export function HeroSection({
 
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-[1.25rem] bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-sm flex items-center justify-center gap-2 transition-colors shrink-0"
                 >
                   <span>Find Plans</span>
                   <ArrowRight className="w-4 h-4" />
@@ -180,11 +184,15 @@ export function HeroSection({
 
           {/* Right Column: Live Speedometer Showstopper Visualizer (Desktop Only) */}
           <div className="hidden lg:flex lg:col-span-5 justify-center w-full relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-transparent rounded-full blur-[80px] -z-10 opacity-70"></div>
-            <LiveSpeedometerHero onSelectSpeedTier={(speedTier) => {
-              const element = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
-              if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }} />
+            <div className="w-full border-l border-slate-200 pl-8 py-6">
+              <h2 className="text-2xl font-bold text-slate-900">Your next steps, made clearer.</h2>
+              <p className="mt-3 text-base leading-7 text-slate-600">Our specialists help you understand your options before you choose a service.</p>
+              <ol className="mt-6 space-y-5 text-slate-700">
+                <li><strong className="block text-slate-900">1. Check your address</strong>Confirm which services may be available.</li>
+                <li><strong className="block text-slate-900">2. Review the details</strong>Discuss pricing, speeds and plan terms.</li>
+                <li><strong className="block text-slate-900">3. Plan your installation</strong>Ask about equipment and available installation dates.</li>
+              </ol>
+            </div>
           </div>
 
         </div>

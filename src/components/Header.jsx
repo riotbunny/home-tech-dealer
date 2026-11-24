@@ -148,11 +148,12 @@ export function Header({
             {/* Mobile Click-to-Call */}
             <a
               href={telHref}
-              className="p-2.5 bg-emerald-50 active:bg-emerald-100 text-emerald-700 rounded-xl border border-emerald-200 flex items-center justify-center"
+              className="min-h-11 px-3 bg-emerald-600 active:bg-emerald-700 text-white rounded-lg flex items-center justify-center gap-1.5"
               title={`Call ${phoneNumber}`}
               aria-label={`Call ${phoneNumber}`}
             >
-              <PhoneCall className="w-5 h-5 text-emerald-600" />
+              <PhoneCall className="w-4 h-4 shrink-0" />
+              <span className="text-xs font-bold whitespace-nowrap">Call Now</span>
             </a>
 
             {/* Mobile Hamburger Toggle */}
