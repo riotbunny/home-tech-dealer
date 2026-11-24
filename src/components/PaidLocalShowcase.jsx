@@ -1,4 +1,5 @@
 import React from 'react';
+import './showcasePhoto.css';
 
 const LOGOS = [
   ['T-Mobile', '/tmobile-internet-authorized-retailer.png'],
@@ -11,7 +12,7 @@ export function PaidLocalShowcase() {
   return <aside className="paid-showcase">
     <h2>Your next internet offer<br />starts with a call.</h2>
     <p>Ask about available promotions from leading providers—all in one conversation.</p>
-    <div className="paid-showcase-logos">{LOGOS.map(([name, src]) => <div key={name}><img src={src} alt={name} width="140" height="48" /></div>)}</div>
+    <img className="paid-showcase-photo" src="/hometechdealer-van-technician.webp" alt="HomeTechDealer-branded van with a technician giving a thumbs-up" width="1200" height="900" decoding="async" />
     <p className="paid-small">Offers and availability vary by provider and address.</p>
   </aside>;
 }
