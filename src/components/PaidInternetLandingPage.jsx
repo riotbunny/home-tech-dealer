@@ -5,6 +5,7 @@ import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { CarrierLogo } from './CarrierLogos';
 import { BrandLogo } from './BrandLogo';
 import { HeroProviderStrip } from './HeroProviderStrip';
+import { HeroSteps } from './HeroSteps';
 
 const PAID_LOCAL_TITLE = 'Get Internet Set Up at Your Address | HomeTechDealer';
 const PAID_LOCAL_DESCRIPTION = 'Call HomeTechDealer to get help setting up internet at your address. Check service, fast install options, and available providers at 1(855)215-8469.';
@@ -481,7 +482,6 @@ export function PaidInternetLandingPage({
             </a>
           </div>
 
-          <HeroProviderStrip />
           <p className="mt-2 text-sm text-slate-600">Ask about 5 Gig options and setup offers not shown online</p>
 
           <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 lg:grid-cols-4 [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div]:shadow-none">
@@ -539,7 +539,9 @@ export function PaidInternetLandingPage({
 
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="w-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <HeroSteps />
+        <div className="lg:col-span-2"><HeroProviderStrip /></div>
+        <form onSubmit={handleSubmit} noValidate className="w-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5 lg:col-span-2">
           <div className="mb-5">
             <div className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-500">
               Not ready to call yet?

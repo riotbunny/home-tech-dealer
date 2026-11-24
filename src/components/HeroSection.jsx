@@ -15,6 +15,7 @@ import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
 import { DEFAULT_PHONE_NUMBER } from '../services/catalogService';
 import { triggerHaptic } from '../utils/haptics';
 import { HeroProviderStrip } from './HeroProviderStrip';
+import { HeroSteps } from './HeroSteps';
 
 export function HeroSection({ 
   onSelectNearbyCity, 
@@ -117,8 +118,11 @@ export function HeroSection({
                 Call Now to Get Connected
               </a>
               <p className="mt-3 text-sm text-slate-600">Call <a href={telHref} className="js-google-phone-link font-semibold underline underline-offset-4"><span className="js-google-phone-number">{phoneNumber}</span></a> to speak with HomeTechDealer.</p>
-              <HeroProviderStrip />
             </div>
+          </div>
+          <div className="lg:col-span-5"><HeroSteps /></div>
+          <div className="lg:col-span-12"><HeroProviderStrip /></div>
+          <div className="lg:col-span-12">
 
             {/* Big Search Box (Glassmorphic) */}
             <div className="p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
@@ -184,18 +188,6 @@ export function HeroSection({
 
           </div>
 
-          {/* Right Column: Live Speedometer Showstopper Visualizer (Desktop Only) */}
-          <div className="hidden lg:flex lg:col-span-5 justify-center w-full relative">
-            <div className="w-full border-t-4 border-blue-600 bg-slate-50 px-7 py-8">
-              <h2 className="text-2xl font-bold text-slate-900">Your next steps, made clearer.</h2>
-              <p className="mt-3 text-base leading-7 text-slate-600">Our specialists help you understand your options before you choose a service.</p>
-              <ol className="mt-6 space-y-5 text-slate-700">
-                <li><strong className="block text-slate-900">1. Check your address</strong>Confirm which services may be available.</li>
-                <li><strong className="block text-slate-900">2. Review the details</strong>Discuss pricing, speeds and plan terms.</li>
-                <li><strong className="block text-slate-900">3. Plan your installation</strong>Ask about equipment and available installation dates.</li>
-              </ol>
-            </div>
-          </div>
 
         </div>
 
