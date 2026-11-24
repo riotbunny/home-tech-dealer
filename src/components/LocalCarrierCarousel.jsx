@@ -56,7 +56,7 @@ export function LocalCarrierCarousel({ rows, location, telHref, onCheckAddress, 
             {plan.equipmentFee && <p>Equipment: {plan.equipmentFee}</p>}
             {plan.installationSla && <p>Installation: {plan.installationSla}</p>}
             {plan.perks?.length > 0 && <ul>{plan.perks.map((perk, index) => <li key={index}>{perk}</li>)}</ul>}
-            <button type="button" onClick={() => onShowFacts(plan, row.rawProvider)}>FCC Broadband Facts</button>
+            <button type="button" onClick={() => onShowFacts(plan, row.rawProvider)}>Plan details &amp; fees</button>
           </div>)}
         </details>
         <button className="local-carrier-address" type="button" onClick={onCheckAddress}>Check my address</button>

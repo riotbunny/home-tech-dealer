@@ -1,6 +1,7 @@
 // Comprehensive 50-State US Markets & Programmatic SEO (pSEO) Directory Database
 // Home Tech Dealer Inc.
 import { ALL_STATES_CARRIER_FOOTPRINTS, getStateFromZip } from '../services/broadbandLookupService.js';
+import { canonicalInternetPath } from '../services/canonicalRoutes.js';
 
 export const US_STATES = [
   { code: 'AL', name: 'Alabama', region: 'South' },
@@ -300,7 +301,7 @@ export function resolveLocationRoute(pathname, searchParams) {
   let city = '';
   let zip = '';
 
-  const cleanPath = (pathname || '').replace(/\/$/, '').toLowerCase().trim();
+  const cleanPath = canonicalInternetPath((pathname || '').replace(/\/$/, '').toLowerCase().trim());
   const parts = cleanPath.split('/').filter(Boolean);
 
   // Vector 3: Head-to-Head Comparisons (/compare/spectrum-vs-att)
@@ -331,7 +332,7 @@ export function resolveLocationRoute(pathname, searchParams) {
       city: 'USA Nationwide',
       state: 'USA',
       stateName: 'United States',
-      zip: '78701',
+      zip: '',
       street: '100 Main St',
       canonicalPath: `/compare/${carrierA}-vs-${carrierB}`,
       description: `Compare ${compData.nameA} vs ${compData.nameB} internet speeds, monthly prices, contracts, and customer ratings for 2026.`,
@@ -344,8 +345,8 @@ export function resolveLocationRoute(pathname, searchParams) {
   // Vector 4: Carrier-in-City (/providers/spectrum/austin-tx or /providers/spectrum)
   if (parts.length >= 2 && (parts[0] === 'providers' || parts[0] === 'provider')) {
     const carrierId = parts[1];
-    let parsedCity = 'Austin';
-    let parsedState = 'TX';
+    let parsedCity = 'Your Area';
+    let parsedState = 'USA';
     if (parts.length >= 3) {
       if (parts.length >= 4) {
         parsedState = (parts[2] || 'TX').toUpperCase();
@@ -373,7 +374,7 @@ export function resolveLocationRoute(pathname, searchParams) {
       city: `${parsedCity}, ${parsedState}`,
       state: parsedState,
       stateName: stateInfo.name,
-      zip: '78701',
+      zip: '',
       street: 'Main Street',
       canonicalPath,
       description: `Official ${carrierId.toUpperCase()} internet availability, fiber coverage, speed tiers, and promotional deals in ${parsedCity}, ${parsedState}.`,
@@ -386,8 +387,8 @@ export function resolveLocationRoute(pathname, searchParams) {
   // Vector 5: Tech Verticals (/fiber-internet/austin-tx or /5g-home-internet/miami-fl)
   if (parts.length >= 1 && (parts[0] === 'fiber-internet' || parts[0] === '5g-home-internet' || parts[0] === 'cheap-internet')) {
     const techType = parts[0].replace('-internet', '');
-    let locCity = 'Austin';
-    let locState = 'TX';
+    let locCity = 'Your Area';
+    let locState = 'USA';
     if (parts.length >= 2) {
       const parsed = parseCitySlug(parts[1]);
       if (parsed) {
@@ -405,9 +406,9 @@ export function resolveLocationRoute(pathname, searchParams) {
       city: `${locCity}, ${locState}`,
       state: locState,
       stateName: stateInfo.name,
-      zip: '78701',
+      zip: '',
       street: 'Main Street',
-      canonicalPath: `/${parts[0]}/${createCitySlug(locCity, locState)}`,
+      canonicalPath: parts.length > 1 ? `/${parts[0]}/${createCitySlug(locCity, locState)}` : `/${parts[0]}`,
       description: `Best ${techType.toUpperCase()} internet options and verified plans in ${locCity}, ${locState}. Check address availability with zero hold time.`,
       serviceableProviderIds: regional,
       medianHouseholdSpeed: '1000 Mbps',
@@ -496,6 +497,7 @@ export function resolveLocationRoute(pathname, searchParams) {
 
   // State code validation
   const validState = STATE_NAME_TO_CODE[state.toLowerCase()] || state.toUpperCase() || 'USA';
+  if (![...US_STATES.map(s => s.code), 'PR', 'VI', 'GU', 'AS', 'MP', 'FM', 'MH', 'PW'].includes(validState)) return null;
   const stateInfo = US_STATES.find(s => s.code === validState) || { name: validState, code: validState };
 
   // Check curated database for matching city or zip
@@ -504,8 +506,8 @@ export function resolveLocationRoute(pathname, searchParams) {
     ((formattedCity && c.city.toLowerCase() === formattedCity.toLowerCase()) || (zip && c.zip === zip))
   );
 
-  const finalCity = found ? found.city : (formattedCity || 'Your Area');
-  const finalZip = zip || (found ? found.zip : (validState === 'TX' ? '78701' : '55555'));
+  const finalCity = formattedCity || found?.city || 'Your Area';
+  const finalZip = /^\d{5}$/.test(zip) ? zip : '';
   const finalStreet = found ? found.street : 'Main Street';
   const finalSpeed = found ? found.speed : '1000 Mbps';
   const finalFiber = found ? found.fiber : '88%';

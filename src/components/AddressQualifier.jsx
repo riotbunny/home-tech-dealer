@@ -268,7 +268,7 @@ export function AddressQualifier({
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {isQualified 
-              ? `Plans Available at ${localAddressInput || currentAddress}` 
+              ? `Plan Options for ${localAddressInput || currentAddress}`
               : (cityName ? `Internet & TV Providers in ${formattedCityName}${state ? `, ${state}` : ''}` : 'Internet & TV Providers in Your Area')}
           </h2>
         </div>
@@ -308,14 +308,14 @@ export function AddressQualifier({
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white px-2.5 py-0.5 rounded-full">
-                    Address Verified
+                    Address Received
                   </span>
                   <span className="text-xs sm:text-sm font-bold text-slate-900 truncate">
                     {localAddressInput || currentAddress}
                   </span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-emerald-800 font-medium mt-0.5">
-                  Showing <strong>{filteredPlans.length} plans</strong> serviceable at your location from FCC broadband map data.
+                  Showing <strong>{filteredPlans.length} plans</strong> to review. Confirm current availability and terms with the selected carrier.
                 </p>
               </div>
             </div>
@@ -617,10 +617,10 @@ export function AddressQualifier({
                         setFccModalProvider(serviceableProviders.find(p => p.id === plan.providerId));
                       }}
                       className="w-full mt-3.5 py-2 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-slate-200 flex items-center justify-center gap-1.5 transition-colors group"
-                      title="View Official FCC Consumer Disclosure"
+                      title="Review catalog plan details"
                     >
                       <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-                      <span>Official FCC Broadband Facts</span>
+                      <span>Plan Details & Fees</span>
                     </button>
                   </div>
 
@@ -773,7 +773,7 @@ export function AddressQualifier({
                       ))}
                     </div>
 
-                    {/* Official FCC Broadband Facts Label Trigger */}
+                    {/* Plan Details & Fees Label Trigger */}
                     <button
                       type="button"
                       onClick={() => {
@@ -784,7 +784,7 @@ export function AddressQualifier({
                       title="View Official Federal Communications Commission Consumer Disclosure"
                     >
                       <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 group-hover:scale-110 transition-transform" />
-                      <span>Official FCC Broadband Facts</span>
+                      <span>Plan Details & Fees</span>
                     </button>
                   </div>
 
@@ -1015,7 +1015,7 @@ export function AddressQualifier({
         </div>
       )}
 
-      {/* Official FCC Broadband Facts Modal */}
+      {/* Plan Details & Fees Modal */}
       <FccBroadbandFactsModal
         isOpen={!!fccModalPlan}
         onClose={() => {

@@ -89,6 +89,9 @@ export function useCityRoute(onCityResolved, options = {}) {
     }
 
     const initialLocation = detectLocationFromUrl();
+    if (initialLocation?.canonicalPath && window.location.pathname !== initialLocation.canonicalPath) {
+      window.history.replaceState({ canonicalPath: initialLocation.canonicalPath }, '', `${initialLocation.canonicalPath}${window.location.search}${window.location.hash}`);
+    }
     applyLocation(initialLocation, false);
 
     const handlePopState = () => {

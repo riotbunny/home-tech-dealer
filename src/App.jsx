@@ -436,6 +436,7 @@ export function App() {
         <>
           {/* Hero Section */}
           <HeroSection
+            isStatePage={currentCityData?.routeType === 'state'}
             onSelectNearbyCity={handleSelectNearbyCity}
             nearbyCities={nearbyCities}
             cityName={cityName}

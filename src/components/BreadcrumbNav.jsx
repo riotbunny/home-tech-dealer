@@ -8,9 +8,9 @@ export function BreadcrumbNav({ routeData, onNavigate }) {
   const routeType = routeData.routeType || 'city';
   const stateCode = (routeData.state || 'TX').toUpperCase();
   const stateName = routeData.stateName || stateCode;
-  const cityName = routeData.cityName || 'Austin';
+  const cityName = routeData.cityName || 'Your Area';
   const zip = routeData.zip || '';
-  const citySlug = createCitySlug(cityName, stateCode);
+  const citySlug = createCitySlug(cityName);
 
   // Generate crumbs array based on routeType
   const crumbs = [

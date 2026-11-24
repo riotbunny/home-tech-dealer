@@ -1,3 +1,6 @@
+import { canonicalInternetPath } from './src/services/canonicalRoutes.js';
+import postalRoutes from './seo/postalRoutes.json';
+
 const allowedCountries = ['US'];
 const knownGoodBotPattern = /googlebot|bingbot|yandex|baiduspider|slurp/i;
 
@@ -6,6 +9,12 @@ export const config = {
 };
 
 export default function middleware(request) {
+  const url = new URL(request.url);
+  const canonicalPath = canonicalInternetPath(url.pathname, postalRoutes, cityStates);
+  if (canonicalPath !== url.pathname) {
+    url.pathname = canonicalPath;
+    return Response.redirect(url, 308);
+  }
   const countryCode = request.headers.get('x-vercel-ip-country') || request.geo?.country;
 
   if (!countryCode || allowedCountries.includes(countryCode)) {
@@ -35,4 +44,10 @@ export default function middleware(request) {
     status: 503,
     headers: { 'content-type': 'text/html; charset=utf-8' },
   });
+}
+
+const cityStates = {};
+for (const [state, city] of Object.values(postalRoutes)) {
+  if (!(city in cityStates)) cityStates[city] = state;
+  else if (cityStates[city] !== state) cityStates[city] = null;
 }

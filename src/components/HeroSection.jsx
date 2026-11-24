@@ -25,6 +25,7 @@ export function HeroSection({
   cityName = '', 
   state = '',
   zip = '',
+  isStatePage = false,
   phoneNumber = DEFAULT_PHONE_NUMBER,
   onSearchAddress, 
   onOpenSpeedQuiz 
@@ -66,7 +67,7 @@ export function HeroSection({
   
   const formattedCityName = hasValidCity ? toTitleCase(cityName) : '';
   const locationLabel = hasValidCity 
-    ? (state ? `${formattedCityName}, ${state}` : `${formattedCityName} Area`)
+    ? (isStatePage ? formattedCityName : (state ? `${formattedCityName}, ${state}` : `${formattedCityName} Area`))
     : 'Your Area';
 
   return (

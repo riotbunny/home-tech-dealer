@@ -3,6 +3,7 @@
 import { PROVIDERS_CATALOG } from '../data/providersData.js';
 import { US_CITIES_COORDINATES } from '../data/usCitiesRadiusData.js';
 import { normalizeDetectedLocation } from './geoLocation.js';
+import { stateForZip } from './canonicalRoutes.js';
 
 // Footprints for all 50 US States + DC
 export const ALL_STATES_CARRIER_FOOTPRINTS = {
@@ -61,6 +62,8 @@ export const ALL_STATES_CARRIER_FOOTPRINTS = {
 
 // Zip code 3-digit prefix to State mapping for instant offline / fallback resolution
 export function getStateFromZip(zipString) {
+  const mappedState = stateForZip(zipString);
+  if (mappedState) return mappedState;
   if (!zipString || zipString.length < 3) return null;
   const prefix = parseInt(zipString.substring(0, 3), 10);
   if (isNaN(prefix)) return null;
