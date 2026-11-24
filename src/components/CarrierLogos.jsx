@@ -1,6 +1,21 @@
 import React from 'react';
 import { getStoredCatalog } from '../services/catalogService';
 
+const CARRIER_LOGO_ASSETS = {
+  tmobile: '/tmobile-internet-authorized-retailer.png',
+  att: '/att-authorized-retailer.png',
+  spectrum: '/spectrum-logo.png',
+  verizon: '/verizon-logo.png',
+  earthlink: '/earthlink-logo.png',
+  frontier: '/frontier-verizon-company-logo.png',
+  starlink: '/starlink-logo.png',
+  astound: '/astound-logo.png',
+  breezeline: '/breezeline-logo.png',
+  cox: '/cox-logo.png',
+  centurylink: '/centurylink-logo.png',
+  optimum: '/optimum-authorized-reseller-logo.png'
+};
+
 /**
  * CarrierLogos
  * Authentic, crisp SVG vector brand logomarks for nationwide and regional carriers.
@@ -19,9 +34,10 @@ export function CarrierLogo({ id, name, customUrl, className = 'h-5 w-auto' }) {
     }
   }
 
-  if (finalCustomUrl) {
+  const logoUrl = finalCustomUrl || CARRIER_LOGO_ASSETS[carrierId];
+  if (logoUrl) {
     return (
-      <img src={finalCustomUrl} alt={name || 'Carrier Logo'} className={`${className} object-contain`} />
+      <img src={logoUrl} alt={name || carrierId || 'Carrier Logo'} className={`${className} object-contain bg-white`} />
     );
   }
 
