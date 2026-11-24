@@ -1,4 +1,5 @@
 import { ZIP_STATE_RANGES } from '../data/zipStateRanges.js';
+import { normalizeStateCode } from './geoLocation.js';
 
 export function stateForZip(zip) {
   if (!/^\d{5}$/.test(String(zip))) return null;
@@ -14,6 +15,7 @@ export function canonicalInternetPath(pathname, postalRoutes = {}, cityStates = 
     return `/internet/${state}/${city}/${parts[1]}`;
   }
   if (parts[0] !== 'internet' || parts[1] === 'local') return pathname;
+  if (parts.length === 2 && normalizeStateCode(parts[1])) return `/internet/${normalizeStateCode(parts[1]).toLowerCase()}`;
   if (parts.length > 4 && /^\d{5}$/.test(parts.at(-1))) {
     const city = parts.slice(2, -1).join('-').replace(/-+/g, '-');
     return canonicalInternetPath(`/internet/${parts[1]}/${city}/${parts.at(-1)}`, postalRoutes, cityStates);

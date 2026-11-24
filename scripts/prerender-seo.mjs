@@ -5,6 +5,8 @@ import { LOCAL_GUIDES, getLocalGuide } from '../src/data/localGuides.js';
 import { getPageMetadata, getPageSchema } from '../src/services/seoMetadata.js';
 
 const base = await readFile('dist/index.html', 'utf8');
+// Unrendered routes must not inherit the homepage's canonical annotation.
+await writeFile('dist/app.html', base);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const extraZipPages = ['/internet/tx/houston/77031', '/internet/tx/houston/77268', '/internet/ky/louisville/40214', '/internet/tx/houston/77033', '/internet/oh/columbus/43216', '/internet/tn/lafayette/37083', '/internet/va/iron-gate/24448'];
 const paths = new Set(['/', ...US_STATES.map(s => `/internet/${s.code.toLowerCase()}`), ...CURATED_CITIES.map(c => `/internet/${c.state.toLowerCase()}/${createCitySlug(c.city)}`), ...Object.keys(LOCAL_GUIDES).map(key => `/internet/${key}`), ...extraZipPages]);

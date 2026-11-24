@@ -7,6 +7,8 @@ import { getPageMetadata, getPageSchema } from '../src/services/seoMetadata.js';
 
 const postal = JSON.parse(readFileSync('seo/postalRoutes.json', 'utf8'));
 test('city hubs never invent a ZIP and legacy city suffixes consolidate', () => {
+  assert.equal(canonicalInternetPath('/internet/texas'), '/internet/tx');
+  assert.equal(resolveLocationRoute('/internet/fl/miami/33101', new URLSearchParams('city=Houston&state=TX')).cityName, 'Miami');
   for (const path of ['/internet/tx/houston', '/internet/tx/houston-tx', '/internet/houston-tx']) {
     const route = resolveLocationRoute(path);
     assert.equal(route.cityName, 'Houston');
@@ -44,6 +46,7 @@ test('middleware preserves ad parameters and does not affect PPC or legal routes
   }
 });
 test('priority pages ship real HTML titles, canonicals and useful text before JavaScript', () => {
+  assert(!readFileSync('dist/app.html', 'utf8').includes('rel="canonical"'), 'The SPA fallback must not assign the homepage canonical to deep routes');
   for (const path of ['internet/tx/houston/77031', 'internet/la', 'internet/ky/louisville/40214']) {
     const html = readFileSync(`dist/${path}/index.html`, 'utf8');
     assert(html.includes(`href="https://www.hometechdealer.com/${path}"`));

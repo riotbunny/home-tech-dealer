@@ -479,7 +479,7 @@ export function resolveLocationRoute(pathname, searchParams) {
   }
 
   // Check search params if provided
-  if (searchParams) {
+  if (searchParams && !state && !city && !zip) {
     const sState = searchParams.get('state');
     const sCity = searchParams.get('city');
     const sZip = searchParams.get('zip');
