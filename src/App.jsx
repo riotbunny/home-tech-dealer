@@ -485,7 +485,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main id="navigation-content" tabIndex={-1} className="flex-1 scroll-mt-24">
         {activeTab === 'qualifier' && currentCityData?.routeType === 'state' && (
           <StateHubView
             stateCode={currentCityData.state}

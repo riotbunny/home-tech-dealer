@@ -34,6 +34,19 @@ export function Header({
   const [logoClickCount, setLogoClickCount] = useState(0);
   const telHref = `tel:${phoneNumber.replace(/\D/g, '')}`;
 
+  const handleNavigation = (tab) => {
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+    // Wait for React to render the selected view and close the mobile menu.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const target = document.getElementById(tab === 'qualifier' ? 'hero-address-form' : 'navigation-content');
+      if (!target) return;
+      const focusTarget = tab === 'qualifier' ? target.querySelector('input') : target;
+      focusTarget?.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }));
+  };
+
   const handleLogoClick = () => {
     setActiveTab('qualifier');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -90,7 +103,8 @@ export function Header({
                 return (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id)}
+                    onClick={() => handleNavigation(item.id)}
+                    aria-current={isActive ? 'page' : undefined}
                     className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
                       isActive
                         ? 'text-indigo-700 bg-indigo-50/50'
@@ -162,6 +176,8 @@ export function Header({
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2.5 text-slate-600 active:text-slate-900 rounded-xl hover:bg-slate-100"
                 aria-label="Toggle Navigation Menu"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-navigation"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -172,7 +188,7 @@ export function Header({
 
       {/* Mobile Dropdown */}
       {!isSqueezePage && mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-2 shadow-lg">
+        <div id="mobile-navigation" className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-2 shadow-lg">
           {detectedLocation && (
             <div className="px-3 py-2 bg-blue-50 rounded-xl text-xs font-semibold text-blue-800 flex items-center gap-2">
               <MapPin className="w-3.5 h-3.5 text-indigo-600" />
@@ -202,10 +218,8 @@ export function Header({
             return (
               <button
                 key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setMobileMenuOpen(false);
-                }}
+                onClick={() => handleNavigation(item.id)}
+                aria-current={isActive ? 'page' : undefined}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                   isActive 
                     ? 'bg-blue-50 text-indigo-600' 
