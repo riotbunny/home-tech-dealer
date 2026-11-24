@@ -118,7 +118,7 @@ export function HeroSection({
           <div className="lg:col-span-12">
 
             {/* Big Search Box (Glassmorphic) */}
-            <div className="storefront-search p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
+            <div id="hero-address-form" className="storefront-search p-4 sm:p-5 rounded-lg bg-white border border-slate-200 shadow-sm">
               <div className="text-sm font-bold text-slate-800 mb-3 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span>
                   Prefer to start online? Enter your address in {hasValidCity ? formattedCityName : 'your area'}:

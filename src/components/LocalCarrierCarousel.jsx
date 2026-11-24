@@ -24,11 +24,11 @@ export function LocalCarrierCarousel({ rows, location, telHref, onCheckAddress, 
     element.scrollBy({ left: direction * (card.getBoundingClientRect().width + 16), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
 
-  return <section className="local-carriers" aria-label={`Internet providers in ${location}`}>
+  return <section className="local-carriers" aria-label="Internet providers we work with">
     <div className="local-carriers-heading">
       <div>
-        <h3>Internet Providers in {location}</h3>
-        <p>Explore {rows.length} carriers. Call to check current promotions for your address.</p>
+        <h3>Leading Internet Providers. More Possibilities.</h3>
+        <p>Authorized dealer access to a wide range of internet providers. Call to check which carriers and current promotions are available at your address.</p>
       </div>
       <div className="local-carriers-controls">
         <button type="button" aria-label="Previous carriers" aria-controls="local-carrier-track" disabled={edges.start} onClick={() => move(-1)}><ArrowLeft size={20} /></button>

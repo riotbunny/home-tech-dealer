@@ -26,7 +26,6 @@ import {
 } from 'lucide-react';
 import { SAMPLE_MARKETS } from '../data/sampleMarkets';
 import { PROVIDERS_CATALOG } from '../data/providersData';
-import { GoogleAddressAutocomplete } from './GoogleAddressAutocomplete';
 import { FccBroadbandFactsModal } from './FccBroadbandFactsModal';
 import { LocalCarrierCarousel } from './LocalCarrierCarousel';
 import { CarrierLogo } from './CarrierLogos';
@@ -132,25 +131,7 @@ export function AddressQualifier({
     setExpandedPlanIds(new Set());
   };
 
-  const scrollToCarriers = () => {
-    setTimeout(() => {
-      const gridEl = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
-      if (gridEl) {
-        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 150);
-  };
 
-  // Handle address form submit
-  const handleFormSubmit = (e) => {
-    e?.preventDefault();
-    if (onExecuteSearch) {
-      onExecuteSearch(localAddressInput);
-    }
-    scrollToCarriers();
-  };
-
-  // Serviceable providers for current address (Verizon, T-Mobile, EarthLink, Starlink guaranteed nationwide)
   const serviceableProviders = useMemo(() => {
     const defaultList = ['verizon', 'tmobile', 'earthlink', 'starlink', 'att', 'spectrum', 'frontier', 'directv', 'viasat'];
     const baseList = activeProviderIds || defaultList;
@@ -238,13 +219,10 @@ export function AddressQualifier({
   }, [isQualified, filteredPlans]);
 
   const focusAddressInput = () => {
-    const el = document.getElementById('marketplace-address-input') || 
-               document.querySelector('input[placeholder*="Search your street address"]') ||
-               document.querySelector('input[placeholder*="street address"]') ||
-               document.querySelector('input[placeholder*="Type any street address"]');
+    const el = document.querySelector('#hero-address-form input');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      el.focus();
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
     }
   };
 
@@ -321,90 +299,6 @@ export function AddressQualifier({
             <span>Compare ({comparisonCart.length}/3)</span>
           </button>
         </div>
-      </div>
-
-      {/* Address Search Bar (Always visible for fast qualification) */}
-      <div id="marketplace-address-input" className="mt-4 sm:mt-6 p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-sm">
-        <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center justify-between">
-          <span>Search Exact Street Address:</span>
-          <span className="text-xs text-indigo-700 font-medium flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>{isQualified ? `${serviceableProviders.length} Providers Verified` : `${cityComparisonTable.length} Top Carriers Featured`}</span>
-          </span>
-        </div>
-
-        {/* Search Input Form */}
-        <form 
-          onSubmit={handleFormSubmit}
-          className="relative flex flex-col sm:flex-row items-center gap-2"
-        >
-          <div className="relative w-full">
-            <GoogleAddressAutocomplete
-              value={localAddressInput}
-              onChange={(val) => setLocalAddressInput(val)}
-              onSelectAddress={(chosen) => {
-                setLocalAddressInput(chosen);
-                if (onExecuteSearch) onExecuteSearch(chosen);
-                scrollToCarriers();
-              }}
-              placeholder={cityName ? `Search your street address in ${formattedCityName} or zip code...` : "Type any street address, city, state, or 5-digit zip code..."}
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={isSearching}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md shadow-indigo-500/20 disabled:opacity-50 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs shrink-0"
-          >
-            {isSearching ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>Checking...</span>
-              </>
-            ) : (
-              <>
-                <Search className="w-3.5 h-3.5" />
-                <span>Search Plans</span>
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Dynamic Nearby Radius Cities */}
-        {nearbyCities && nearbyCities.length > 0 && (
-          <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-            <span className="text-xs font-semibold text-slate-500 shrink-0 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Nearby Cities:</span>
-            </span>
-            {nearbyCities.map((cityItem, idx) => {
-              const isCurrent = localAddressInput.toLowerCase().includes(cityItem.city.toLowerCase());
-              return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    const addr = `${cityItem.city}, ${cityItem.state}`;
-                    setLocalAddressInput(addr);
-                    if (onSelectNearbyCity) onSelectNearbyCity(cityItem);
-                    if (onExecuteSearch) onExecuteSearch(addr);
-                    scrollToCarriers();
-                  }}
-                  className={`shrink-0 px-3 py-1 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
-                    isCurrent
-                      ? 'bg-blue-600 text-white font-bold shadow-xs'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                  }`}
-                >
-                  <span>{cityItem.city}, {cityItem.state}</span>
-                  {typeof cityItem.distance === 'number' && (
-                    <span className={`text-[10px] ${isCurrent ? 'text-blue-100' : 'text-slate-500'}`}>
-                      {cityItem.distance === 0 ? '(Current)' : `(~${cityItem.distance} mi)`}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {isQualified ? (
