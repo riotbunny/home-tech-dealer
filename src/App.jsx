@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { triggerHaptic } from './utils/haptics';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
@@ -21,7 +21,7 @@ import { StateHubView } from './components/StateHubView';
 import { CarrierComparisonView } from './components/CarrierComparisonView';
 import { CarrierHubView } from './components/CarrierHubView';
 import { useCityRoute } from './hooks/useCityRoute';
-import { updateCitySEO } from './services/seoService';
+import { updateCitySEO, restoreHomepageSEO } from './services/seoService';
 import { getNearbyCities, createCitySlug } from './data/usCitiesData';
 import { SAMPLE_MARKETS } from './data/sampleMarkets';
 import { lookupBroadbandAvailability, detectUserLocation, getDisplayCityName } from './services/broadbandLookupService';
@@ -71,14 +71,15 @@ export function App() {
   const [phoneNumber, setPhoneNumber] = useState(getStoredPhoneNumber);
   const [googleApiKey, setGoogleApiKey] = useState(getStoredGoogleApiKey);
   const [defaultLocation, setDefaultLocation] = useState(initialLoc);
-  const [selectedMarket, setSelectedMarket] = useState(SAMPLE_MARKETS[0]);
+  const [selectedMarket, setSelectedMarket] = useState(null);
   const [currentAddress, setCurrentAddress] = useState('');
   const [isAddressQualified, setIsAddressQualified] = useState(false);
-  const [activeProviderIds, setActiveProviderIds] = useState(SAMPLE_MARKETS[0].serviceableProviderIds);
+  const [activeProviderIds, setActiveProviderIds] = useState(null);
   const [lookupSource, setLookupSource] = useState('Local Provider Network');
   const [isSearching, setIsSearching] = useState(false);
   const [detectedLocation, setDetectedLocation] = useState(null);
-  const [cityName, setCityName] = useState(initialLoc.city || '');
+  const addressSearchRevision = useRef(0);
+  const [cityName, setCityName] = useState('');
 
   // Admin Tool State
   const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
@@ -102,7 +103,17 @@ export function App() {
   // Programmatic SEO (pSEO) Dynamic City & 44k ZIP Resolver Callback
   const handleCityResolved = useCallback((cityData) => {
     if (isPaidInternetLocalRoute) return;
-    if (!cityData) return;
+    if (!cityData) {
+      setCityName('');
+      setSelectedMarket(null);
+      setCurrentAddress('');
+      setIsAddressQualified(false);
+      setActiveProviderIds(null);
+      setDetectedLocation(null);
+      setNearbyCities([]);
+      restoreHomepageSEO();
+      return;
+    }
     setCityName(cityData.cityName);
     // Keep currentAddress empty so search bar shows inviting placeholder instead of pre-filled address
     setCurrentAddress('');
@@ -133,7 +144,7 @@ export function App() {
     updateCitySEO(cityData, phoneNumber);
   }, [phoneNumber, isPaidInternetLocalRoute]);
 
-  const { currentCityData, navigateToCity } = useCityRoute(handleCityResolved, { disabled: isStandaloneRoute });
+  const { currentCityData, navigateToCity, navigateToDetectedLocation } = useCityRoute(handleCityResolved, { disabled: isStandaloneRoute });
 
   // Secret Admin Portal Trigger (Ctrl+Shift+X or Ctrl+Shift+A or Cmd+Shift+X)
   useEffect(() => {
@@ -173,72 +184,36 @@ export function App() {
     }
   }, [routedPhoneNumber, currentCityData]);
 
-  // Automatically detect user's city via Geo IP on initial load (only if no specific pSEO slug in URL)
+  // IP location is only a suggestion for a fresh homepage visit, never a direct link.
   useEffect(() => {
-    async function initUserLocation() {
-      if (isPromoHost || isStandaloneRoute) {
-        return;
+    if (isPromoHost || isStandaloneRoute) return;
+    const startingUrl = window.location.href;
+    const startingRevision = addressSearchRevision.current;
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    const query = new URLSearchParams(window.location.search);
+    if (!['/', '/internet'].includes(path) || ['city', 'state', 'zip', 'market'].some(key => query.has(key))) return;
+    let cancelled = false;
+    const abandon = () => { cancelled = true; };
+    window.addEventListener('popstate', abandon);
+    detectUserLocation().then(geo => {
+      // Ignore late results after an address search, navigation, or browser Back.
+      if (cancelled || addressSearchRevision.current !== startingRevision || window.location.href !== startingUrl || !geo) return;
+      navigateToDetectedLocation(geo);
+      setDetectedLocation(geo);
+      if (Number.isFinite(geo.latitude) && Number.isFinite(geo.longitude)) {
+        setNearbyCities(getNearbyRadiusCities(geo.latitude, geo.longitude, geo.city, 6));
       }
-
-      // If a specific pSEO city slug is already in the URL or query, let pSEO take priority
-      if (typeof window !== 'undefined') {
-        const path = window.location.pathname;
-        const search = window.location.search;
-        if (path.startsWith('/internet/') || (path.includes('-') && path.length > 3) || search.includes('city=') || search.includes('market=')) {
-          return;
-        }
-      }
-
-      try {
-        const geo = await detectUserLocation();
-        if (geo && geo.city) {
-          setDetectedLocation(geo);
-          const clean = getDisplayCityName(geo.city, geo.state);
-          if (clean) {
-            setCityName(clean);
-          } else {
-            setCityName('');
-          }
-
-          if (geo.latitude && geo.longitude) {
-            const nearby = getNearbyRadiusCities(geo.latitude, geo.longitude, geo.city, 6);
-            if (nearby && nearby.length > 0) {
-              setNearbyCities(nearby);
-            }
-          }
-
-          // Auto-run lookup for user's detected local city and state (do not prefill search bar)
-          if (clean) {
-            const initialAddr = `${clean}, ${geo.state || ''}`.trim();
-            handlePerformAddressSearch(initialAddr, false);
-          }
-        } else if (defaultLocation.city) {
-          const clean = getDisplayCityName(defaultLocation.city, defaultLocation.state);
-          setCityName(clean || '');
-          if (clean) {
-            const initialAddr = defaultLocation.address || `${clean}, ${defaultLocation.state || ''}`.trim();
-            handlePerformAddressSearch(initialAddr, false);
-          }
-        } else {
-          setCityName('');
-        }
-      } catch (err) {
-        console.warn('Could not auto-detect location:', err);
-        if (defaultLocation.city) {
-          const clean = getDisplayCityName(defaultLocation.city, defaultLocation.state);
-          setCityName(clean || '');
-        } else {
-          setCityName('');
-        }
-      }
-    }
-
-    initUserLocation();
-  }, []);
+    });
+    return () => {
+      cancelled = true;
+      window.removeEventListener('popstate', abandon);
+    };
+  }, [isPromoHost, isStandaloneRoute, navigateToDetectedLocation]);
 
   // Execute live address lookup for ANY US address or zip code
   const handlePerformAddressSearch = async (addressQuery, isUserInitiated = true) => {
     if (!addressQuery || !addressQuery.trim()) return;
+    addressSearchRevision.current += 1;
     setIsSearching(true);
     try {
       const result = await lookupBroadbandAvailability(addressQuery);

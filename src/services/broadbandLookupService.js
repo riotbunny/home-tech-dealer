@@ -2,6 +2,7 @@
 // Powered by US Census Geocoding API + Nationwide FCC BDC Carrier Footprints
 import { PROVIDERS_CATALOG } from '../data/providersData.js';
 import { US_CITIES_COORDINATES } from '../data/usCitiesRadiusData.js';
+import { normalizeDetectedLocation } from './geoLocation.js';
 
 // Footprints for all 50 US States + DC
 export const ALL_STATES_CARRIER_FOOTPRINTS = {
@@ -331,29 +332,18 @@ export async function lookupBroadbandAvailability(addressString) {
  * Automatically detect user's current city and state via free IP Geolocation API
  */
 export async function detectUserLocation() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-
     const res = await fetch('https://ipwho.is/', { signal: controller.signal });
-    clearTimeout(timeoutId);
-
     if (res.ok) {
       const data = await res.json();
-      if (data && data.success !== false && data.city) {
-        return {
-          city: data.city,
-          state: data.region_code || data.region,
-          postal: data.postal,
-          latitude: data.latitude,
-          longitude: data.longitude,
-          isp: data.connection?.isp,
-          label: `${data.city}, ${data.region_code || data.region}`
-        };
-      }
+      return normalizeDetectedLocation(data);
     }
   } catch (err) {
     // Fail silently without disrupting UI
+  } finally {
+    clearTimeout(timeoutId);
   }
   return null;
 }

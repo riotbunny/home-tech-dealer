@@ -25,12 +25,11 @@ export function useCityRoute(onCityResolved, options = {}) {
 
   // Apply a resolved location object to state and parent callback
   const applyLocation = useCallback((locationData, shouldScroll = false) => {
-    if (!locationData) return;
     setCurrentCityData(locationData);
     if (onCityResolved) {
       onCityResolved(locationData);
     }
-    if (shouldScroll) {
+    if (locationData && shouldScroll) {
       setTimeout(() => {
         const el = document.getElementById('carrier-results-grid') || document.getElementById('plans-marketplace');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -57,18 +56,29 @@ export function useCityRoute(onCityResolved, options = {}) {
     } else if (typeof targetSlugOrCity === 'string' && targetSlugOrCity) {
       path = targetSlugOrCity.includes('/') ? targetSlugOrCity : `/internet/${targetSlugOrCity}`;
     } else {
-      path = '/internet/tx/austin/78701';
+      path = '/';
     }
 
     const loc = resolveLocationRoute(path);
-    if (!loc) return;
+    if (!loc && path !== '/') return;
 
-    const canonicalPath = loc.canonicalPath || path;
+    const canonicalPath = loc?.canonicalPath || path;
     if (typeof window !== 'undefined' && window.location.pathname !== canonicalPath) {
       window.history.pushState({ canonicalPath }, '', canonicalPath);
     }
 
     applyLocation(loc, shouldScroll);
+  }, [applyLocation, disabled]);
+
+  const navigateToDetectedLocation = useCallback((geo) => {
+    if (disabled) return;
+    const path = `/internet/${geo.state.toLowerCase()}/${createCitySlug(geo.city)}/${geo.postal}`;
+    const resolved = resolveLocationRoute(path);
+    if (!resolved) return;
+    // Keep the complete detected tuple; curated city aliases must not mix locations.
+    const location = { ...resolved, cityName: geo.city, city: `${geo.city}, ${geo.state}`, state: geo.state, zip: geo.postal, canonicalPath: path };
+    window.history.replaceState({ canonicalPath: path }, '', `${path}${window.location.search}${window.location.hash}`);
+    applyLocation(location, false);
   }, [applyLocation, disabled]);
 
   // Initial mount resolution and back/forward popstate listener
@@ -78,11 +88,11 @@ export function useCityRoute(onCityResolved, options = {}) {
       return;
     }
 
-    const initialLocation = detectLocationFromUrl() || resolveLocationRoute('/internet/tx/austin/78701');
+    const initialLocation = detectLocationFromUrl();
     applyLocation(initialLocation, false);
 
     const handlePopState = () => {
-      const poppedLocation = detectLocationFromUrl() || resolveLocationRoute('/internet/tx/austin/78701');
+      const poppedLocation = detectLocationFromUrl();
       applyLocation(poppedLocation, false);
     };
 
@@ -93,6 +103,7 @@ export function useCityRoute(onCityResolved, options = {}) {
   return {
     currentCityData,
     navigateToCity,
+    navigateToDetectedLocation,
     navigateToRoute: navigateToCity
   };
 }

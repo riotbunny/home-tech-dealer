@@ -1,6 +1,27 @@
 // Dynamic Programmatic SEO (pSEO) & Structured Data (JSON-LD) Engine
 // Home Tech Dealer Inc.
 
+const homepageSelectors = ['meta[name="description"]', 'meta[name="keywords"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]', 'link[rel="canonical"]'];
+const homepageHead = typeof document === 'undefined' ? null : {
+  title: document.title,
+  tags: homepageSelectors.map(selector => {
+    const element = document.querySelector(selector);
+    const attribute = selector.startsWith('link') ? 'href' : 'content';
+    return { selector, attribute, value: element?.getAttribute(attribute) ?? null };
+  })
+};
+
+export function restoreHomepageSEO() {
+  if (!homepageHead) return;
+  document.title = homepageHead.title;
+  homepageHead.tags.forEach(({ selector, attribute, value }) => {
+    const element = document.querySelector(selector);
+    if (value === null) element?.remove();
+    else element?.setAttribute(attribute, value);
+  });
+  document.getElementById('pseo-jsonld')?.remove();
+}
+
 /**
  * Updates document head metadata, canonical tags, OpenGraph, and JSON-LD schema
  * tailored dynamically to the active city, state, and 44k 5-digit ZIP code.
